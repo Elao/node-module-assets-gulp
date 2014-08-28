@@ -1,0 +1,66 @@
+{
+  "name": "elao-assets-gulp",
+  "description": "Handle your project's assets with style ! (and gulp)",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Elao/node-module-assets-gulp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Elao/node-module-assets-gulp"
+  },
+  "bugs": {
+    "url": "https://github.com/Elao/node-module-assets-gulp/issues"
+  },
+  "author": {
+    "name": "Elao",
+    "email": "contact@elao.com",
+    "url": "http://www.elao.com/"
+  },
+  "tags": [
+    "tool",
+    "asset",
+    "gulp",
+    "symfony"
+  ],
+  "files": [
+    "index.js",
+    "assets.js",
+    "tasks"
+  ],
+  "dependencies": {
+    "gulp-util": "3.0.*",
+    "gulp-load-plugins": "0.6.*",
+    "gulp-plumber": "0.6.*",
+    "gulp-streamify": "0.0.*",
+    "gulp-if": "1.2.*",
+    "gulp-changed": "1.0.*",
+    "gulp-size": "1.0.*",
+    "gulp-notify": "1.5.*",
+    "gulp-header": "1.0.*",
+    "require-dir": "0.1.*",
+    "event-stream": "3.1.*",
+    "through2": "0.6.*",
+    "glob": "4.0.*",
+    "glob2base": "0.0.*",
+    "vinyl-source-stream": "0.1.*",
+    "minimatch": "1.0.*",
+    "rimraf": "2.2.*",
+
+    "gulp-sass": "0.7.*",
+    "gulp-scss-lint": "0.1.*",
+
+    "gulp-imagemin": "1.0.*",
+
+    "browserify": "5.10.*",
+    "watchify": "1.0.*",
+    "gulp-uglify": "0.3.*",
+    "gulp-jshint": "1.8.*",
+    "jshint-stylish": "0.4.*",
+    "gulp-jscs": "1.1.*"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.githubusercontent.com/Elao/node-module-assets-gulp/master/LICENSE"
+    }
+  ]
+}
