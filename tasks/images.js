@@ -10,11 +10,11 @@ gulp.task('images', function() {
 
     Object.keys(assets.get('images')).forEach(function(assetGroup) {
         tasks.push(
-            gulp.src(assets.get('images')[assetGroup].src)
+            gulp.src(assets.getSrc('images', assetGroup))
                 .pipe(plugins.plumber())
                 .pipe(plugins.if(
                     plugins.util.env.dev || false,
-                    plugins.changed(assets.get('images')[assetGroup].dest)
+                    plugins.changed(assets.getDest('images', assetGroup))
                 ))
                 .pipe(plugins.if(
                     !plugins.util.env.dev || false,
@@ -24,7 +24,7 @@ gulp.task('images', function() {
                     plugins.util.env.verbose  || false,
                     plugins.size({showFiles: true})
                 ))
-                .pipe(gulp.dest(assets.get('images')[assetGroup].dest))
+                .pipe(gulp.dest(assets.getDest('images', assetGroup)))
         );
     });
 
@@ -44,7 +44,7 @@ gulp.task('watch:images', function() {
     var
         plugins = require('gulp-load-plugins')();
 
-    return gulp.watch(assets.getSrc('images'), ['images'])
+    return gulp.watch(assets.getSrcWatch('images'), ['images'])
         .on('change', function(event) {
             // Set current asset group
             assets.setGroup(assets.findGroup('images', event.path));

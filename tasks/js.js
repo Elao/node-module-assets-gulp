@@ -56,7 +56,7 @@ gulp.task('js', function() {
 
     Object.keys(assets.get('js')).forEach(function(assetGroup) {
         var
-            globber = glob.Glob(assets.get('js')[assetGroup].src, {sync: true}),
+            globber = glob.Glob(assets.getSrc('js', assetGroup), {sync: true}),
             base    = glob2base(globber);
 
         globber.found.forEach(function(asset) {
@@ -64,7 +64,7 @@ gulp.task('js', function() {
                 bundle(
                     asset,
                     base,
-                    assets.get('js')[assetGroup].dest,
+                    assets.getDest('js', assetGroup),
                     false
                 )
             );
@@ -92,7 +92,7 @@ gulp.task('watch:js', function() {
 
     Object.keys(assets.get('js')).forEach(function(assetGroup) {
         var
-            globber = glob.Glob(assets.get('js')[assetGroup].src, {sync: true}),
+            globber = glob.Glob(assets.getSrcWatch('js', assetGroup), {sync: true}),
             base    = glob2base(globber);
 
         globber.found.forEach(function(asset) {
@@ -100,7 +100,7 @@ gulp.task('watch:js', function() {
                 bundle(
                     asset,
                     base,
-                    assets.get('js')[assetGroup].dest,
+                    assets.getDest('js', assetGroup),
                     true
                 )
             );

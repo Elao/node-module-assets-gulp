@@ -10,17 +10,17 @@ gulp.task('fonts', function() {
 
     Object.keys(assets.get('fonts')).forEach(function(assetGroup) {
         tasks.push(
-            gulp.src(assets.get('fonts')[assetGroup].src)
+            gulp.src(assets.getSrc('fonts', assetGroup))
                 .pipe(plugins.plumber())
                 .pipe(plugins.if(
                     plugins.util.env.dev || false,
-                    plugins.changed(assets.get('fonts')[assetGroup].dest)
+                    plugins.changed(assets.getDest('fonts', assetGroup))
                 ))
                 .pipe(plugins.if(
                     plugins.util.env.verbose || false,
                     plugins.size({showFiles: true})
                 ))
-                .pipe(gulp.dest(assets.get('fonts')[assetGroup].dest))
+                .pipe(gulp.dest(assets.getDest('fonts', assetGroup)))
         );
     });
 
@@ -40,7 +40,7 @@ gulp.task('watch:fonts', function() {
     var
         plugins = require('gulp-load-plugins')();
 
-    return gulp.watch(assets.getSrc('fonts'), ['fonts'])
+    return gulp.watch(assets.getSrcWatch('fonts'), ['fonts'])
         .on('change', function(event) {
             // Set current asset group
             assets.setGroup(assets.findGroup('fonts', event.path));

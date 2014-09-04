@@ -10,7 +10,7 @@ gulp.task('sass', function() {
 
     Object.keys(assets.get('sass')).forEach(function(assetGroup) {
         tasks.push(
-            gulp.src(assets.get('sass')[assetGroup].src)
+            gulp.src(assets.getSrc('sass', assetGroup))
                 .pipe(plugins.plumber())
                 .pipe(plugins.sass({
                     errLogToConsole: true,
@@ -24,7 +24,7 @@ gulp.task('sass', function() {
                     plugins.util.env.verbose || false,
                     plugins.size({showFiles: true})
                 ))
-                .pipe(gulp.dest(assets.get('sass')[assetGroup].dest))
+                .pipe(gulp.dest(assets.getDest('sass', assetGroup)))
         );
     });
 
@@ -44,7 +44,7 @@ gulp.task('watch:sass', function() {
     var
         plugins = require('gulp-load-plugins')();
 
-    return gulp.watch(assets.getSrc('sass'), ['sass'])
+    return gulp.watch(assets.getSrcWatch('sass'), ['sass'])
         .on('change', function(event) {
             // Set current asset group
             assets.setGroup(assets.findGroup('sass', event.path));

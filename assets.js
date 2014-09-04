@@ -39,28 +39,32 @@ var
             header: false,
             assets: {
                 js: {
-                    glob:   '/**/*.js',
-                    src:    '/js',
-                    dest:   '/js',
-                    vendor: {}
+                    glob:      '/**/[!_]*.js',
+                    globWatch: '/**/[!_]*.js',
+                    src:       '/js',
+                    dest:      '/js',
+                    vendor:    {}
                 },
                 sass: {
-                    glob:   '/**/*.scss',
-                    src:    '/sass',
-                    dest:   '/css',
-                    vendor: {}
+                    glob:      '/**/[!_]*.scss',
+                    globWatch: '/**/*.scss',
+                    src:       '/sass',
+                    dest:      '/css',
+                    vendor:    {}
                 },
                 images: {
-                    glob:   '/**',
-                    src:    '/images',
-                    dest:   '/images',
-                    vendor: {}
+                    glob:      '/**',
+                    globWatch: '/**',
+                    src:       '/images',
+                    dest:      '/images',
+                    vendor:    {}
                 },
                 fonts: {
-                    glob:   '/**',
-                    src:    '/fonts',
-                    dest:   '/fonts',
-                    vendor: {}
+                    glob:      '/**',
+                    globWatch: '/**',
+                    src:       '/fonts',
+                    dest:      '/fonts',
+                    vendor:    {}
                 }
             }
         };
@@ -128,15 +132,17 @@ Assets.prototype = {
                         assetGroup = (typeof(group.name) == 'function') ? group.name(assetGroupPath) : group.name;
 
                     this.assets[assetType][assetGroup] = {
-                        src:  path.resolve(assetGroupPath + this.options.assets[assetType].glob),
-                        dest: this.getDest(assetType)
+                        src:      path.resolve(assetGroupPath + this.options.assets[assetType].glob),
+                        srcWatch: path.resolve(assetGroupPath + this.options.assets[assetType].globWatch),
+                        dest:     this.getDest(assetType)
                     };
 
                     if (util.env.verbose) {
                         util.log(
                             'Found', "'" + util.colors.cyan(assetGroup) + "'",
                             'group', "'" + util.colors.grey(assetType) + "'",
-                            'at', util.colors.magenta(assetGroupPath + this.options.assets[assetType].glob)
+                            'at', util.colors.magenta(assetGroupPath + this.options.assets[assetType].glob),
+                            'watching', util.colors.magenta(assetGroupPath + this.options.assets[assetType].globWatch)
                         );
                     }
                 }.bind(this));
@@ -209,20 +215,44 @@ Assets.prototype = {
         return group;
     },
 
-    // Get sources
-    getSrc: function(assetType) {
+    // Get source
+    getSrc: function(assetType, assetGroup) {
+        if (assetGroup) {
+            return this.get(assetType)[assetGroup].src;
+        }
+
         var
             src = [];
 
         Object.keys(this.get(assetType)).forEach(function(assetGroup) {
-            src.push(this.get(assetType)[assetGroup].src);
+            src.push(this.getSrc(assetType, assetGroup));
+        }.bind(this));
+
+        return src;
+    },
+
+    // Get watch source
+    getSrcWatch: function(assetType, assetGroup) {
+        if (assetGroup) {
+            return this.get(assetType)[assetGroup].srcWatch;
+        }
+
+        var
+            src = [];
+
+        Object.keys(this.get(assetType)).forEach(function(assetGroup) {
+            src.push(this.getSrcWatch(assetType, assetGroup));
         }.bind(this));
 
         return src;
     },
 
     // Get destination
-    getDest: function(assetType) {
+    getDest: function(assetType, assetGroup) {
+        if (assetGroup) {
+            return this.get(assetType)[assetGroup].dest;
+        }
+
         return this.options.dest + this.options.assets[assetType].dest;
     },
 
