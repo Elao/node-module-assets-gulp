@@ -269,6 +269,11 @@ Assets.prototype = {
         }
 
         return this.headerMeta;
+    },
+
+    // Get autoprefixer
+    getAutoprefixer: function() {
+        return this.options.autoprefixer;
     }
 };
 
