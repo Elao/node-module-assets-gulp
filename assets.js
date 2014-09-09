@@ -91,7 +91,9 @@ function merge(target, source) {
             var
                 sourceProperty = source[property];
 
-            if (typeof sourceProperty === 'object') {
+            if (sourceProperty instanceof Array) {
+                target[property] = sourceProperty;
+            } else if (typeof sourceProperty === 'object') {
                 target[property] = merge(target[property], sourceProperty);
                 continue;
             }
