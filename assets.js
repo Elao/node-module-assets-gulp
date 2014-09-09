@@ -37,6 +37,7 @@ var
             ],
             dest: 'web/assets',
             header: false,
+            autoprefixer: {},
             assets: {
                 js: {
                     glob:      '/**/[!_]*.js',

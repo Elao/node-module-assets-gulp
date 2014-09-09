@@ -19,6 +19,7 @@ gulp.task('sass', function() {
                     precision: 10,
                     sourceComments: (plugins.util.env.dev || false) ? 'map' : 'none'
                 }))
+                .pipe(plugins.autoprefixer(assets.getAutoprefixer()))
                 .pipe(plugins.header(assets.getHeader(), assets.getHeaderMeta()))
                 .pipe(plugins.if(
                     plugins.util.env.verbose || false,
