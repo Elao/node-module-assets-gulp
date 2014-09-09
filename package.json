@@ -1,7 +1,7 @@
 {
   "name": "elao-assets-gulp",
   "description": "Handle your project's assets with style ! (and gulp)",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "homepage": "https://github.com/Elao/node-module-assets-gulp",
   "repository": {
     "type": "git",
