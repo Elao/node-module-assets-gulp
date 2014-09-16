@@ -40,32 +40,28 @@ var
             autoprefixer: {},
             assets: {
                 js: {
-                    glob:      '/**/[!_]*.js',
-                    globWatch: '/**/[!_]*.js',
-                    src:       '/js',
-                    dest:      '/js',
-                    vendor:    {}
+                    glob:      '**/[!_]*.js',
+                    globWatch: '**/[!_]*.js',
+                    src:       'js',
+                    dest:      'js',
+                    groups:    {}
                 },
                 sass: {
-                    glob:      '/**/[!_]*.scss',
-                    globWatch: '/**/*.scss',
-                    src:       '/sass',
-                    dest:      '/css',
-                    vendor:    {}
+                    glob:      '**/[!_]*.scss',
+                    globWatch: '**/*.scss',
+                    src:       'sass',
+                    dest:      'css',
+                    groups:    {}
                 },
                 images: {
-                    glob:      '/**',
-                    globWatch: '/**',
-                    src:       '/images',
-                    dest:      '/images',
-                    vendor:    {}
+                    glob:      '**',
+                    globWatch: '**',
+                    src:       'images',
+                    dest:      'images',
+                    groups:    {}
                 },
-                fonts: {
-                    glob:      '/**',
-                    globWatch: '/**',
-                    src:       '/fonts',
-                    dest:      '/fonts',
-                    vendor:    {}
+                files: {
+                    groups:    {}
                 }
             }
         };
@@ -124,38 +120,40 @@ Assets.prototype = {
 
         if (this.assets[assetType] === undefined) {
 
-            // Initialize assets object
+            // Initialize asset type array
             this.assets[assetType] = {};
 
-            // Search assets groups
-            this.options.groups.forEach(function(group) {
+            // Search asset type groups
+            if (this.options.assets[assetType].src) {
+                this.options.groups.forEach(function(group) {
 
-                glob.sync(group.pattern + this.options.assets[assetType].src).forEach(function(assetGroupPath) {
-                    var
-                        assetGroup = (typeof(group.name) == 'function') ? group.name(assetGroupPath) : group.name;
+                    glob.sync(group.pattern + '/' + this.options.assets[assetType].src).forEach(function(assetGroupPath) {
+                        var
+                            assetGroup = (typeof(group.name) == 'function') ? group.name(assetGroupPath) : group.name;
 
-                    this.assets[assetType][assetGroup] = {
-                        src:      path.resolve(assetGroupPath + this.options.assets[assetType].glob),
-                        srcWatch: path.resolve(assetGroupPath + this.options.assets[assetType].globWatch),
-                        dest:     this.getDest(assetType)
-                    };
+                        this.assets[assetType][assetGroup] = {
+                            src:      path.resolve(assetGroupPath + '/' + this.options.assets[assetType].glob),
+                            srcWatch: path.resolve(assetGroupPath + '/' + this.options.assets[assetType].globWatch),
+                            dest:     this.getDest(assetType)
+                        };
 
-                    if (util.env.verbose) {
-                        util.log(
-                            'Found', "'" + util.colors.cyan(assetGroup) + "'",
-                            'group', "'" + util.colors.grey(assetType) + "'",
-                            'at', util.colors.magenta(assetGroupPath + this.options.assets[assetType].glob),
-                            'watching', util.colors.magenta(assetGroupPath + this.options.assets[assetType].globWatch)
-                        );
-                    }
+                        if (util.env.verbose) {
+                            util.log(
+                                'Found group', "'" + util.colors.cyan(assetGroup) + "'",
+                                "'" + util.colors.grey(assetType) + "'",
+                                'at', util.colors.magenta(assetGroupPath + '/' + this.options.assets[assetType].glob),
+                                'watching', util.colors.magenta(assetGroupPath + '/' + this.options.assets[assetType].globWatch)
+                            );
+                        }
+                    }.bind(this));
                 }.bind(this));
-            }.bind(this));
+            }
 
-            // Add vendors
-            Object.keys(this.options.assets[assetType].vendor).forEach(function(assetGroup) {
+            // Add custom groups
+            Object.keys(this.options.assets[assetType].groups).forEach(function(assetGroup) {
 
                 var
-                    assetGroupSrc = [this.options.assets[assetType].vendor[assetGroup].src];
+                    assetGroupSrc = [this.options.assets[assetType].groups[assetGroup].src];
 
                 this.options.includes.forEach(function(include) {
                     assetGroupSrc.push(include + '/' + assetGroupSrc[0]);
@@ -166,13 +164,13 @@ Assets.prototype = {
 
                         this.assets[assetType][assetGroup] = {
                             src:  path.resolve(src),
-                            dest: this.getDest(assetType) + (this.options.assets[assetType].vendor[assetGroup].dest ? this.options.assets[assetType].vendor[assetGroup].dest : '')
+                            dest: this.getDest(assetType) + (this.options.assets[assetType].groups[assetGroup].dest ? '/' + this.options.assets[assetType].groups[assetGroup].dest : '')
                         };
 
                         if (util.env.verbose) {
                             util.log(
-                                'Vendor', "'" + util.colors.cyan(assetGroup) + "'",
-                                'group', "'" + util.colors.grey(assetType) + "'",
+                                'Custom group', "'" + util.colors.cyan(assetGroup) + "'",
+                                "'" + util.colors.grey(assetType) + "'",
                                 'at', util.colors.magenta(src)
                             );
                         }
@@ -252,11 +250,18 @@ Assets.prototype = {
 
     // Get destination
     getDest: function(assetType, assetGroup) {
-        if (assetGroup) {
-            return this.get(assetType)[assetGroup].dest;
+        // Global dest
+        if (!assetType) {
+            return this.options.dest;
         }
 
-        return this.options.dest + this.options.assets[assetType].dest;
+        // Asset type dest
+        if (!assetGroup) {
+            return this.options.dest + (this.options.assets[assetType].dest ? '/' + this.options.assets[assetType].dest : '');
+        }
+
+        // Asset type & grou dest
+        return this.get(assetType)[assetGroup].dest;
     },
 
     // Get header
