@@ -43,7 +43,6 @@
     "glob2base": "0.0.*",
     "vinyl-source-stream": "1.0.*",
     "minimatch": "1.0.*",
-    "rimraf": "2.2.*",
 
     "gulp-sass": "0.7.*",
     "gulp-autoprefixer": "1.0.*",

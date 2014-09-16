@@ -75,11 +75,3 @@ gulp.task('lint:sass', function() {
             config: 'app/Resources/scss-lint.yml'
         }));
 });
-
-// Clean
-gulp.task('clean:sass', function(callback) {
-    var
-        rimraf = require('rimraf');
-
-    rimraf(assets.getDest('sass'), callback);
-});

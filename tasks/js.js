@@ -120,11 +120,3 @@ gulp.task('lint:js', function() {
         .pipe(plugins.jshint.reporter('jshint-stylish'))
         .pipe(plugins.jscs('app/Resources/jscs.json'));
 });
-
-// Clean
-gulp.task('clean:js', function(callback) {
-    var
-        rimraf = require('rimraf');
-
-    rimraf(assets.getDest('js'), callback);
-});

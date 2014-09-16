@@ -58,11 +58,3 @@ gulp.task('watch:images', function() {
             }
         });
 });
-
-// Clean
-gulp.task('clean:images', function(callback) {
-    var
-        rimraf = require('rimraf');
-
-    rimraf(assets.getDest('images'), callback);
-});
