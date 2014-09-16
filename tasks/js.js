@@ -29,7 +29,7 @@ function bundle(asset, base, dest, watch) {
                     !plugins.util.env.dev || false,
                     plugins.streamify(plugins.uglify())
                 ))
-                .pipe(plugins.streamify(plugins.header(assets.getHeader(), assets.getHeaderMeta())))
+                .pipe(plugins.header(assets.getHeader(), assets.getHeaderMeta()))
                 .pipe(plugins.if(
                     plugins.util.env.verbose || false,
                     plugins.streamify(plugins.size({showFiles: true}))
