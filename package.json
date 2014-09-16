@@ -34,7 +34,7 @@
     "gulp-if": "1.2.*",
     "gulp-changed": "1.0.*",
     "gulp-size": "1.1.*",
-    "gulp-notify": "1.5.*",
+    "gulp-notify": "1.6.*",
     "gulp-header": "1.1.*",
     "require-dir": "0.1.*",
     "event-stream": "3.1.*",
