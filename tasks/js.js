@@ -10,6 +10,7 @@ function bundle(asset, base, dest, watch) {
         bundler    = browserify(
             asset, {
                 debug: plugins.util.env.dev || false,
+                paths: assets.getVendors(),
                 // Watchify
                 cache: {},
                 packageCache: {},
@@ -18,8 +19,8 @@ function bundle(asset, base, dest, watch) {
         ),
         transform  = function() {
             var
-                path       = require('path'),
-                source     = require('vinyl-source-stream');
+                path   = require('path'),
+                source = require('vinyl-source-stream');
 
             return bundler
                 .bundle()

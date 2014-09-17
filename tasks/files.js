@@ -9,18 +9,28 @@ gulp.task('files', function() {
         tasks       = [];
 
     Object.keys(assets.get('files')).forEach(function(assetGroup) {
+        
+        var
+            assetGroupSrc    = assets.getSrc('files', assetGroup),
+            assetGroupDest   = assets.getDest('files', assetGroup)
+            assetGroupConcat = assets.getConcat('files', assetGroup);
+
         tasks.push(
-            gulp.src(assets.getSrc('files', assetGroup))
+            gulp.src(assetGroupSrc)
                 .pipe(plugins.plumber())
                 .pipe(plugins.if(
                     plugins.util.env.dev || false,
-                    plugins.changed(assets.getDest('files', assetGroup))
+                    plugins.changed(assetGroupDest)
+                ))
+                .pipe(plugins.if(
+                    assetGroupConcat ? true : false,
+                    plugins.concat(assetGroupConcat ? assetGroupConcat : 'foo')
                 ))
                 .pipe(plugins.if(
                     plugins.util.env.verbose || false,
                     plugins.size({showFiles: true})
                 ))
-                .pipe(gulp.dest(assets.getDest('files', assetGroup)))
+                .pipe(gulp.dest(assetGroupDest))
         );
     });
 

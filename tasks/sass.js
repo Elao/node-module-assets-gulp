@@ -14,7 +14,7 @@ gulp.task('sass', function() {
                 .pipe(plugins.plumber())
                 .pipe(plugins.sass({
                     errLogToConsole: true,
-                    includePaths: assets.options.includes,
+                    includePaths: assets.getVendors(),
                     outputStyle: (plugins.util.env.dev || false) ? 'nested' : 'compressed',
                     precision: 10,
                     sourceComments: (plugins.util.env.dev || false) ? 'map' : 'none'

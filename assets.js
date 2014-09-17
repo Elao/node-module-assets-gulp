@@ -31,11 +31,11 @@ var
                     pattern: 'src/**/*Bundle/Resources/assets'
                 }
             ],
-            includes: [
+            dest: 'web/assets',
+            vendors: [
                 'bower_components',
                 'node_modules'
             ],
-            dest: 'web/assets',
             header: false,
             autoprefixer: {},
             assets: {
@@ -62,6 +62,9 @@ var
                 },
                 files: {
                     groups:    {}
+                },
+                vendors: {
+                    src:       'vendors'
                 }
             }
         };
@@ -132,17 +135,18 @@ Assets.prototype = {
                             assetGroup = (typeof(group.name) == 'function') ? group.name(assetGroupPath) : group.name;
 
                         this.assets[assetType][assetGroup] = {
-                            src:      path.resolve(assetGroupPath + '/' + this.options.assets[assetType].glob),
-                            srcWatch: path.resolve(assetGroupPath + '/' + this.options.assets[assetType].globWatch),
+                            src:      path.resolve(assetGroupPath + (this.options.assets[assetType].glob ? '/' + this.options.assets[assetType].glob : '')),
                             dest:     this.getDest(assetType)
                         };
 
+                        this.assets[assetType][assetGroup].srcWatch = this.options.assets[assetType].globWatch ? path.resolve(assetGroupPath + '/' + this.options.assets[assetType].globWatch) : this.assets[assetType][assetGroup].src;
+
                         if (util.env.verbose) {
                             util.log(
-                                'Found group', "'" + util.colors.cyan(assetGroup) + "'",
-                                "'" + util.colors.grey(assetType) + "'",
-                                'at', util.colors.magenta(assetGroupPath + '/' + this.options.assets[assetType].glob),
-                                'watching', util.colors.magenta(assetGroupPath + '/' + this.options.assets[assetType].globWatch)
+                                'Found', util.colors.grey(assetType),
+                                'group', "'" + util.colors.cyan(assetGroup) + "'",
+                                'at', util.colors.magenta(this.assets[assetType][assetGroup].src),
+                                'watching', util.colors.magenta(this.assets[assetType][assetGroup].srcWatch)
                             );
                         }
                     }.bind(this));
@@ -150,33 +154,36 @@ Assets.prototype = {
             }
 
             // Add custom groups
-            Object.keys(this.options.assets[assetType].groups).forEach(function(assetGroup) {
+            if (this.options.assets[assetType].groups) {
+                Object.keys(this.options.assets[assetType].groups).forEach(function(assetGroup) {
 
-                var
-                    assetGroupSrc = [this.options.assets[assetType].groups[assetGroup].src];
+                    var
+                        assetGroupSrc = [this.options.assets[assetType].groups[assetGroup].src];
 
-                this.options.includes.forEach(function(include) {
-                    assetGroupSrc.push(include + '/' + assetGroupSrc[0]);
-                });
+                    this.getVendors().forEach(function(vendor) {
+                        assetGroupSrc.push(vendor + '/' + assetGroupSrc[0]);
+                    });
 
-                assetGroupSrc.forEach(function(src) {
-                    if (glob.sync(src).length) {
+                    assetGroupSrc.forEach(function(src) {
+                        if (glob.sync(src).length) {
 
-                        this.assets[assetType][assetGroup] = {
-                            src:  path.resolve(src),
-                            dest: this.getDest(assetType) + (this.options.assets[assetType].groups[assetGroup].dest ? '/' + this.options.assets[assetType].groups[assetGroup].dest : '')
-                        };
+                            this.assets[assetType][assetGroup] = {
+                                src:    path.resolve(src),
+                                dest:   this.getDest(assetType) + (this.options.assets[assetType].groups[assetGroup].dest ? '/' + this.options.assets[assetType].groups[assetGroup].dest : ''),
+                                concat: this.options.assets[assetType].groups[assetGroup].concat ? this.options.assets[assetType].groups[assetGroup].concat : false
+                            };
 
-                        if (util.env.verbose) {
-                            util.log(
-                                'Custom group', "'" + util.colors.cyan(assetGroup) + "'",
-                                "'" + util.colors.grey(assetType) + "'",
-                                'at', util.colors.magenta(src)
-                            );
+                            if (util.env.verbose) {
+                                util.log(
+                                    'Custom', util.colors.grey(assetType),
+                                    'group', "'" + util.colors.cyan(assetGroup) + "'",
+                                    'at', util.colors.magenta(src)
+                                );
+                            }
                         }
-                    }
+                    }.bind(this));
                 }.bind(this));
-            }.bind(this));
+            }
         }
 
         // Filter on current asset group
@@ -260,8 +267,18 @@ Assets.prototype = {
             return this.options.dest + (this.options.assets[assetType].dest ? '/' + this.options.assets[assetType].dest : '');
         }
 
-        // Asset type & grou dest
+        // Asset type & group dest
         return this.get(assetType)[assetGroup].dest;
+    },
+
+    // Get concat
+    getConcat: function(assetType, assetGroup) {
+        return this.get(assetType)[assetGroup].concat ? this.get(assetType)[assetGroup].concat : false;
+    },
+
+    // Get vendors
+    getVendors: function() {
+        return this.options.vendors.concat(this.getSrc('vendors'));
     },
 
     // Get header
