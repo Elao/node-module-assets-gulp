@@ -4,10 +4,8 @@ var
 
 function bundle(asset, base, dest, watch) {
     var
-        plugins    = require('gulp-load-plugins')(),
-        browserify = require('browserify'),
-        watchify   = require('watchify'),
-        bundler    = browserify(
+        plugins = require('gulp-load-plugins')(),
+        bundler = require('browserify')(
             asset, {
                 debug: plugins.util.env.dev || false,
                 paths: assets.getVendors(),
@@ -39,7 +37,7 @@ function bundle(asset, base, dest, watch) {
         };
 
      if (watch) {
-        bundler = watchify(bundler);
+        bundler = require('watchify')(bundler);
         // Rebundle with watchify on changes.
         bundler.on('update', transform);
     }
