@@ -2,7 +2,8 @@ var
     gulp   = require('gulp'),
     assets = require('..');
 
-function bundle(asset, base, dest, watch) {
+function bundle(asset, base, dest, config, watch) {
+
     var
         plugins = require('gulp-load-plugins')(),
         bundler = require('browserify')(
@@ -36,7 +37,13 @@ function bundle(asset, base, dest, watch) {
                 .pipe(gulp.dest(dest));
         };
 
-     if (watch) {
+    // Exclude
+    if (config.exclude) {
+        bundler.exclude(config.exclude);
+    }
+
+    // Watch
+    if (watch) {
         bundler = require('watchify')(bundler);
         // Rebundle with watchify on changes.
         bundler.on('update', transform);
@@ -61,13 +68,20 @@ gulp.task('js', function() {
         globber.found.forEach(function(asset) {
 
             var
-                assetGroupDest = assets.getDest('js', assetGroup);
+                assetGroupDest    = assets.getDest('js', assetGroup),
+                assetGroupBundles = assets.getBundles('js', assetGroup),
+                config = {};
+
+            if (assetGroupBundles[asset.replace(base, '')]) {
+                config = assetGroupBundles[asset.replace(base, '')];
+            }
 
             tasks.push(
                 bundle(
                     asset,
                     base,
                     assetGroupDest,
+                    config,
                     false
                 )
             );
@@ -101,13 +115,20 @@ gulp.task('watch:js', function() {
         globber.found.forEach(function(asset) {
 
             var
-                assetGroupDest = assets.getDest('js', assetGroup);
+                assetGroupDest    = assets.getDest('js', assetGroup),
+                assetGroupBundles = assets.getBundles('js', assetGroup),
+                config = {};
+
+            if (assetGroupBundles[asset.replace(base, '')]) {
+                config = assetGroupBundles[asset.replace(base, '')];
+            }
 
             tasks.push(
                 bundle(
                     asset,
                     base,
                     assetGroupDest,
+                    config,
                     true
                 )
             );

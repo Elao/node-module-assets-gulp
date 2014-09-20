@@ -44,7 +44,8 @@ var
                     globWatch: '**/[!_]*.js',
                     src:       'js',
                     dest:      'js',
-                    groups:    {}
+                    groups:    {},
+                    bundles:   {}
                 },
                 sass: {
                     glob:      '**/[!_]*.scss',
@@ -135,11 +136,15 @@ Assets.prototype = {
                             assetGroup = (typeof(group.name) == 'function') ? group.name(assetGroupPath) : group.name;
 
                         this.assets[assetType][assetGroup] = {
-                            src:      path.resolve(assetGroupPath + (this.options.assets[assetType].glob ? '/' + this.options.assets[assetType].glob : '')),
-                            dest:     this.getDest(assetType)
+                            src:  path.resolve(assetGroupPath + (this.options.assets[assetType].glob ? '/' + this.options.assets[assetType].glob : '')),
+                            dest: this.getDest(assetType)
                         };
 
+                        // Src Watch
                         this.assets[assetType][assetGroup].srcWatch = this.options.assets[assetType].globWatch ? path.resolve(assetGroupPath + '/' + this.options.assets[assetType].globWatch) : this.assets[assetType][assetGroup].src;
+
+                        // Bundles
+                        this.assets[assetType][assetGroup].bundles = this.options.assets[assetType].bundles ? this.options.assets[assetType].bundles : {};
 
                         if (util.env.verbose) {
                             util.log(
@@ -269,6 +274,13 @@ Assets.prototype = {
 
         // Asset type & group dest
         return this.get(assetType)[assetGroup].dest;
+    },
+
+    // Get bundles
+    getBundles: function(assetType, assetGroup) {
+        //console.log(this.get(assetType));
+        //return {};
+        return this.get(assetType)[assetGroup].bundles ? this.get(assetType)[assetGroup].bundles : {};
     },
 
     // Get concat
