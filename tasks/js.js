@@ -13,7 +13,9 @@ function bundle(asset, base, dest, config, watch) {
                 // Watchify
                 cache: {},
                 packageCache: {},
-                fullPaths: watch
+                fullPaths: watch,
+                // Standalone
+                standalone: config.standalone ? config.standalone : null
             }
         ),
         transform  = function() {
@@ -37,9 +39,19 @@ function bundle(asset, base, dest, config, watch) {
                 .pipe(gulp.dest(dest));
         };
 
+    // Require
+    if (config.require) {
+        bundler.require(config.require);
+    }
+
     // Exclude
     if (config.exclude) {
         bundler.exclude(config.exclude);
+    }
+
+    // External
+    if (config.external) {
+        bundler.external(config.external);
     }
 
     // Watch
