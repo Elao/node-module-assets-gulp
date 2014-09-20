@@ -9,8 +9,13 @@ gulp.task('sass', function() {
         tasks       = [];
 
     Object.keys(assets.get('sass')).forEach(function(assetGroup) {
+
+        var
+            assetGroupSrc  = assets.getSrc('sass', assetGroup),
+            assetGroupDest = assets.getDest('sass', assetGroup);
+
         tasks.push(
-            gulp.src(assets.getSrc('sass', assetGroup))
+            gulp.src(assetGroupSrc)
                 .pipe(plugins.plumber())
                 .pipe(plugins.sass({
                     errLogToConsole: true,
@@ -30,7 +35,7 @@ gulp.task('sass', function() {
                     plugins.util.env.verbose || false,
                     plugins.size({showFiles: true})
                 ))
-                .pipe(gulp.dest(assets.getDest('sass', assetGroup)))
+                .pipe(gulp.dest(assetGroupDest))
         );
     });
 

@@ -9,7 +9,7 @@ gulp.task('files', function() {
         tasks       = [];
 
     Object.keys(assets.get('files')).forEach(function(assetGroup) {
-        
+
         var
             assetGroupSrc    = assets.getSrc('files', assetGroup),
             assetGroupDest   = assets.getDest('files', assetGroup)

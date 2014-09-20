@@ -9,12 +9,17 @@ gulp.task('images', function() {
         tasks       = [];
 
     Object.keys(assets.get('images')).forEach(function(assetGroup) {
+
+        var
+            assetGroupSrc  = assets.getSrc('images', assetGroup),
+            assetGroupDest = assets.getDest('images', assetGroup);
+
         tasks.push(
-            gulp.src(assets.getSrc('images', assetGroup))
+            gulp.src(assetGroupSrc)
                 .pipe(plugins.plumber())
                 .pipe(plugins.if(
                     plugins.util.env.dev || false,
-                    plugins.changed(assets.getDest('images', assetGroup))
+                    plugins.changed(assetGroupDest)
                 ))
                 .pipe(plugins.if(
                     !plugins.util.env.dev || false,
@@ -24,7 +29,7 @@ gulp.task('images', function() {
                     plugins.util.env.verbose  || false,
                     plugins.size({showFiles: true})
                 ))
-                .pipe(gulp.dest(assets.getDest('images', assetGroup)))
+                .pipe(gulp.dest(assetGroupDest))
         );
     });
 

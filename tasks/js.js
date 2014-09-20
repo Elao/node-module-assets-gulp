@@ -59,11 +59,15 @@ gulp.task('js', function() {
             base    = glob2base(globber);
 
         globber.found.forEach(function(asset) {
+
+            var
+                assetGroupDest = assets.getDest('js', assetGroup);
+
             tasks.push(
                 bundle(
                     asset,
                     base,
-                    assets.getDest('js', assetGroup),
+                    assetGroupDest,
                     false
                 )
             );
@@ -95,11 +99,15 @@ gulp.task('watch:js', function() {
             base    = glob2base(globber);
 
         globber.found.forEach(function(asset) {
+
+            var
+                assetGroupDest = assets.getDest('js', assetGroup);
+
             tasks.push(
                 bundle(
                     asset,
                     base,
-                    assets.getDest('js', assetGroup),
+                    assetGroupDest,
                     true
                 )
             );
