@@ -47,6 +47,7 @@ function bundle(asset, base, dest, config, watch) {
         bundler = require('watchify')(bundler);
         // Rebundle with watchify on changes.
         bundler.on('update', transform);
+        return;
     }
 
     return transform();
@@ -123,19 +124,15 @@ gulp.task('watch:js', function() {
                 config = assetGroupBundles[asset.replace(base, '')];
             }
 
-            tasks.push(
-                bundle(
-                    asset,
-                    base,
-                    assetGroupDest,
-                    config,
-                    true
-                )
+            bundle(
+                asset,
+                base,
+                assetGroupDest,
+                config,
+                true
             );
         });
     });
-
-    return !tasks.length ? null : eventStream.merge.apply(this, tasks);
 });
 
 // Lint
