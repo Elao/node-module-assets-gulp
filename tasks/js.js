@@ -14,7 +14,7 @@ function bundle(asset, base, dest, watch) {
                 // Watchify
                 cache: {},
                 packageCache: {},
-                fullPaths: true
+                fullPaths: watch
             }
         ),
         transform  = function() {
