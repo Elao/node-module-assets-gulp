@@ -278,8 +278,6 @@ Assets.prototype = {
 
     // Get bundles
     getBundles: function(assetType, assetGroup) {
-        //console.log(this.get(assetType));
-        //return {};
         return this.get(assetType)[assetGroup].bundles ? this.get(assetType)[assetGroup].bundles : {};
     },
 
