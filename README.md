@@ -83,3 +83,43 @@ On peut également concatener plusieurs fichiers ensenble, cette ligne va prendr
 
 
 ## Configuration avancée
+
+### Header
+
+Ajout un header dans tout les fichiers css et javascript généré, le texte peut contenir des variable (+ une variable date qui correspond a la date du jour) qui sont défini au niveau du fichier package.json
+
+    assets.config({
+        header: [
+            '/*',
+            ' * =============================================================',
+            ' * <%= name %>',
+            ' *',
+            ' * (c) <%= date.getFullYear() %> <%= author.name %> <<%= author.email %>>',
+            ' * =============================================================',
+            ' */\n\n'
+        ].join('\n')
+    });
+
+Utilise le plugin gulp-header
+
+### Autoprefixr
+
+Utilise le plugin [gulp-autoprefix](https://github.com/sindresorhus/gulp-autoprefixer)
+
+    assets.config({
+        autoprefixer: {
+            browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
+        }
+    });
+
+### Groups
+
+les groupes permettent de définir des fichiers qui ne respecterais pas notre convention (fichier qui ne se trouve pas dans un répertoire assets, exemple des dépendences bower ou npm))
+
+### Vendors
+
+il y a un support des vendors, par défaut il y a node_modules et bower_components.
+
+les vendors permettent d'enlever une partie du chemin vers les fichiers
+
+Par exemple `bootstrap-sass/assets/fonts/bootstrap/*` ne ce trouve pas a la racine du projet, mais dans le dossier bower_components
