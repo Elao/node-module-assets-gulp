@@ -298,7 +298,7 @@ Assets.prototype = {
 
     getHeaderMeta: function() {
         if (this.headerMeta === null) {
-            this.headerMeta = require('../../package.json');
+            this.headerMeta = require(require('path').join(process.cwd(), 'package.json'));
             this.headerMeta.date = new Date();
         }
 
