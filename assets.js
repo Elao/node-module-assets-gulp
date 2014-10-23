@@ -16,8 +16,17 @@ var
                 },
                 // Symfony - App
                 {
-                    name: 'app',
-                    pattern: 'app/Resources/assets'
+                    name: function(path) {
+                        if (path.match(/^app\/Resources/)) {
+                            return 'app';
+                        }
+
+                        return path
+                            .replace(/^app\//, '')
+                            .replace(/\/Resources\/assets(.*)$/, '')
+                            .replace(/\//g, '') + 'App';
+                    },
+                    pattern: 'app/**/Resources/assets'
                 },
                 // Symfony - Bundles
                 {
