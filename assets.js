@@ -77,6 +77,18 @@ var
                     dest:      'images',
                     groups:    {}
                 },
+                fonts: {
+                    glob:      '**',
+                    src:       'fonts',
+                    dest:      'fonts',
+                    groups:    {}
+                },
+                swf: {
+                    glob:      '**/*.swf',
+                    src:       'swf',
+                    dest:      'swf',
+                    groups:    {}
+                },
                 files: {
                     groups:    {}
                 },
