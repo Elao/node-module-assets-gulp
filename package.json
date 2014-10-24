@@ -2,6 +2,12 @@
   "name": "elao-assets-gulp",
   "description": "Handle your project's assets with style ! (and gulp)",
   "version": "0.1.11",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.githubusercontent.com/Elao/node-module-assets-gulp/master/LICENSE"
+    }
+  ],
   "homepage": "https://github.com/Elao/node-module-assets-gulp",
   "repository": {
     "type": "git",
@@ -55,11 +61,5 @@
     "gulp-jshint": "1.8.*",
     "jshint-stylish": "1.0.*",
     "gulp-jscs": "1.1.*"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.githubusercontent.com/Elao/node-module-assets-gulp/master/LICENSE"
-    }
-  ]
+  }
 }
