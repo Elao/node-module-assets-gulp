@@ -1,7 +1,7 @@
 {
   "name": "elao-assets-gulp",
   "description": "Handle your project's assets with style ! (and gulp)",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "licenses": [
     {
       "type": "MIT",
