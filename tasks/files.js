@@ -12,7 +12,7 @@ gulp.task('files', function() {
 
         var
             assetGroupSrc    = assets.getSrc('files', assetGroup),
-            assetGroupDest   = assets.getDest('files', assetGroup)
+            assetGroupDest   = assets.getDest('files', assetGroup),
             assetGroupConcat = assets.getConcat('files', assetGroup);
 
         tasks.push(
