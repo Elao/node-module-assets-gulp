@@ -70,6 +70,13 @@ var
                     dest:      'css',
                     groups:    {}
                 },
+                css: {
+                    glob:      '**/*.css',
+                    globWatch: '**/*.css',
+                    src:       'css',
+                    dest:      'css',
+                    groups:    {}
+                },
                 images: {
                     glob:      '**',
                     globWatch: '**',
