@@ -33,10 +33,7 @@ gulp.task('css', function() {
                     assets.getHeader(),
                     assets.getHeaderMeta()
                 ))
-                .pipe(plugins.if(
-                    plugins.util.env.verbose  || false,
-                    plugins.size({showFiles: true})
-                ))
+                .pipe(plugins.size({showFiles: true}))
                 .pipe(gulp.dest(assetGroupDest))
         );
     });
@@ -63,11 +60,9 @@ gulp.task('watch:css', function() {
             assets.setGroup(assets.findGroup('css', event.path));
 
             // Log
-            if (plugins.util.env.verbose || false) {
-                plugins.util.log(
-                    'Watched', "'" + plugins.util.colors.cyan(event.path) + "'",
-                    'has', plugins.util.colors.magenta(event.type)
-                );
-            }
+            plugins.util.log(
+                'Watched', "'" + plugins.util.colors.cyan(event.path) + "'",
+                'has', plugins.util.colors.magenta(event.type)
+            );
         });
 });

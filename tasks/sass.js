@@ -31,10 +31,7 @@ gulp.task('sass', function() {
                     assets.getHeader(),
                     assets.getHeaderMeta()
                 ))
-                .pipe(plugins.if(
-                    plugins.util.env.verbose || false,
-                    plugins.size({showFiles: true})
-                ))
+                .pipe(plugins.size({showFiles: true}))
                 .pipe(gulp.dest(assetGroupDest))
         );
     });
@@ -61,22 +58,9 @@ gulp.task('watch:sass', function() {
             assets.setGroup(assets.findGroup('sass', event.path));
 
             // Log
-            if (plugins.util.env.verbose || false) {
-                plugins.util.log(
-                    'Watched', "'" + plugins.util.colors.cyan(event.path) + "'",
-                    'has', plugins.util.colors.magenta(event.type)
-                );
-            }
+            plugins.util.log(
+                'Watched', "'" + plugins.util.colors.cyan(event.path) + "'",
+                'has', plugins.util.colors.magenta(event.type)
+            );
         });
-});
-
-// Lint
-gulp.task('lint:sass', function() {
-    var
-        plugins = require('gulp-load-plugins')();
-
-    return gulp.src(assets.getSrc('sass'))
-        .pipe(plugins.scssLint({
-            config: 'app/Resources/scss-lint.yml'
-        }));
 });

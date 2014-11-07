@@ -21,10 +21,7 @@ gulp.task('swf', function() {
                     plugins.util.env.dev || false,
                     plugins.changed(assetGroupDest)
                 ))
-                .pipe(plugins.if(
-                    plugins.util.env.verbose  || false,
-                    plugins.size({showFiles: true})
-                ))
+                .pipe(plugins.size({showFiles: true}))
                 .pipe(gulp.dest(assetGroupDest))
         );
     });

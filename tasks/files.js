@@ -26,10 +26,7 @@ gulp.task('files', function() {
                     assetGroupConcat ? true : false,
                     plugins.concat(assetGroupConcat ? assetGroupConcat : 'foo')
                 ))
-                .pipe(plugins.if(
-                    plugins.util.env.verbose || false,
-                    plugins.size({showFiles: true})
-                ))
+                .pipe(plugins.size({showFiles: true}))
                 .pipe(gulp.dest(assetGroupDest))
         );
     });

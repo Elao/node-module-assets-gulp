@@ -25,10 +25,7 @@ gulp.task('images', function() {
                     !plugins.util.env.dev || false,
                     plugins.imagemin()
                 ))
-                .pipe(plugins.if(
-                    plugins.util.env.verbose  || false,
-                    plugins.size({showFiles: true})
-                ))
+                .pipe(plugins.size({showFiles: true}))
                 .pipe(gulp.dest(assetGroupDest))
         );
     });
@@ -55,11 +52,9 @@ gulp.task('watch:images', function() {
             assets.setGroup(assets.findGroup('images', event.path));
 
             // Log
-            if (plugins.util.env.verbose || false) {
-                plugins.util.log(
-                    'Watched', "'" + plugins.util.colors.cyan(event.path) + "'",
-                    'has', plugins.util.colors.magenta(event.type)
-                );
-            }
+            plugins.util.log(
+                'Watched', "'" + plugins.util.colors.cyan(event.path) + "'",
+                'has', plugins.util.colors.magenta(event.type)
+            );
         });
 });

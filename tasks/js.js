@@ -15,7 +15,9 @@ function bundle(asset, base, dest, config, watch) {
                 packageCache: {},
                 fullPaths: watch,
                 // Standalone
-                standalone: config.standalone ? config.standalone : null
+                standalone: config.standalone ? config.standalone : null,
+                // No parsing
+                noparse: ['jquery']
             }
         ),
         transform  = function() {
@@ -25,18 +27,15 @@ function bundle(asset, base, dest, config, watch) {
 
             return bundler
                 .bundle()
-                .pipe(plugins.plumber())
-                .pipe(source(path.relative(base, asset)))
-                .pipe(plugins.if(
-                    !plugins.util.env.dev || false,
-                    plugins.streamify(plugins.uglify())
-                ))
-                .pipe(plugins.header(assets.getHeader(), assets.getHeaderMeta()))
-                .pipe(plugins.if(
-                    plugins.util.env.verbose || false,
-                    plugins.streamify(plugins.size({showFiles: true}))
-                ))
-                .pipe(gulp.dest(dest));
+                    .pipe(plugins.plumber())
+                    .pipe(source(path.relative(base, asset)))
+                    .pipe(plugins.if(
+                        !plugins.util.env.dev || false,
+                        plugins.streamify(plugins.uglify())
+                    ))
+                    .pipe(plugins.header(assets.getHeader(), assets.getHeaderMeta()))
+                    .pipe(plugins.streamify(plugins.size({showFiles: true})))
+                    .pipe(gulp.dest(dest));
         };
 
     // Require
@@ -58,8 +57,14 @@ function bundle(asset, base, dest, config, watch) {
     if (watch) {
         bundler = require('watchify')(bundler);
         // Rebundle with watchify on changes.
-        bundler.on('update', transform);
-        return;
+        bundler.on('update', function(path) {
+            // Log
+            plugins.util.log(
+                'Watched', "'" + plugins.util.colors.cyan(path) + "'",
+                'has', plugins.util.colors.magenta('changed')
+            );
+            transform();
+        });
     }
 
     return transform();
@@ -136,24 +141,17 @@ gulp.task('watch:js', function() {
                 config = assetGroupBundles[asset.replace(base, '')];
             }
 
-            bundle(
-                asset,
-                base,
-                assetGroupDest,
-                config,
-                true
+            tasks.push(
+                bundle(
+                    asset,
+                    base,
+                    assetGroupDest,
+                    config,
+                    true
+                )
             );
         });
     });
-});
 
-// Lint
-gulp.task('lint:js', function() {
-    var
-        plugins = require('gulp-load-plugins')();
-
-    return gulp.src(assets.getSrc('js'))
-        .pipe(plugins.jshint('app/Resources/jshint.json'))
-        .pipe(plugins.jshint.reporter('jshint-stylish'))
-        .pipe(plugins.jscs('app/Resources/jscs.json'));
+    return !tasks.length ? null : eventStream.merge.apply(this, tasks);
 });

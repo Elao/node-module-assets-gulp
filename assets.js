@@ -168,7 +168,8 @@ Assets.prototype = {
 
                     glob.sync(group.pattern + '/' + this.options.assets[assetType].src).forEach(function(assetGroupPath) {
                         var
-                            assetGroup = (typeof(group.name) == 'function') ? group.name(assetGroupPath) : group.name;
+                            assetGroup = (typeof(group.name) == 'function') ? group.name(assetGroupPath) : group.name,
+                            log;
 
                         this.assets[assetType][assetGroup] = {
                             src:  path.resolve(assetGroupPath + (this.options.assets[assetType].glob ? '/' + this.options.assets[assetType].glob : '')),
@@ -182,12 +183,13 @@ Assets.prototype = {
                         this.assets[assetType][assetGroup].bundles = this.options.assets[assetType].bundles ? this.options.assets[assetType].bundles : {};
 
                         if (util.env.verbose) {
-                            util.log(
+                            log = [
                                 'Found', util.colors.grey(assetType),
                                 'group', "'" + util.colors.cyan(assetGroup) + "'",
                                 'at', util.colors.magenta(this.assets[assetType][assetGroup].src),
                                 'watching', util.colors.magenta(this.assets[assetType][assetGroup].srcWatch)
-                            );
+                            ];
+                            util.log.apply(this, log);
                         }
                     }.bind(this));
                 }.bind(this));
@@ -205,20 +207,36 @@ Assets.prototype = {
                     });
 
                     assetGroupSrc.forEach(function(src) {
+                        var
+                            log;
+
                         if (glob.sync(src).length) {
 
                             this.assets[assetType][assetGroup] = {
-                                src:    path.resolve(src),
-                                dest:   this.getDest(assetType) + (this.options.assets[assetType].groups[assetGroup].dest ? '/' + this.options.assets[assetType].groups[assetGroup].dest : ''),
-                                concat: this.options.assets[assetType].groups[assetGroup].concat ? this.options.assets[assetType].groups[assetGroup].concat : false
+                                src:      path.resolve(src),
+                                srcWatch: this.options.assets[assetType].groups[assetGroup].srcWatch ? path.resolve(this.options.assets[assetType].groups[assetGroup].srcWatch) : path.resolve(src),
+                                watch:    this.options.assets[assetType].groups[assetGroup].watch ? this.options.assets[assetType].groups[assetGroup].watch : false,
+                                dest:     this.getDest(assetType) + (this.options.assets[assetType].groups[assetGroup].dest ? '/' + this.options.assets[assetType].groups[assetGroup].dest : ''),
+                                concat:   this.options.assets[assetType].groups[assetGroup].concat ? this.options.assets[assetType].groups[assetGroup].concat : false
                             };
 
                             if (util.env.verbose) {
-                                util.log(
+                                log = [
                                     'Custom', util.colors.grey(assetType),
                                     'group', "'" + util.colors.cyan(assetGroup) + "'",
                                     'at', util.colors.magenta(src)
-                                );
+                                ];
+                                if (this.assets[assetType][assetGroup].watch) {
+                                    log.push(
+                                        'watching', util.colors.magenta(this.assets[assetType][assetGroup].srcWatch)
+                                    );
+                                }
+                                if (this.assets[assetType][assetGroup].concat) {
+                                    log.push(
+                                        'concat', util.colors.magenta(this.assets[assetType][assetGroup].concat)
+                                    );
+                                }
+                                util.log.apply(this, log);
                             }
                         }
                     }.bind(this));
@@ -282,6 +300,13 @@ Assets.prototype = {
     // Get watch source
     getSrcWatch: function(assetType, assetGroup) {
         if (assetGroup) {
+            var
+                group = this.get(assetType)[assetGroup];
+
+            if (typeof group.watch !== 'undefined' && !group.watch) {
+                return null;
+            }
+
             return this.get(assetType)[assetGroup].srcWatch;
         }
 
@@ -289,7 +314,12 @@ Assets.prototype = {
             src = [];
 
         Object.keys(this.get(assetType)).forEach(function(assetGroup) {
-            src.push(this.getSrcWatch(assetType, assetGroup));
+            var
+                groupSrc = this.getSrcWatch(assetType, assetGroup);
+
+            if (groupSrc) {
+                src.push(groupSrc);
+            }
         }.bind(this));
 
         return src;
