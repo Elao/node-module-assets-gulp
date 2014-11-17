@@ -3,7 +3,7 @@ title: elao-assets-gulp
 email: contact@elao.com
 description: >
   Handle your project's assets with style ! (and gulp)
-baseurl: "" # the subpath of your site, e.g. /blog/
+baseurl: "/node-module-assets-gulp" # the subpath of your site, e.g. /blog/
 url: "http://elao.github.io" # the base hostname & protocol for your site
 twitter_username: Elao
 github_username:  Elao
