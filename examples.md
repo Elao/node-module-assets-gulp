@@ -147,7 +147,7 @@ require('bootstrap.collapse');
 
 **main.less**:
 
-{% highlight Less %}
+{% highlight Scss %}
 
 // Core variables and mixins
 @import 'bootstrap/less/variables.less';
