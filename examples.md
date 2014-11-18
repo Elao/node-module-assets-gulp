@@ -168,3 +168,84 @@ require('bootstrap.collapse');
 @import 'bootstrap/less/dropdowns.less';
 // ...
 {% endhighlight %}
+
+
+[Mustache](http://mustache.github.io/)
+--------------------------------------
+
+**package.json**:
+
+{% highlight Json %}
+"dependencies": {
+    "mustache": "0.8.2"
+}
+{% endhighlight %}
+
+**main.js**:
+
+{% highlight JavaScript %}
+// Mustache
+var mustache = require('mustache');
+{% endhighlight %}
+
+
+[Lunr](http://lunrjs.com/)
+--------------------------
+
+**package.json**:
+
+{% highlight Json %}
+"dependencies": {
+    "lunr": "0.5.6"
+}
+{% endhighlight %}
+
+**main.js**:
+
+{% highlight JavaScript %}
+// Lunr
+var lunr = require('lunr');
+{% endhighlight %}
+
+
+[Moment.js](http://momentjs.com/)
+---------------------------------
+
+**package.json**:
+
+{% highlight Json %}
+"dependencies": {
+    "moment": "2.8.3"
+}
+{% endhighlight %}
+
+**main.js**:
+
+{% highlight JavaScript %}
+// Moment
+var moment = require('moment');
+require('moment/locale/fr');
+{% endhighlight %}
+
+
+[Eonasdan Bootstrap Datetimepicker](http://eonasdan.github.io/bootstrap-datetimepicker/)
+----------------------------------------------------------------------------------------
+
+**package.json**:
+
+{% highlight Json %}
+"dependencies": {
+    "moment": "2.8.3",
+    "eonasdan-bootstrap-datetimepicker": "3.1.3"
+}
+{% endhighlight %}
+
+**main.js**:
+
+{% highlight JavaScript %}
+// DateTime Picker
+require('eonasdan-bootstrap-datetimepicker');
+require('moment/locale/fr');
+{% endhighlight %}
+
+
