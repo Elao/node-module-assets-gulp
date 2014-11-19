@@ -3,6 +3,15 @@ layout: page
 title: Examples
 lead: Some third party libraries integration examples
 permalink: /examples/
+affix:
+  jqueryhttpjquerycom: jQuery
+  bootstrap-3---sasshttpgetbootstrapcom: Bootstrap 3 - Sass
+  bootstrap-3---lesshttpgetbootstrapcom: Bootstrap 3 - Less
+  bootstrap-3---lesshttpgetbootstrapcom: Bootstrap 3 - Less
+  mustachehttpmustachegithubio: Mustache
+  lunrhttplunrjscom: Lunr
+  momentjshttpmomentjscom: Moment.js
+  eonasdan-bootstrap-datetimepickerhttpeonasdangithubiobootstrap-datetimepicker: Eonasdan Bootstrap Datetimepicker
 ---
 
 [jQuery](http://jquery.com/)

@@ -24,7 +24,22 @@
         {% include navbar.html %}
 
         <div class="container">
-            {{ content }}
+            <div class="row">
+                <div class="col-md-9" role="main">
+                    {{ content }}
+                </div>
+                <div class="col-md-3">
+                    <div class="hidden-print hidden-xs hidden-sm affix" role="complementary">
+                        <ul class="nav">
+                            {% for item in page.affix %}
+                                <li>
+                                    <a href="#{{ item[0] }}">{{ item[1] }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>           
         </div>
 
         {% include footer.html %}

@@ -4,14 +4,14 @@
 
 // Bootstrap
 @import
-    "../assets/bootstrap-sass-official/assets/stylesheets/bootstrap"
+    "bootstrap"
 ;
 
 // Navbar
 
 body {
     min-height: 2000px;
-    padding-top: 30px;
+    padding-top: 50px;
 }
 
 // Footer
@@ -22,7 +22,7 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    margin-bottom: 80px;
 }
 
 .footer {
@@ -36,4 +36,10 @@ body {
     .container .text-muted {
         margin: 20px 0;
     }
+}
+
+// Page Header
+
+.page-header {
+    margin-top: 20px;
 }
