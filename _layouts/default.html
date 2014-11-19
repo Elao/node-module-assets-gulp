@@ -19,7 +19,7 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body data-spy="scroll" data-target=".affix" data-offset="60">
 
         {% include navbar.html %}
 
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="hidden-print hidden-xs hidden-sm affix" role="complementary">
-                        <ul class="nav">
+                        <ul class="nav" data-spy="affix">
                             {% for item in page.affix %}
                                 <li>
                                     <a href="#{{ item[0] }}">{{ item[1] }}</a>
