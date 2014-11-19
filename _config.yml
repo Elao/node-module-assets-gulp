@@ -10,3 +10,6 @@ github_username:  Elao
 
 # Build settings
 markdown: kramdown
+
+# Exclusions
+exclude: ['Gemfile', 'bower']

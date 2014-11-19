@@ -1,0 +1,11 @@
+{
+  "name": "elao-assets-gulp",
+  "private": true,
+  "dependencies": {
+    "jquery": "1.11.1",
+    "bootstrap-sass-official": "3.3.1",
+    "html5shiv": "3.7.2",
+    "respond": "1.4.2",
+    "pygments": "2.0.1"
+  }
+}

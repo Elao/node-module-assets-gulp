@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Examples
+lead: Some third party libraries integration examples
 permalink: /examples/
 ---
 
