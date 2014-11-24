@@ -46,7 +46,7 @@
     "require-dir": "0.1.*",
     "event-stream": "3.1.*",
     "through2": "0.6.*",
-    "glob": "4.1.*",
+    "glob": "4.2.*",
     "glob2base": "0.0.*",
     "vinyl-source-stream": "1.0.*",
     "minimatch": "1.0.*",
