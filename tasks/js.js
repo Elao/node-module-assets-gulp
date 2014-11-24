@@ -65,6 +65,8 @@ function bundle(asset, base, dest, config, watch) {
             );
             transform();
         });
+
+        return;
     }
 
     return transform();
@@ -121,9 +123,7 @@ gulp.task('watch:js', function() {
     var
         plugins     = require('gulp-load-plugins')(),
         glob        = require('glob'),
-        glob2base   = require('glob2base'),
-        eventStream = require('event-stream'),
-        tasks       = [];
+        glob2base   = require('glob2base');
 
     Object.keys(assets.get('js')).forEach(function(assetGroup) {
         var
@@ -141,17 +141,13 @@ gulp.task('watch:js', function() {
                 config = assetGroupBundles[asset.replace(base, '')];
             }
 
-            tasks.push(
-                bundle(
-                    asset,
-                    base,
-                    assetGroupDest,
-                    config,
-                    true
-                )
+            bundle(
+                asset,
+                base,
+                assetGroupDest,
+                config,
+                true
             );
         });
     });
-
-    return !tasks.length ? null : eventStream.merge.apply(this, tasks);
 });
