@@ -31,15 +31,7 @@ gulp.task('files', function() {
         );
     });
 
-    return !tasks.length ? null : eventStream.merge.apply(this, tasks)
-        .pipe(plugins.if(
-            plugins.util.env.notify || false,
-            plugins.notify({
-                title   : 'Gulp - Success',
-                message : "\n" + 'files',
-                onLast  : true
-            })
-        ));
+    return !tasks.length ? null : eventStream.merge.apply(this, tasks);
 });
 
 // Watch

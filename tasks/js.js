@@ -108,15 +108,7 @@ gulp.task('js', function() {
         });
     });
 
-    return !tasks.length ? null : eventStream.merge.apply(this, tasks)
-        .pipe(plugins.if(
-            plugins.util.env.notify || false,
-            plugins.notify({
-                title   : 'Gulp - Success',
-                message : "\n" + 'js',
-                onLast  : true
-            })
-        ));
+    return !tasks.length ? null : eventStream.merge.apply(this, tasks);
 });
 
 gulp.task('watch:js', function() {
@@ -141,12 +133,14 @@ gulp.task('watch:js', function() {
                 config = assetGroupBundles[asset.replace(base, '')];
             }
 
-            bundle(
-                asset,
-                base,
-                assetGroupDest,
-                config,
-                true
+            tasks.push(
+                bundle(
+                    asset,
+                    base,
+                    assetGroupDest,
+                    config,
+                    true
+                )
             );
         });
     });
