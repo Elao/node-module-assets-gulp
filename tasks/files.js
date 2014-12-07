@@ -41,3 +41,21 @@ gulp.task('files', function() {
             })
         ));
 });
+
+// Watch
+gulp.task('watch:files', function() {
+    var
+        plugins = require('gulp-load-plugins')();
+
+    return gulp.watch(assets.getSrcWatch('files'), ['files'])
+        .on('change', function(event) {
+            // Set current asset group
+            assets.setGroup(assets.findGroup('files', event.path));
+
+            // Log
+            plugins.util.log(
+                'Watched', "'" + plugins.util.colors.cyan(event.path) + "'",
+                'has', plugins.util.colors.magenta(event.type)
+            );
+        });
+});
