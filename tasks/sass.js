@@ -19,7 +19,7 @@ gulp.task('sass', function() {
                 .pipe(plugins.plumber())
                 .pipe(plugins.sass({
                     errLogToConsole: true,
-                    includePaths: assets.getVendors(),
+                    includePaths: assets.getComponents(),
                     outputStyle: (plugins.util.env.dev || false) ? 'nested' : 'compressed',
                     precision: 10,
                     sourceComments: (plugins.util.env.dev || false) ? 'map' : 'none'

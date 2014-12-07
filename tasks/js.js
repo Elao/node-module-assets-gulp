@@ -9,7 +9,7 @@ function bundle(asset, base, dest, config, watch) {
         bundler = require('browserify')(
             asset, {
                 debug: plugins.util.env.dev || false,
-                paths: assets.getVendors(),
+                paths: assets.getComponents(),
                 // Watchify
                 cache: {},
                 packageCache: {},
