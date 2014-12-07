@@ -63,13 +63,6 @@ var
                     dest:      'css',
                     groups:    {}
                 },
-                less: {
-                    glob:      '**/[!_]*.less',
-                    globWatch: '**/*.less',
-                    src:       'less',
-                    dest:      'css',
-                    groups:    {}
-                },
                 css: {
                     glob:      '**/*.css',
                     globWatch: '**/*.css',
