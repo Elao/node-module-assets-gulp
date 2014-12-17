@@ -33,6 +33,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "glob": "4.3.*"
   },
   "devDependencies": {
     "mocha"       : "2.0.*",
