@@ -1,9 +1,15 @@
-/*global describe,it */
+/* global describe,it */
 
 'use strict';
 
 var
-    assert     = require('assert'),
+    assert = require('assert');
+    
+/***************/
+/* Assets Pool */
+/***************/
+
+var
     AssetsPool = require('../lib/AssetsPool');
 
 describe('AssetsPool', function() {

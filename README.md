@@ -2,16 +2,10 @@
 
 Handle your project's assets with style ! (and gulp)
 
-## Tests
+## Installation
 
-Install mocha:
+    $ npm install
 
-    $ npm install -g mocha
+## Test
 
-Run tests:
-
-    $ mocha
-
-## Todo
-
-* js hint
+    $ npm test
