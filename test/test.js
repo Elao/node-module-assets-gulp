@@ -1,9 +1,18 @@
-var assert = require("assert"); // node.js core module
+var
+    assert     = require('assert'),
+    AssetsPool = require('../lib/AssetsPool');
 
-describe('Array', function(){
-  describe('#indexOf()', function(){
-    it('should return -1 when the value is not present', function(){
-      assert.equal(-1, [1,2,3].indexOf(4)); // 4 is not present in this array so indexOf returns -1
-    })
-  })
-})
+describe('AssetsPool', function() {
+    var
+        assetsPool = new AssetsPool('foo', 'bar');
+    describe('#getName()', function() {
+        it('should return name', function() {
+            assert.equal('foo', assetsPool.getName());
+        });
+    });
+    describe('#getPath()', function() {
+        it('should return path', function() {
+            assert.equal('bar', assetsPool.getPath());
+        });
+    });
+});
