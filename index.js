@@ -22,12 +22,6 @@ module.exports = function(gulp) {
         .addPoolPatternResolver(new AssetsPoolPatternPathResolver())
         .addPoolPatternResolver(new AssetsPoolPatternGlobResolver());
 
-
-    // Assets pool patterns
-    assets
-        .addPoolPattern({name: 'foo', path: 'bar'})
-        .addPoolPattern({name: 'bar', glob: 'foo'});
-
     // Gulp
     var
         gutil = require('gulp-util');
