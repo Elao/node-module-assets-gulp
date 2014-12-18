@@ -41,8 +41,8 @@ module.exports = function(gulp) {
 
         pools.forEach(function(pool) {
             gutil.log('-', pool.getName(), gutil.colors.magenta(pool.getPath()));
-            if (pool.hasComment()) {
-                gutil.log(' ', gutil.colors.cyan(pool.getComment()));
+            if (pool.hasDescription()) {
+                gutil.log(' ', gutil.colors.cyan(pool.getDescription()));
             }
         });
 
