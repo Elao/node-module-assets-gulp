@@ -10,14 +10,23 @@ module.exports = function(gulp) {
 
     // Assets
     var
-        Assets     = require('./lib/Assets'),
-        AssetsPool = require('./lib/AssetsPool'),
-        assets     = new Assets();
+        Assets = require('./lib/Assets'),
+        assets = new Assets();
+
+    // Assets Pool Pattern Resolvers
+    var
+        AssetsPoolPatternPathResolver = require('./lib/AssetsPoolPatternPathResolver'),
+        AssetsPoolPatternGlobResolver = require('./lib/AssetsPoolPatternGlobResolver');
 
     assets
-        .addPool(new AssetsPool('test_a', 'test/test/a', 'Teeeeest AAA'))
-        .addPool(new AssetsPool('test_b', 'test/test/b'))
-        .addPool(new AssetsPool('test_c', 'test/test/c', 'Teeeeest CCC'));
+        .addPoolPatternResolver(new AssetsPoolPatternPathResolver())
+        .addPoolPatternResolver(new AssetsPoolPatternGlobResolver());
+
+
+    // Assets pool patterns
+    assets
+        .addPoolPattern({name: 'foo', path: 'bar'})
+        .addPoolPattern({name: 'bar', glob: 'foo'});
 
     // Gulp
     var
@@ -26,7 +35,7 @@ module.exports = function(gulp) {
     // Task - Pools
     gulp.task('pools', function(callback) {
         var
-            pools = assets.getPools();
+            pools = assets.findPools();
 
         gutil.log('Found', gutil.colors.cyan(pools.length), 'pools');
 
