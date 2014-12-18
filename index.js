@@ -1,4 +1,28 @@
 'use strict';
 
+// Assets
 var
-    AssetsPool = require('./lib/AssetsPool');
+    Assets = require('./lib/Assets'),
+    assets = new Assets();
+
+module.exports = assets;
+
+// Gulp
+var
+    gulp = require('gulp'),
+    util = require('gulp-util');
+
+// Gulp - Pools
+gulp.task('pools', function(callback) {
+
+    var
+        pools = assets.getPools();
+
+    util.log(
+        'Found',
+        util.colors.cyan(pools.length),
+        'pools'
+    );
+    
+    console.log(pools);
+});
