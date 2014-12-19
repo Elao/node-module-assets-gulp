@@ -19,7 +19,8 @@ module.exports = function(gulp) {
                 description: 'Node modules'
             })
             .addPattern({
-                pools: assets.pools
+                pools: assets.pools,
+                dir: 'components'
             });
 
     return assets;
