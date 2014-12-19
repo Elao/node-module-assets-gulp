@@ -25,11 +25,13 @@ module.exports = function(gulp) {
 
     // Assets components pools patterns Resolvers
     var
-        AssetsComponentsPoolPatternPathResolver = require('./lib/AssetsComponentsPoolPatternPathResolver');
+        AssetsComponentsPoolPatternPathResolver = require('./lib/AssetsComponentsPoolPatternPathResolver'),
+        AssetsComponentsPoolPatternPoolsResolver = require('./lib/AssetsComponentsPoolPatternPoolsResolver');
 
     assets
         .componentsPools
-            .addPatternResolver(new AssetsComponentsPoolPatternPathResolver());
+            .addPatternResolver(new AssetsComponentsPoolPatternPathResolver())
+            .addPatternResolver(new AssetsComponentsPoolPatternPoolsResolver());
 
     // Gulp
     var
