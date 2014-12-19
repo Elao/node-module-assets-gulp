@@ -144,7 +144,7 @@ describe('Assets', function() {
         it('should find pools', function() {
             assert.deepEqual(
                 [
-                    'assets',
+                    'test/fixtures/assets',
                     'test/fixtures/app/Resources/assets',
                     'test/fixtures/app/bar/Resources/assets',
                     'test/fixtures/app/foo/Resources/assets',
@@ -185,8 +185,9 @@ describe('Assets', function() {
         it('should find pools', function() {
             assert.deepEqual(
                 [
-                    'bower_components',
-                    'node_modules',
+                    'test/fixtures/bower_components',
+                    'test/fixtures/node_modules',
+                    'test/fixtures/assets/components',
                     'test/fixtures/app/Resources/assets/components',
                     'test/fixtures/app/bar/Resources/assets/components',
                     'test/fixtures/src/FooBundle/Resources/assets/components'
