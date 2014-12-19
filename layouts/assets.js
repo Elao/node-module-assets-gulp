@@ -5,7 +5,7 @@ module.exports = function(gulp) {
     var
         assets = require('./base')(gulp);
 
-    // Assets pool pattern
+    // Assets pools pattern
     assets
         .addPoolPattern({
             name: 'assets',
