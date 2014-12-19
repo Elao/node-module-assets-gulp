@@ -22,6 +22,14 @@ module.exports = function(gulp) {
         .addPoolPatternResolver(new AssetsPoolPatternPathResolver())
         .addPoolPatternResolver(new AssetsPoolPatternGlobResolver());
 
+    // Assets components pools patterns Resolvers
+    var
+        AssetsComponentsPoolPatternPathResolver = require('./lib/AssetsComponentsPoolPatternPathResolver');
+
+    assets
+        .componentsPools
+            .addPatternResolver(new AssetsComponentsPoolPatternPathResolver());
+
     // Gulp
     var
         gutil = require('gulp-util');
@@ -35,6 +43,23 @@ module.exports = function(gulp) {
 
         pools.forEach(function(pool) {
             gutil.log('-', pool.getName(), gutil.colors.magenta(pool.getPath()));
+            if (pool.hasDescription()) {
+                gutil.log(' ', gutil.colors.cyan(pool.getDescription()));
+            }
+        });
+
+        callback();
+    });
+
+    // Task - Components Pools
+    gulp.task('components-pools', function(callback) {
+        var
+            pools = assets.componentsPools.find();
+
+        gutil.log('Found', gutil.colors.cyan(pools.length), 'components pools');
+
+        pools.forEach(function(pool) {
+            gutil.log('-', pool.getId(), gutil.colors.magenta(pool.getPath()));
             if (pool.hasDescription()) {
                 gutil.log(' ', gutil.colors.cyan(pool.getDescription()));
             }
