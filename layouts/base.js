@@ -1,9 +1,9 @@
 'use strict';
 
-module.exports = function(gulp) {
+module.exports = function(gulp, path) {
 
     var
-        assets = require('..')(gulp);
+        assets = require('..')(gulp, path);
 
     // Base components pools patterns
     assets

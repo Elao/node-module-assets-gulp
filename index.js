@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(gulp) {
+module.exports = function(gulp, path) {
 
     // Check gulp injection
     if ((typeof gulp !== 'object') || (gulp.constructor.name !== 'Gulp')) {
@@ -11,7 +11,7 @@ module.exports = function(gulp) {
     // Assets
     var
         Assets = require('./lib/Assets'),
-        assets = new Assets();
+        assets = new Assets(path);
 
     // Assets pools patterns resolvers
     var
@@ -20,8 +20,8 @@ module.exports = function(gulp) {
 
     assets
         .pools
-            .addPatternResolver(new AssetsPoolPatternPathResolver())
-            .addPatternResolver(new AssetsPoolPatternGlobResolver());
+            .addPatternResolver(new AssetsPoolPatternPathResolver(assets.path))
+            .addPatternResolver(new AssetsPoolPatternGlobResolver(assets.path));
 
     // Assets components pools patterns Resolvers
     var
@@ -30,7 +30,7 @@ module.exports = function(gulp) {
 
     assets
         .componentsPools
-            .addPatternResolver(new AssetsComponentsPoolPatternPathResolver())
+            .addPatternResolver(new AssetsComponentsPoolPatternPathResolver(assets.path))
             .addPatternResolver(new AssetsComponentsPoolPatternPoolsResolver());
 
     // Gulp
@@ -45,9 +45,9 @@ module.exports = function(gulp) {
         gutil.log('Found', gutil.colors.cyan(pools.length), 'pools');
 
         pools.forEach(function(pool) {
-            gutil.log('-', pool.getId(), gutil.colors.magenta(pool.getPath()));
+            gutil.log('-', pool.id, gutil.colors.magenta(pool.path));
             if (pool.hasDescription()) {
-                gutil.log(' ', gutil.colors.cyan(pool.getDescription()));
+                gutil.log(' ', gutil.colors.cyan(pool.description));
             }
         });
 
@@ -62,9 +62,9 @@ module.exports = function(gulp) {
         gutil.log('Found', gutil.colors.cyan(pools.length), 'components pools');
 
         pools.forEach(function(pool) {
-            gutil.log('-', pool.getId(), gutil.colors.magenta(pool.getPath()));
+            gutil.log('-', pool.id, gutil.colors.magenta(pool.path));
             if (pool.hasDescription()) {
-                gutil.log(' ', gutil.colors.cyan(pool.getDescription()));
+                gutil.log(' ', gutil.colors.cyan(pool.description));
             }
         });
 

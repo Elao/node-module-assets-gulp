@@ -1,9 +1,9 @@
 'use strict';
 
-module.exports = function(gulp) {
+module.exports = function(gulp, path) {
 
     var
-        assets = require('./base')(gulp);
+        assets = require('./base')(gulp, path);
 
     // Symfony assets pools patterns
     assets
