@@ -3,7 +3,7 @@
 module.exports = function(gulp, path) {
 
     var
-        assets = require('./base')(gulp, path);
+        assets = require('./')(gulp, path);
 
     // Assets pools pattern
     assets
