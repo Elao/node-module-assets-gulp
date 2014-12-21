@@ -110,13 +110,12 @@ describe('Assets', function() {
         // Pools patterns
         assets
             .pools
-                .addPattern({
-                    id:          'assets',
+                .addPattern('assets', {
                     path:        'assets',
                     description: 'Common assets'
                 })
-                .addPattern({
-                    id: function(path) {
+                .addPattern(
+                    function(path) {
                         if (path.match(/^app\/Resources/)) {
                             return 'app';
                         }
@@ -125,20 +124,24 @@ describe('Assets', function() {
                             .replace(/\/Resources\/assets(.*)$/, '')
                             .replace(/\//g, '') + 'App';
                     },
-                    glob: 'app/**/Resources/assets',
-                    description: 'Symfony app'
-                })
-                .addPattern({
-                    id: function(path) {
+                    {
+                        glob: 'app/**/Resources/assets',
+                        description: 'Symfony app'
+                    }
+                )
+                .addPattern(
+                    function(path) {
                         return path
                             .replace(/^src\//, '')
                             .replace(/\/Resources\/assets(.*)$/, '')
                             .replace(/Bundle/g, '')
                             .replace(/\//g, '') + 'Bundle';
                     },
-                    glob: 'src/**/*Bundle/Resources/assets',
-                    description: 'Symfony bundle'
-                });
+                    {
+                        glob: 'src/**/*Bundle/Resources/assets',
+                        description: 'Symfony bundle'
+                    }
+                );
 
 
         it('should find pools', function() {
@@ -166,19 +169,22 @@ describe('Assets', function() {
         // Pools patterns
         assets
             .componentsPools
-                .addPattern({
-                    id:          'bower',
+                .addPattern('bower', {
                     path:        'bower_components',
                     description: 'Bower components'
                 })
-                .addPattern({
-                    id:          'node',
+                .addPattern('node', {
                     path:        'node_modules',
                     description: 'Node modules'
                 })
-                .addPattern({
-                    dir: 'components'
-                });
+                .addPattern(
+                    function(id) {
+                        return id + 'Components';
+                    },
+                    {
+                        dir: 'components'
+                    }
+                );
 
 
         it('should find pools', function() {

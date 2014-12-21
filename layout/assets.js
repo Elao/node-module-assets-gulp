@@ -8,8 +8,7 @@ module.exports = function(gulp, path) {
     // Assets pools pattern
     assets
         .pools
-            .addPattern({
-                id:          'assets',
+            .addPattern('assets', {
                 path:        'assets',
                 description: 'Common assets'
             });

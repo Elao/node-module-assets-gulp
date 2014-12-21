@@ -8,19 +8,22 @@ module.exports = function(gulp, path) {
     // Base components pools patterns
     assets
         .componentsPools
-            .addPattern({
-                id:          'bower',
+            .addPattern('bower', {
                 path:        'bower_components',
                 description: 'Bower components'
             })
-            .addPattern({
-                id:          'node',
+            .addPattern('node', {
                 path:        'node_modules',
                 description: 'Node modules'
             })
-            .addPattern({
-                dir: 'components'
-            });
+            .addPattern(
+                function(id) {
+                    return id + 'Components';
+                },
+                {
+                    dir: 'components'
+                }
+            );
 
     return assets;
 };

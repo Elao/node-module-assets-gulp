@@ -8,8 +8,8 @@ module.exports = function(gulp, path) {
     // Symfony assets pools patterns
     assets
         .pools
-            .addPattern({
-                id: function(path) {
+            .addPattern(
+                function(path) {
                     if (path.match(/^app\/Resources/)) {
                         return 'app';
                     }
@@ -18,20 +18,24 @@ module.exports = function(gulp, path) {
                         .replace(/\/Resources\/assets(.*)$/, '')
                         .replace(/\//g, '') + 'App';
                 },
-                glob: 'app/**/Resources/assets',
-                description: 'Symfony app'
-            })
-            .addPattern({
-                id: function(path) {
+                {
+                    glob: 'app/**/Resources/assets',
+                    description: 'Symfony app'
+                }
+            )
+            .addPattern(
+                function(path) {
                     return path
                         .replace(/^src\//, '')
                         .replace(/\/Resources\/assets(.*)$/, '')
                         .replace(/Bundle/g, '')
                         .replace(/\//g, '') + 'Bundle';
                 },
-                glob: 'src/**/*Bundle/Resources/assets',
-                description: 'Symfony bundle'
-            });
+                {
+                    glob: 'src/**/*Bundle/Resources/assets',
+                    description: 'Symfony bundle'
+                }
+            );
 
     return assets;
 };
