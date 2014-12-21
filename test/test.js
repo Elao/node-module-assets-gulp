@@ -2,7 +2,7 @@
 
 var
     assert = require('chai').assert;
-    
+
 /***************/
 /* Assets Pool */
 /***************/
@@ -13,22 +13,17 @@ var
 describe('AssetsPool', function() {
 
     var
-        pool = new AssetsPool('foo', 'bar', 'foobar'),
-        poolUndescribed = new AssetsPool('foo', 'bar');
+        pool = new AssetsPool('foo', 'bar'),
+        poolUndescribed = new AssetsPool('foo');
 
-    describe('#id', function() {
-        it('should return id', function() {
-            assert.equal('foo', pool.id);
-        });
-    });
     describe('#path', function() {
         it('should return path', function() {
-            assert.equal('bar', pool.path);
+            assert.equal('foo', pool.path);
         });
     });
     describe('#description', function() {
         it('should return description', function() {
-            assert.equal('foobar', pool.description);
+            assert.equal('bar', pool.description);
         });
     });
     describe('#hasDescription()', function() {
@@ -53,22 +48,17 @@ var
 describe('AssetsComponentsPool', function() {
 
     var
-        pool = new AssetsComponentsPool('foo', 'bar', 'foobar'),
-        poolUndescribed = new AssetsComponentsPool('foo', 'bar');
+        pool = new AssetsComponentsPool('foo', 'bar'),
+        poolUndescribed = new AssetsComponentsPool('foo');
 
-    describe('#id', function() {
-        it('should return id', function() {
-            assert.equal('foo', pool.id);
-        });
-    });
     describe('#path', function() {
         it('should return path', function() {
-            assert.equal('bar', pool.path);
+            assert.equal('foo', pool.path);
         });
     });
     describe('#description', function() {
         it('should return description', function() {
-            assert.equal('foobar', pool.description);
+            assert.equal('bar', pool.description);
         });
     });
     describe('#hasDescription()', function() {
@@ -154,7 +144,7 @@ describe('Assets', function() {
                     'test/fixtures/src/Bundle/BarBundle/Resources/assets',
                     'test/fixtures/src/FooBundle/Resources/assets'
                 ],
-                assets.pools.findPaths()
+                assets.pools.paths()
             );
         });
     });
@@ -177,14 +167,9 @@ describe('Assets', function() {
                     path:        'node_modules',
                     description: 'Node modules'
                 })
-                .addPattern(
-                    function(id) {
-                        return id + 'Components';
-                    },
-                    {
-                        dir: 'components'
-                    }
-                );
+                .addPattern({
+                    dir: 'components'
+                });
 
 
         it('should find pools', function() {
@@ -197,7 +182,7 @@ describe('Assets', function() {
                     'test/fixtures/app/bar/Resources/assets/components',
                     'test/fixtures/src/FooBundle/Resources/assets/components'
                 ],
-                assets.componentsPools.findPaths()
+                assets.componentsPools.paths()
             );
         });
     });

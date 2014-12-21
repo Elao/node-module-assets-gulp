@@ -5,14 +5,12 @@ module.exports = function(assets, gulp) {
     var
         gutil = require('gulp-util');
 
-    gulp.task('components-pools', function(callback) {
-        var
-            pools = assets.componentsPools.find();
+    gulp.task('pools', function(callback) {
 
-        gutil.log('Found', gutil.colors.cyan(pools.length), 'components pools');
+        gutil.log('Found', gutil.colors.cyan(assets.pools.count()), 'pools');
 
-        pools.forEach(function(pool) {
-            gutil.log('-', pool.id, gutil.colors.magenta(pool.path));
+        assets.pools.forEach(function(pool, poolId) {
+            gutil.log('-', poolId, gutil.colors.magenta(pool.path));
             if (pool.hasDescription()) {
                 gutil.log(' ', gutil.colors.cyan(pool.description));
             }

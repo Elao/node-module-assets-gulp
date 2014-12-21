@@ -16,14 +16,9 @@ module.exports = function(gulp, path) {
                 path:        'node_modules',
                 description: 'Node modules'
             })
-            .addPattern(
-                function(id) {
-                    return id + 'Components';
-                },
-                {
-                    dir: 'components'
-                }
-            );
+            .addPattern({
+                dir: 'components'
+            });
 
     return assets;
 };
