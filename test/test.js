@@ -159,7 +159,7 @@ describe('Assets', function() {
     assets
         .componentsPools
             .addPatternResolver(new AssetsComponentsPoolPatternPathResolver(assets.path))
-            .addPatternResolver(new AssetsComponentsPoolPatternPoolsResolver());
+            .addPatternResolver(new AssetsComponentsPoolPatternPoolsResolver(assets.pools));
 
     describe('#componentPools', function() {
 
@@ -177,7 +177,6 @@ describe('Assets', function() {
                     description: 'Node modules'
                 })
                 .addPattern({
-                    pools: assets.pools,
                     dir: 'components'
                 });
 

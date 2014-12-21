@@ -31,7 +31,7 @@ module.exports = function(gulp, path) {
     assets
         .componentsPools
             .addPatternResolver(new AssetsComponentsPoolPatternPathResolver(assets.path))
-            .addPatternResolver(new AssetsComponentsPoolPatternPoolsResolver());
+            .addPatternResolver(new AssetsComponentsPoolPatternPoolsResolver(assets.pools));
 
 
     // Gulp Tasks
