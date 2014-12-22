@@ -23,20 +23,20 @@ module.exports = function(gulp, path) {
             .addPatternResolver(new AssetsPoolPatternPathResolver(assets.path))
             .addPatternResolver(new AssetsPoolPatternGlobResolver(assets.path));
 
-    // Assets components pools patterns Resolvers
+    // Assets libraries patterns Resolvers
     var
-        AssetsComponentsPoolPatternPathResolver = require('./lib/AssetsComponentsPoolPatternPathResolver'),
-        AssetsComponentsPoolPatternPoolsResolver = require('./lib/AssetsComponentsPoolPatternPoolsResolver');
+        AssetsLibraryPatternPathResolver = require('./lib/AssetsLibraryPatternPathResolver'),
+        AssetsLibraryPatternPoolsResolver = require('./lib/AssetsLibraryPatternPoolsResolver');
 
     assets
-        .componentsPools
-            .addPatternResolver(new AssetsComponentsPoolPatternPathResolver(assets.path))
-            .addPatternResolver(new AssetsComponentsPoolPatternPoolsResolver(assets.pools));
+        .libraries
+            .addPatternResolver(new AssetsLibraryPatternPathResolver(assets.path))
+            .addPatternResolver(new AssetsLibraryPatternPoolsResolver(assets.pools));
 
 
     // Gulp Tasks
     require('./tasks/pools')(assets, gulp);
-    require('./tasks/components-pools')(assets, gulp);
+    require('./tasks/libraries')(assets, gulp);
 
     return assets;
 };

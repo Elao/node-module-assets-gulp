@@ -5,9 +5,9 @@ module.exports = function(gulp, path) {
     var
         assets = require('..')(gulp, path);
 
-    // Base components pools patterns
+    // Base libraries patterns
     assets
-        .componentsPools
+        .libraries
             .addPattern('bower', {
                 path:        'bower_components',
                 description: 'Bower components'

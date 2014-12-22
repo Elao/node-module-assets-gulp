@@ -38,37 +38,37 @@ describe('AssetsPool', function() {
     });
 });
 
-/**************************/
-/* Assets Components Pool */
-/**************************/
+/******************/
+/* Assets Library */
+/******************/
 
 var
-    AssetsComponentsPool = require('../lib/AssetsComponentsPool');
+    AssetsLibrary = require('../lib/AssetsLibrary');
 
-describe('AssetsComponentsPool', function() {
+describe('AssetsLibrary', function() {
 
     var
-        pool = new AssetsComponentsPool('foo', 'bar'),
-        poolUndescribed = new AssetsComponentsPool('foo');
+        library = new AssetsLibrary('foo', 'bar'),
+        libraryUndescribed = new AssetsLibrary('foo');
 
     describe('#path', function() {
         it('should return path', function() {
-            assert.equal('foo', pool.path);
+            assert.equal('foo', library.path);
         });
     });
     describe('#description', function() {
         it('should return description', function() {
-            assert.equal('bar', pool.description);
+            assert.equal('bar', library.description);
         });
     });
     describe('#hasDescription()', function() {
         it('should return true', function() {
-            assert(pool.hasDescription());
+            assert(library.hasDescription());
         });
     });
     describe('#hasDescription()', function() {
         it('should return false', function() {
-            assert(!poolUndescribed.hasDescription());
+            assert(!libraryUndescribed.hasDescription());
         });
     });
 });
@@ -81,8 +81,8 @@ var
     Assets = require('../lib/Assets'),
     AssetsPoolPatternPathResolver = require('../lib/AssetsPoolPatternPathResolver'),
     AssetsPoolPatternGlobResolver = require('../lib/AssetsPoolPatternGlobResolver'),
-    AssetsComponentsPoolPatternPathResolver = require('../lib/AssetsComponentsPoolPatternPathResolver'),
-    AssetsComponentsPoolPatternPoolsResolver = require('../lib/AssetsComponentsPoolPatternPoolsResolver');
+    AssetsLibraryPatternPathResolver = require('../lib/AssetsLibraryPatternPathResolver'),
+    AssetsLibraryPatternPoolsResolver = require('../lib/AssetsLibraryPatternPoolsResolver');
 
 describe('Assets', function() {
 
@@ -150,15 +150,15 @@ describe('Assets', function() {
     });
 
     assets
-        .componentsPools
-            .addPatternResolver(new AssetsComponentsPoolPatternPathResolver(assets.path))
-            .addPatternResolver(new AssetsComponentsPoolPatternPoolsResolver(assets.pools));
+        .libraries
+            .addPatternResolver(new AssetsLibraryPatternPathResolver(assets.path))
+            .addPatternResolver(new AssetsLibraryPatternPoolsResolver(assets.pools));
 
-    describe('#componentPools', function() {
+    describe('#libraries', function() {
 
-        // Pools patterns
+        // Libraries patterns
         assets
-            .componentsPools
+            .libraries
                 .addPattern('bower', {
                     path:        'bower_components',
                     description: 'Bower components'
@@ -182,7 +182,7 @@ describe('Assets', function() {
                     'test/fixtures/app/bar/Resources/assets/components',
                     'test/fixtures/src/FooBundle/Resources/assets/components'
                 ],
-                assets.componentsPools.paths()
+                assets.libraries.paths()
             );
         });
     });
