@@ -8,12 +8,11 @@ module.exports = function(gulp, path) {
         process.exit(1);
     }
 
-    // Assets
     var
         Assets = require('./lib/Assets'),
         assets = new Assets(path);
 
-    // Assets pools patterns resolvers
+    // Pools patterns resolvers
     var
         AssetsPoolPatternPathResolver = require('./lib/AssetsPoolPatternPathResolver'),
         AssetsPoolPatternGlobResolver = require('./lib/AssetsPoolPatternGlobResolver');
@@ -23,7 +22,7 @@ module.exports = function(gulp, path) {
             .addPatternResolver(new AssetsPoolPatternPathResolver(assets.path))
             .addPatternResolver(new AssetsPoolPatternGlobResolver(assets.path));
 
-    // Assets libraries patterns Resolvers
+    // Libraries patterns Resolvers
     var
         AssetsLibraryPatternPathResolver = require('./lib/AssetsLibraryPatternPathResolver'),
         AssetsLibraryPatternPoolsResolver = require('./lib/AssetsLibraryPatternPoolsResolver');
@@ -34,9 +33,13 @@ module.exports = function(gulp, path) {
             .addPatternResolver(new AssetsLibraryPatternPoolsResolver(assets.pools));
 
 
-    // Gulp Tasks
-    require('./tasks/pools')(assets, gulp);
-    require('./tasks/libraries')(assets, gulp);
+    // Tasks
+    require('./tasks/list-pools')(assets, gulp);
+    require('./tasks/list-libraries')(assets, gulp);
+    require('./tasks/list-handlers')(assets, gulp);
+
+    // Plugins
+    require('./plugins/images')(assets, gulp);
 
     return assets;
 };

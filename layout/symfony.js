@@ -5,7 +5,7 @@ module.exports = function(gulp, path) {
     var
         assets = require('./')(gulp, path);
 
-    // Symfony assets pools patterns
+    // Symfony pools patterns
     assets
         .pools
             .addPattern(
