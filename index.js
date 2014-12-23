@@ -34,9 +34,7 @@ module.exports = function(gulp, path) {
 
 
     // Tasks
-    require('./tasks/list-pools')(assets, gulp);
-    require('./tasks/list-libraries')(assets, gulp);
-    require('./tasks/list-handlers')(assets, gulp);
+    require('./tasks/list')(assets, gulp);
 
     // Plugins
     require('./plugins/images')(assets, gulp);
