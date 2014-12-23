@@ -5,8 +5,13 @@ var
 
 module.exports = function(assets, gulp) {
 
-assets
-    .handlers
-        .add('images', new AssetsHandler());
+    assets
+        .handlers
+            .add('images', new AssetsHandler());
+
+    // Images
+    gulp.task('images', function(callback) {
+        callback();
+    });
 
 };

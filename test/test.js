@@ -91,47 +91,45 @@ describe('Assets', function() {
 
     // Pools pattern resvolvers
     assets
-        .pools
-            .addPatternResolver(new AssetsPoolPatternPathResolver(assets.path))
-            .addPatternResolver(new AssetsPoolPatternGlobResolver(assets.path));
+        .addPoolPatternResolver(new AssetsPoolPatternPathResolver(assets.path))
+        .addPoolPatternResolver(new AssetsPoolPatternGlobResolver(assets.path));
 
     describe('#pools', function() {
 
         // Pools patterns
         assets
-            .pools
-                .addPattern('assets', {
-                    path:        'assets',
-                    description: 'Common assets'
-                })
-                .addPattern(
-                    function(path) {
-                        if (path.match(/^app\/Resources/)) {
-                            return 'app';
-                        }
-                        return path
-                            .replace(/^app\//, '')
-                            .replace(/\/Resources\/assets(.*)$/, '')
-                            .replace(/\//g, '') + 'App';
-                    },
-                    {
-                        glob: 'app/**/Resources/assets',
-                        description: 'Symfony app'
+            .addPoolPattern('assets', {
+                path:        'assets',
+                description: 'Common assets'
+            })
+            .addPoolPattern(
+                function(path) {
+                    if (path.match(/^app\/Resources/)) {
+                        return 'app';
                     }
-                )
-                .addPattern(
-                    function(path) {
-                        return path
-                            .replace(/^src\//, '')
-                            .replace(/\/Resources\/assets(.*)$/, '')
-                            .replace(/Bundle/g, '')
-                            .replace(/\//g, '') + 'Bundle';
-                    },
-                    {
-                        glob: 'src/**/*Bundle/Resources/assets',
-                        description: 'Symfony bundle'
-                    }
-                );
+                    return path
+                        .replace(/^app\//, '')
+                        .replace(/\/Resources\/assets(.*)$/, '')
+                        .replace(/\//g, '') + 'App';
+                },
+                {
+                    glob: 'app/**/Resources/assets',
+                    description: 'Symfony app'
+                }
+            )
+            .addPoolPattern(
+                function(path) {
+                    return path
+                        .replace(/^src\//, '')
+                        .replace(/\/Resources\/assets(.*)$/, '')
+                        .replace(/Bundle/g, '')
+                        .replace(/\//g, '') + 'Bundle';
+                },
+                {
+                    glob: 'src/**/*Bundle/Resources/assets',
+                    description: 'Symfony bundle'
+                }
+            );
 
 
         it('should find pools', function() {
@@ -150,26 +148,24 @@ describe('Assets', function() {
     });
 
     assets
-        .libraries
-            .addPatternResolver(new AssetsLibraryPatternPathResolver(assets.path))
-            .addPatternResolver(new AssetsLibraryPatternPoolsResolver(assets.pools));
+        .addLibraryPatternResolver(new AssetsLibraryPatternPathResolver(assets.path))
+        .addLibraryPatternResolver(new AssetsLibraryPatternPoolsResolver(assets.pools));
 
     describe('#libraries', function() {
 
         // Libraries patterns
         assets
-            .libraries
-                .addPattern('bower', {
-                    path:        'bower_components',
-                    description: 'Bower components'
-                })
-                .addPattern('node', {
-                    path:        'node_modules',
-                    description: 'Node modules'
-                })
-                .addPattern({
-                    dir: 'components'
-                });
+            .addLibraryPattern('bower', {
+                path:        'bower_components',
+                description: 'Bower components'
+            })
+            .addLibraryPattern('node', {
+                path:        'node_modules',
+                description: 'Node modules'
+            })
+            .addLibraryPattern({
+                dir: 'components'
+            });
 
 
         it('should find pools', function() {

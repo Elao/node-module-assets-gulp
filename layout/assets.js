@@ -5,13 +5,12 @@ module.exports = function(gulp, path) {
     var
         assets = require('./')(gulp, path);
 
-    // Assets pools pattern
+    // Pool patterns
     assets
-        .pools
-            .addPattern('assets', {
-                path:        'assets',
-                description: 'Common assets'
-            });
+        .addPoolPattern('assets', {
+            path:        'assets',
+            description: 'Common assets'
+        });
 
     return assets;
 };
