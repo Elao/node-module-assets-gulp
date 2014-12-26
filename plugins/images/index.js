@@ -3,8 +3,9 @@
 var
     AssetsHandler = require('../../lib/AssetsHandler');
 
-module.exports = function(assets, gulp) {
-
+module.exports = function(assets, gulp)
+{
+	// Handler
     assets
         .handlers
             .add(new AssetsHandler('images', 'Handles images assets'));

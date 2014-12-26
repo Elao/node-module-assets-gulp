@@ -10,8 +10,8 @@ var
 var
     AssetsPool = require('../lib/AssetsPool');
 
-describe('AssetsPool', function() {
-
+describe('AssetsPool', function()
+{
     var
         pool = new AssetsPool('foo', 'bar', 'foobar'),
         poolUndescribed = new AssetsPool('foo', 'bar');
@@ -50,8 +50,8 @@ describe('AssetsPool', function() {
 var
     AssetsLibrary = require('../lib/AssetsLibrary');
 
-describe('AssetsLibrary', function() {
-
+describe('AssetsLibrary', function()
+{
     var
         library = new AssetsLibrary('foo', 'bar'),
         libraryUndescribed = new AssetsLibrary('foo');
@@ -89,8 +89,8 @@ var
     AssetsLibraryPatternPathResolver = require('../lib/AssetsLibraryPatternPathResolver'),
     AssetsLibraryPatternPoolsResolver = require('../lib/AssetsLibraryPatternPoolsResolver');
 
-describe('Assets', function() {
-
+describe('Assets', function()
+{
     var
         assets = new Assets('test/fixtures');
 

@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function(gulp, path) {
-
+module.exports = function(gulp, path)
+{
     // Check gulp injection
     if ((typeof gulp !== 'object') || (gulp.constructor.name !== 'Gulp')) {
         console.error('Error: You must pass a gulp instance as first parameter !');

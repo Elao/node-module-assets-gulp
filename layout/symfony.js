@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function(gulp, path) {
-
+module.exports = function(gulp, path)
+{
     var
         assets = require('./')(gulp, path);
 
