@@ -7,7 +7,7 @@ module.exports = function(assets, gulp) {
 
     assets
         .handlers
-            .add('images', new AssetsHandler());
+            .add(new AssetsHandler('images', 'Handles images assets'));
 
     // Images
     gulp.task('images', function(callback) {
