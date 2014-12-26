@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "glob": "4.3.*",
-    "extend": "2.0.*",
     "gulp-util": "3.0.*"
   },
   "devDependencies": {

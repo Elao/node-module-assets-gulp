@@ -13,17 +13,22 @@ var
 describe('AssetsPool', function() {
 
     var
-        pool = new AssetsPool('foo', 'bar'),
-        poolUndescribed = new AssetsPool('foo');
+        pool = new AssetsPool('foo', 'bar', 'foobar'),
+        poolUndescribed = new AssetsPool('foo', 'bar');
 
+    describe('#id', function() {
+        it('should return id', function() {
+            assert.equal('foo', pool.id);
+        });
+    });
     describe('#path', function() {
         it('should return path', function() {
-            assert.equal('foo', pool.path);
+            assert.equal('bar', pool.path);
         });
     });
     describe('#description', function() {
         it('should return description', function() {
-            assert.equal('bar', pool.description);
+            assert.equal('foobar', pool.description);
         });
     });
     describe('#hasDescription()', function() {
@@ -155,11 +160,11 @@ describe('Assets', function() {
 
         // Libraries patterns
         assets
-            .addLibraryPattern('bower', {
+            .addLibraryPattern({
                 path:        'bower_components',
                 description: 'Bower components'
             })
-            .addLibraryPattern('node', {
+            .addLibraryPattern({
                 path:        'node_modules',
                 description: 'Node modules'
             })

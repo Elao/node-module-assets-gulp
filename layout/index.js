@@ -7,11 +7,11 @@ module.exports = function(gulp, path) {
 
     // Library patterns
     assets
-        .addLibraryPattern('bower', {
+        .addLibraryPattern({
             path:        'bower_components',
             description: 'Bower components'
         })
-        .addLibraryPattern('node', {
+        .addLibraryPattern({
             path:        'node_modules',
             description: 'Node modules'
         })
