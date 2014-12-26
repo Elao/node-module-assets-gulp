@@ -6,17 +6,17 @@ module.exports = function(assets, gulp)
         gutil = require('gulp-util');
 
     // List
-    gulp.task('list', ['list:pools', 'list:libraries', 'list:handlers']);
+    gulp.task('list', ['list:bundles', 'list:libraries', 'list:handlers']);
 
-    // List - Pools
-    gulp.task('list:pools', function(callback)
+    // List - Bundles
+    gulp.task('list:bundles', function(callback)
     {
-        gutil.log(gutil.colors.cyan(assets.pools.count()), 'pools have been resolved');
+        gutil.log(gutil.colors.cyan(assets.bundles.count()), 'bundles have been resolved');
 
-        assets.pools.forEach(function(pool) {
-            gutil.log('-', pool.id, gutil.colors.magenta(pool.path));
-            if (pool.hasDescription()) {
-                gutil.log(' ', gutil.colors.cyan(pool.description));
+        assets.bundles.forEach(function(bundle) {
+            gutil.log('-', bundle.id, gutil.colors.magenta(bundle.path));
+            if (bundle.hasDescription()) {
+                gutil.log(' ', gutil.colors.cyan(bundle.description));
             }
         });
 

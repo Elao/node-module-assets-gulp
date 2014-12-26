@@ -12,23 +12,23 @@ module.exports = function(gulp, path)
         Assets = require('./lib/Assets'),
         assets = new Assets(path);
 
-    // Pools patterns resolvers
+    // Bundles patterns resolvers
     var
-        AssetsPoolPatternPathResolver = require('./lib/AssetsPoolPatternPathResolver'),
-        AssetsPoolPatternGlobResolver = require('./lib/AssetsPoolPatternGlobResolver');
+        AssetsBundlePatternPathResolver = require('./lib/AssetsBundlePatternPathResolver'),
+        AssetsBundlePatternGlobResolver = require('./lib/AssetsBundlePatternGlobResolver');
 
     assets
-        .addPoolPatternResolver(new AssetsPoolPatternPathResolver(assets.path))
-        .addPoolPatternResolver(new AssetsPoolPatternGlobResolver(assets.path));
+        .addBundlePatternResolver(new AssetsBundlePatternPathResolver(assets.path))
+        .addBundlePatternResolver(new AssetsBundlePatternGlobResolver(assets.path));
 
     // Libraries patterns Resolvers
     var
         AssetsLibraryPatternPathResolver = require('./lib/AssetsLibraryPatternPathResolver'),
-        AssetsLibraryPatternPoolsResolver = require('./lib/AssetsLibraryPatternPoolsResolver');
+        AssetsLibraryPatternBundlesResolver = require('./lib/AssetsLibraryPatternBundlesResolver');
 
     assets
         .addLibraryPatternResolver(new AssetsLibraryPatternPathResolver(assets.path))
-        .addLibraryPatternResolver(new AssetsLibraryPatternPoolsResolver(assets.pools));
+        .addLibraryPatternResolver(new AssetsLibraryPatternBundlesResolver(assets.bundles));
 
 
     // Tasks

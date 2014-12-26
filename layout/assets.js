@@ -5,9 +5,9 @@ module.exports = function(gulp, path)
     var
         assets = require('./')(gulp, path);
 
-    // Pool patterns
+    // Bundle patterns
     assets
-        .addPoolPattern('assets', {
+        .addBundlePattern('assets', {
             path:        'assets',
             description: 'Common assets'
         });

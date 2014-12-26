@@ -3,42 +3,42 @@
 var
     assert = require('chai').assert;
 
-/***************/
-/* Assets Pool */
-/***************/
+/*****************/
+/* Assets Bundle */
+/*****************/
 
 var
-    AssetsPool = require('../lib/AssetsPool');
+    AssetsBundle = require('../lib/AssetsBundle');
 
-describe('AssetsPool', function()
+describe('AssetsBundle', function()
 {
     var
-        pool = new AssetsPool('foo', 'bar', 'foobar'),
-        poolUndescribed = new AssetsPool('foo', 'bar');
+        bundle = new AssetsBundle('foo', 'bar', 'foobar'),
+        bundleUndescribed = new AssetsBundle('foo', 'bar');
 
     describe('#id', function() {
         it('should return id', function() {
-            assert.equal('foo', pool.id);
+            assert.equal('foo', bundle.id);
         });
     });
     describe('#path', function() {
         it('should return path', function() {
-            assert.equal('bar', pool.path);
+            assert.equal('bar', bundle.path);
         });
     });
     describe('#description', function() {
         it('should return description', function() {
-            assert.equal('foobar', pool.description);
+            assert.equal('foobar', bundle.description);
         });
     });
     describe('#hasDescription()', function() {
         it('should return true', function() {
-            assert(pool.hasDescription());
+            assert(bundle.hasDescription());
         });
     });
     describe('#hasDescription()', function() {
         it('should return false', function() {
-            assert(!poolUndescribed.hasDescription());
+            assert(!bundleUndescribed.hasDescription());
         });
     });
 });
@@ -84,30 +84,30 @@ describe('AssetsLibrary', function()
 
 var
     Assets = require('../lib/Assets'),
-    AssetsPoolPatternPathResolver = require('../lib/AssetsPoolPatternPathResolver'),
-    AssetsPoolPatternGlobResolver = require('../lib/AssetsPoolPatternGlobResolver'),
+    AssetsBundlePatternPathResolver = require('../lib/AssetsBundlePatternPathResolver'),
+    AssetsBundlePatternGlobResolver = require('../lib/AssetsBundlePatternGlobResolver'),
     AssetsLibraryPatternPathResolver = require('../lib/AssetsLibraryPatternPathResolver'),
-    AssetsLibraryPatternPoolsResolver = require('../lib/AssetsLibraryPatternPoolsResolver');
+    AssetsLibraryPatternBundlesResolver = require('../lib/AssetsLibraryPatternBundlesResolver');
 
 describe('Assets', function()
 {
     var
         assets = new Assets('test/fixtures');
 
-    // Pools pattern resvolvers
+    // Bundles pattern resvolvers
     assets
-        .addPoolPatternResolver(new AssetsPoolPatternPathResolver(assets.path))
-        .addPoolPatternResolver(new AssetsPoolPatternGlobResolver(assets.path));
+        .addBundlePatternResolver(new AssetsBundlePatternPathResolver(assets.path))
+        .addBundlePatternResolver(new AssetsBundlePatternGlobResolver(assets.path));
 
-    describe('#pools', function() {
+    describe('#bundles', function() {
 
-        // Pools patterns
+        // Bundles patterns
         assets
-            .addPoolPattern('assets', {
+            .addBundlePattern('assets', {
                 path:        'assets',
                 description: 'Common assets'
             })
-            .addPoolPattern(
+            .addBundlePattern(
                 function(path) {
                     if (path.match(/^app\/Resources/)) {
                         return 'app';
@@ -122,7 +122,7 @@ describe('Assets', function()
                     description: 'Symfony app'
                 }
             )
-            .addPoolPattern(
+            .addBundlePattern(
                 function(path) {
                     return path
                         .replace(/^src\//, '')
@@ -137,7 +137,7 @@ describe('Assets', function()
             );
 
 
-        it('should find pools', function() {
+        it('should find bundles', function() {
             assert.deepEqual(
                 [
                     'test/fixtures/assets',
@@ -147,14 +147,14 @@ describe('Assets', function()
                     'test/fixtures/src/Bundle/BarBundle/Resources/assets',
                     'test/fixtures/src/FooBundle/Resources/assets'
                 ],
-                assets.pools.paths()
+                assets.bundles.paths()
             );
         });
     });
 
     assets
         .addLibraryPatternResolver(new AssetsLibraryPatternPathResolver(assets.path))
-        .addLibraryPatternResolver(new AssetsLibraryPatternPoolsResolver(assets.pools));
+        .addLibraryPatternResolver(new AssetsLibraryPatternBundlesResolver(assets.bundles));
 
     describe('#libraries', function() {
 
@@ -173,7 +173,7 @@ describe('Assets', function()
             });
 
 
-        it('should find pools', function() {
+        it('should find bundles', function() {
             assert.deepEqual(
                 [
                     'test/fixtures/bower_components',

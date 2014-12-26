@@ -5,9 +5,9 @@ module.exports = function(gulp, path)
     var
         assets = require('./')(gulp, path);
 
-    // Pool patterns
+    // Bundle patterns
     assets
-        .addPoolPattern(
+        .addBundlePattern(
             function(path) {
                 if (path.match(/^app\/Resources/)) {
                     return 'app';
@@ -22,7 +22,7 @@ module.exports = function(gulp, path)
                 description: 'Symfony app'
             }
         )
-        .addPoolPattern(
+        .addBundlePattern(
             function(path) {
                 return path
                     .replace(/^src\//, '')
