@@ -11,12 +11,12 @@ module.exports = function(assets, gulp)
     // List - Bundles
     gulp.task('list:bundles', function(callback)
     {
-        gutil.log(gutil.colors.cyan(assets.bundles.count()), 'bundles have been resolved');
+        gutil.log(gutil.colors.cyan(assets.bundles.count()), 'bundles have been solved');
 
         assets.bundles.forEach(function(bundle) {
-            gutil.log('-', bundle.id, gutil.colors.magenta(bundle.path));
+            gutil.log('-', bundle.getId(), gutil.colors.magenta(bundle.getPath()));
             if (bundle.hasDescription()) {
-                gutil.log(' ', gutil.colors.cyan(bundle.description));
+                gutil.log(' ', gutil.colors.cyan(bundle.getDescription()));
             }
         });
 
@@ -26,12 +26,12 @@ module.exports = function(assets, gulp)
     // List - Libraries
     gulp.task('list:libraries', function(callback)
     {
-        gutil.log(gutil.colors.cyan(assets.libraries.count()), 'libraries have been resolved');
+        gutil.log(gutil.colors.cyan(assets.libraries.count()), 'libraries have been solved');
 
         assets.libraries.forEach(function(library) {
-            gutil.log('-', gutil.colors.magenta(library.path));
+            gutil.log('-', gutil.colors.magenta(library.getPath()));
             if (library.hasDescription()) {
-                gutil.log(' ', gutil.colors.cyan(library.description));
+                gutil.log(' ', gutil.colors.cyan(library.getDescription()));
             }
         });
 

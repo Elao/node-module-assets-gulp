@@ -1,6 +1,7 @@
 'use strict';
 
-module.exports = function(gulp, path)
+
+module.exports = function(gulp, options)
 {
     // Check gulp injection
     if ((typeof gulp !== 'object') || (gulp.constructor.name !== 'Gulp')) {
@@ -10,25 +11,25 @@ module.exports = function(gulp, path)
 
     var
         Assets = require('./lib/Assets'),
-        assets = new Assets(path);
+        assets = new Assets(options);
 
-    // Bundles patterns resolvers
+    // Bundles patterns solvers
     var
-        AssetsBundlePatternPathResolver = require('./lib/AssetsBundlePatternPathResolver'),
-        AssetsBundlePatternGlobResolver = require('./lib/AssetsBundlePatternGlobResolver');
+        BundlePatternSolver = require('./lib/Bundle/BundlePatternSolver'),
+        GlobBundlePatternSolver = require('./lib/Bundle/GlobBundlePatternSolver');
 
     assets
-        .addBundlePatternResolver(new AssetsBundlePatternPathResolver(assets.path))
-        .addBundlePatternResolver(new AssetsBundlePatternGlobResolver(assets.path));
+        .addBundlePatternSolver(new BundlePatternSolver(assets.fileSystem))
+        .addBundlePatternSolver(new GlobBundlePatternSolver(assets.fileSystem));
 
-    // Libraries patterns Resolvers
+    // Libraries patterns solvers
     var
-        AssetsLibraryPatternPathResolver = require('./lib/AssetsLibraryPatternPathResolver'),
-        AssetsLibraryPatternBundlesResolver = require('./lib/AssetsLibraryPatternBundlesResolver');
+        LibraryPatternSolver = require('./lib/Library/LibraryPatternSolver'),
+        BundleLibraryPatternSolver = require('./lib/Library/BundleLibraryPatternSolver');
 
     assets
-        .addLibraryPatternResolver(new AssetsLibraryPatternPathResolver(assets.path))
-        .addLibraryPatternResolver(new AssetsLibraryPatternBundlesResolver(assets.bundles));
+        .addLibraryPatternSolver(new LibraryPatternSolver(assets.fileSystem))
+        .addLibraryPatternSolver(new BundleLibraryPatternSolver(assets.bundles));
 
 
     // Tasks

@@ -1,9 +1,9 @@
 'use strict';
 
-module.exports = function(gulp, path)
+module.exports = function(gulp, options)
 {
     var
-        assets = require('./')(gulp, path);
+        assets = require('./')(gulp, options);
 
     // Bundle patterns
     assets

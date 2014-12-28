@@ -1,18 +1,18 @@
 'use strict';
 
-module.exports = function(gulp, path)
+module.exports = function(gulp, options)
 {
     var
-        assets = require('./')(gulp, path);
+        assets = require('./')(gulp, options);
 
     // Bundle patterns
     assets
         .addBundlePattern(
-            function(path) {
-                if (path.match(/^app\/Resources/)) {
+            function(bundle) {
+                if (bundle.getPath().match(/^app\/Resources/)) {
                     return 'app';
                 }
-                return path
+                return bundle.getPath()
                     .replace(/^app\//, '')
                     .replace(/\/Resources\/assets(.*)$/, '')
                     .replace(/\//g, '') + 'App';
@@ -23,8 +23,8 @@ module.exports = function(gulp, path)
             }
         )
         .addBundlePattern(
-            function(path) {
-                return path
+            function(bundle) {
+                return bundle.getPath()
                     .replace(/^src\//, '')
                     .replace(/\/Resources\/assets(.*)$/, '')
                     .replace(/Bundle/g, '')
