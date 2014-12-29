@@ -44,9 +44,9 @@ module.exports = function(assets, gulp)
         gutil.log(gutil.colors.cyan(assets.handlers.count()), 'handlers have been added');
 
         assets.handlers.forEach(function(handler) {
-            gutil.log('-', handler.id);
+            gutil.log('-', handler.getId());
             if (handler.hasDescription()) {
-                gutil.log(' ', gutil.colors.cyan(handler.description));
+                gutil.log(' ', gutil.colors.cyan(handler.getDescription()));
             }
         });
 
