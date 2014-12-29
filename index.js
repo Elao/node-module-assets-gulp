@@ -35,8 +35,5 @@ module.exports = function(gulp, options)
     // Tasks
     require('./tasks/list')(assets, gulp);
 
-    // Plugins
-    require('./plugins/images')(assets, gulp);
-
     return assets;
 };
