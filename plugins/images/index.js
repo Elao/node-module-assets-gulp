@@ -1,14 +1,15 @@
 'use strict';
 
+
 var
-    AssetsHandler = require('../../lib/AssetsHandler');
+    Handler = require('../../lib/Handler/Handler');
+
 
 module.exports = function(assets, gulp)
 {
 	// Handler
     assets
-        .handlers
-            .add(new AssetsHandler('images', 'Handles images assets'));
+        .addHandler(new Handler('images', 'Handles images assets'));
 
     // Images
     gulp.task('images', function(callback) {
