@@ -96,7 +96,7 @@ var
 describe('Assets', function()
 {
     var
-        assets = new Assets({path: 'test/fixtures'});
+        assets = new Assets({cwd: 'test/fixtures'});
 
     // Bundle pattern solvers
     assets
