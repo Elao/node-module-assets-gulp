@@ -2,15 +2,15 @@
 
 module.exports = function(assets, gulp)
 {
-    var
-        gutil = require('gulp-util');
-
     // List
     gulp.task('list', ['list:bundles', 'list:libraries', 'list:handlers']);
 
     // List - Bundles
     gulp.task('list:bundles', function(callback)
     {
+        var
+            gutil = require('gulp-util');
+
         gutil.log(gutil.colors.cyan(assets.bundles.count()), 'bundles have been solved');
 
         assets.bundles.forEach(function(bundle) {
@@ -26,6 +26,9 @@ module.exports = function(assets, gulp)
     // List - Libraries
     gulp.task('list:libraries', function(callback)
     {
+        var
+            gutil = require('gulp-util');
+
         gutil.log(gutil.colors.cyan(assets.libraries.count()), 'libraries have been solved');
 
         assets.libraries.forEach(function(library) {
@@ -41,6 +44,9 @@ module.exports = function(assets, gulp)
     // List - Handlers
     gulp.task('list:handlers', function(callback)
     {
+        var
+            gutil = require('gulp-util');
+
         gutil.log(gutil.colors.cyan(assets.handlers.count()), 'handlers have been added');
 
         assets.handlers.forEach(function(handler) {
