@@ -3,7 +3,8 @@
 module.exports = function(gulp, options)
 {
     var
-        assets = require('./')(gulp, options);
+        assets = require('./')(gulp, options),
+        bundleDir = assets.options.get('bundle_dir');
 
     // Bundle patterns
     assets
@@ -14,11 +15,11 @@ module.exports = function(gulp, options)
                 }
                 return bundle.getPath()
                     .replace(/^app\//, '')
-                    .replace(/\/Resources\/assets(.*)$/, '')
+                    .replace(new RegExp('\/Resources\/' + bundleDir + '(.*)$'), '')
                     .replace(/\//g, '') + 'App';
             },
             {
-                glob: 'app/**/Resources/assets',
+                glob: 'app/**/Resources/' + bundleDir,
                 description: 'Symfony app'
             }
         )
@@ -26,12 +27,12 @@ module.exports = function(gulp, options)
             function(bundle) {
                 return bundle.getPath()
                     .replace(/^src\//, '')
-                    .replace(/\/Resources\/assets(.*)$/, '')
+                    .replace(new RegExp('\/Resources\/' + bundleDir + '(.*)$'), '')
                     .replace(/Bundle/g, '')
                     .replace(/\//g, '') + 'Bundle';
             },
             {
-                glob: 'src/**/*Bundle/Resources/assets',
+                glob: 'src/**/*Bundle/Resources/' + bundleDir,
                 description: 'Symfony bundle'
             }
         );

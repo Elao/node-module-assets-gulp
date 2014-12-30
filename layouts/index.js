@@ -3,7 +3,8 @@
 module.exports = function(gulp, options)
 {
     var
-        assets = require('..')(gulp, options);
+        assets = require('..')(gulp, options),
+        libraryDir = assets.options.get('library_dir');
 
     // Library patterns
     assets
@@ -16,7 +17,7 @@ module.exports = function(gulp, options)
             description: 'Node modules'
         })
         .addLibraryPattern({
-            dir: 'components'
+            dir: libraryDir
         });
 
     return assets;

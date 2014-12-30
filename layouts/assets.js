@@ -3,12 +3,13 @@
 module.exports = function(gulp, options)
 {
     var
-        assets = require('./')(gulp, options);
+        assets = require('./')(gulp, options),
+        bundleDir = assets.options.get('bundle_dir');
 
     // Bundle patterns
     assets
         .addBundlePattern('assets', {
-            path:        'assets',
+            path:        bundleDir,
             description: 'Common assets'
         });
 
