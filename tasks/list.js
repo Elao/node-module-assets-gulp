@@ -3,7 +3,7 @@
 module.exports = function(assets, gulp)
 {
     // List
-    gulp.task('list', ['list:bundles', 'list:libraries', 'list:handlers']);
+    gulp.task('list', ['list:bundles', 'list:libraries', 'list:pools']);
 
     // List - Bundles
     gulp.task('list:bundles', function(callback)
@@ -41,19 +41,29 @@ module.exports = function(assets, gulp)
         callback();
     });
 
-    // List - Handlers
-    gulp.task('list:handlers', function(callback)
+    // List - Pools
+    gulp.task('list:pools', function(callback)
     {
         var
             gutil = require('gulp-util');
 
         gutil.log(gutil.colors.cyan(assets.handlers.count()), 'handlers have been added');
 
+        // Handlers
         assets.handlers.forEach(function(handler) {
+
             gutil.log('-', handler.getId());
             if (handler.hasDescription()) {
                 gutil.log(' ', gutil.colors.cyan(handler.getDescription()));
             }
+
+            // Pools
+            gutil.log('    ', gutil.colors.cyan(handler.pools.count()), 'pools have been solved');
+            handler.pools.forEach(function(pool) {
+                gutil.log('     -', pool.getName());
+                gutil.log('      ', gutil.colors.cyan('src: '), gutil.colors.magenta(pool.getSrc()));
+                gutil.log('      ', gutil.colors.cyan('dest:'), gutil.colors.magenta(pool.getDest()));
+            });
         });
 
         callback();
