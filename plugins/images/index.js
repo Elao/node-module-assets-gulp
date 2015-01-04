@@ -15,16 +15,48 @@ module.exports = function(assets, gulp)
     handler
         .addPoolPatternSolver(new BundlePoolPatternSolver(assets.bundles, assets.fileSystem))
         .addPoolPattern({
-            dir:  'images',
+            src_dir:  'images',
+            dest_dir: 'images',
             glob: '**'
         });
 
+    // Add handler
     assets
         .addHandler(handler);
 
-    // Images
-    gulp.task('images', function(callback) {
-        callback();
+    // Gulp task
+    gulp.task('images', function()
+    {
+        var
+            stream = require('merge-stream')(),
+            gulpImagemin = require('gulp-imagemin'),
+            gulpChanged = require('gulp-changed'),
+            gulpSize = require('gulp-size');
+
+        // Pipeline
+        var
+            pipeline = function(pool) {
+                return gulp.src(pool.getSrc())
+                    .pipe(gulpChanged(
+                        'web/assets/images'
+                    ))
+                    .pipe(gulpImagemin, {
+                        optimizationLevel: 7
+                    })
+                    .pipe(gulpSize({
+                        showFiles: true,
+                        title: pool.getName()
+                    }))
+                    .pipe(gulp.dest('web/assets/images'));
+            };
+
+        assets.getHandler('images').pools.forEach(function(pool) {
+            stream.add(
+                pipeline(pool)
+            );
+        });
+
+        return stream;
     });
 
 };

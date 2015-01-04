@@ -35,7 +35,11 @@
   "dependencies": {
     "glob": "4.3.*",
     "rimraf": "2.2.*",
-    "gulp-util": "3.0.*"
+    "merge-stream": "0.1.*",
+    "gulp-changed": "1.1.*",
+    "gulp-size": "1.1.*",
+    "gulp-util": "3.0.*",
+    "gulp-imagemin": "2.0.*"
   },
   "devDependencies": {
     "mocha"       : "2.0.*",
