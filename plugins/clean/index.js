@@ -3,7 +3,7 @@
 
 module.exports = function(assets, gulp)
 {
-    // Clean
+    // Task
     gulp.task('clean', function(callback)
     {
         var
