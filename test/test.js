@@ -15,8 +15,8 @@ var
 describe('Bundle', function()
 {
     var
-        bundle = new Bundle('foo', 'bar', 'foobar'),
-        bundleUndescribed = new Bundle('foo', 'bar');
+        bundle = new Bundle(null, 'foo', 'bar', 'foobar'),
+        bundleUndescribed = new Bundle(null, 'foo', 'bar');
 
     describe('#getId()', function() {
         it('should return id', function() {

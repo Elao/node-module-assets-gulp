@@ -13,7 +13,7 @@ module.exports = function(assets, gulp)
 
     // Pools patterns solvers
     poolHandler
-        .addPoolPatternSolver(new BundlePoolPatternSolver(assets.bundles, assets.fileSystem))
+        .addPoolPatternSolver(new BundlePoolPatternSolver(assets.fileSystem, assets.bundles))
         .addPoolPattern({
             srcDir:  'images',
             destDir: 'images',
