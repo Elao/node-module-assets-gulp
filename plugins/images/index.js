@@ -38,7 +38,7 @@ module.exports = function(assets, gulp)
             pipeline = function(pool) {
                 return gulp.src(pool.getSrc())
                     .pipe(gulpChanged(
-                        'web/assets/images'
+                        pool.getDest()
                     ))
                     .pipe(gulpImagemin({
                         optimizationLevel: 7
@@ -47,7 +47,7 @@ module.exports = function(assets, gulp)
                         showFiles: true,
                         title: pool.getName()
                     }))
-                    .pipe(gulp.dest('web/assets/images'));
+                    .pipe(gulp.dest(pool.getDest()));
             };
 
         assets.getPoolHandler('images').pools.forEach(function(pool) {
