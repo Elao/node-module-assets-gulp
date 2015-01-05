@@ -47,19 +47,19 @@ module.exports = function(assets, gulp)
         var
             gutil = require('gulp-util');
 
-        gutil.log(gutil.colors.cyan(assets.handlers.count()), 'handlers have been added');
+        gutil.log(gutil.colors.cyan(assets.poolHandlers.count()), 'pool handlers have been added');
 
-        // Handlers
-        assets.handlers.forEach(function(handler) {
+        // Pool Handlers
+        assets.poolHandlers.forEach(function(poolHandler) {
 
-            gutil.log('-', handler.getId());
-            if (handler.hasDescription()) {
-                gutil.log(' ', gutil.colors.cyan(handler.getDescription()));
+            gutil.log('-', poolHandler.getId());
+            if (poolHandler.hasDescription()) {
+                gutil.log(' ', gutil.colors.cyan(poolHandler.getDescription()));
             }
 
             // Pools
-            gutil.log('    ', gutil.colors.cyan(handler.pools.count()), 'pools have been solved');
-            handler.pools.forEach(function(pool) {
+            gutil.log('    ', gutil.colors.cyan(poolHandler.pools.count()), 'pools have been solved');
+            poolHandler.pools.forEach(function(pool) {
                 gutil.log('     -', pool.getName());
                 gutil.log('      ', gutil.colors.cyan('src: '), gutil.colors.magenta(pool.getSrc()));
                 gutil.log('      ', gutil.colors.cyan('dest:'), gutil.colors.magenta(pool.getDest()));

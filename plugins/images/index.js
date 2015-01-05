@@ -2,17 +2,17 @@
 
 
 var
-    Handler = require('../../lib/Handler/Handler'),
-    BundlePoolPatternSolver = require('../../lib/Handler/Pool/BundlePoolPatternSolver');
+    PoolHandler = require('../../lib/Pool/Handler/Handler'),
+    BundlePoolPatternSolver = require('../../lib/Pool/BundlePoolPatternSolver');
 
 
 module.exports = function(assets, gulp)
 {
     var
-        handler = new Handler('images', 'Handles images assets');
+        poolHandler = new PoolHandler('images', 'Handles images assets');
 
     // Pools patterns solvers
-    handler
+    poolHandler
         .addPoolPatternSolver(new BundlePoolPatternSolver(assets.bundles, assets.fileSystem))
         .addPoolPattern({
             src_dir:  'images',
@@ -20,9 +20,9 @@ module.exports = function(assets, gulp)
             glob: '**'
         });
 
-    // Add handler
+    // Add pool handler
     assets
-        .addHandler(handler);
+        .addPoolHandler(poolHandler);
 
     // Gulp task
     gulp.task('images', function()
@@ -50,7 +50,7 @@ module.exports = function(assets, gulp)
                     .pipe(gulp.dest('web/assets/images'));
             };
 
-        assets.getHandler('images').pools.forEach(function(pool) {
+        assets.getPoolHandler('images').pools.forEach(function(pool) {
             stream.add(
                 pipeline(pool)
             );
