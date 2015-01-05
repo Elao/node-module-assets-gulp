@@ -4,7 +4,7 @@ module.exports = function(gulp, options)
 {
     var
         assets = require('..')(gulp, options),
-        libraryDir = assets.options.get('library_dir');
+        libraryDir = assets.options.get('libraryDir');
 
     // Library patterns
     assets
