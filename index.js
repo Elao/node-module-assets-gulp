@@ -34,7 +34,6 @@ module.exports = function(gulp, options)
 
     // Tasks
     require('./tasks/list')(assets, gulp);
-    require('./tasks/clean')(assets, gulp);
 
     return assets;
 };
