@@ -40,9 +40,9 @@ module.exports = function(assets, gulp)
                     .pipe(gulpChanged(
                         'web/assets/images'
                     ))
-                    .pipe(gulpImagemin, {
+                    .pipe(gulpImagemin({
                         optimizationLevel: 7
-                    })
+                    }))
                     .pipe(gulpSize({
                         showFiles: true,
                         title: pool.getName()
