@@ -18,8 +18,8 @@
 	"quotmark": "single",
 	"undef": true,
 	"unused": true,
-	"maxparams": 4,
+	"maxparams": 5,
 	"maxdepth": 3,
-	"maxcomplexity": 4,
+	"maxcomplexity": 6,
 	"maxlen": 120
 }
