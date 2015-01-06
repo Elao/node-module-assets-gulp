@@ -24,33 +24,52 @@ module.exports = function(assets, gulp)
     assets
         .addPoolHandler(poolHandler);
 
+    // Pipeline
+    var
+        pipeline = function(pool) {
+            var
+                gulpImagemin = require('gulp-imagemin'),
+                gulpChanged = require('gulp-changed'),
+                gulpSize = require('gulp-size'),
+                gulpIf = require('gulp-if');
+
+            return gulp
+                .src(pool.getSrc())
+                    .pipe(gulpIf(
+                        true,
+                        gulpChanged(
+                            pool.getDest()
+                        )
+                    ))
+                    .pipe(gulpIf(
+                        true,
+                        gulpImagemin({
+                            optimizationLevel: 7
+                        })
+                    ))
+                    .pipe(
+                        gulpSize({
+                            showFiles: true,
+                            title: pool.getName()
+                        })
+                    )
+                    .pipe(
+                        gulp.dest(pool.getDest())
+                    );
+        };
+
     // Gulp Task
     gulp.task('images', function()
     {
         var
             stream = require('merge-stream')(),
-            gulpImagemin = require('gulp-imagemin'),
-            gulpChanged = require('gulp-changed'),
-            gulpSize = require('gulp-size');
+            pools  = assets.getPoolHandler('images').pools;
 
-        // Pipeline
-        var
-            pipeline = function(pool) {
-                return gulp.src(pool.getSrc())
-                    .pipe(gulpChanged(
-                        pool.getDest()
-                    ))
-                    .pipe(gulpImagemin({
-                        optimizationLevel: 7
-                    }))
-                    .pipe(gulpSize({
-                        showFiles: true,
-                        title: pool.getName()
-                    }))
-                    .pipe(gulp.dest(pool.getDest()));
-            };
+        if (!pools.count()) {
+            return null;
+        }
 
-        assets.getPoolHandler('images').pools.forEach(function(pool) {
+        pools.forEach(function(pool) {
             stream.add(
                 pipeline(pool)
             );
