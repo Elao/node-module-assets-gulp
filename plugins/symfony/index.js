@@ -13,11 +13,11 @@ module.exports = function(assets, options)
     assets
         .addBundlePattern(
             function(bundle) {
-                if (bundle.getPath().match(/^app\/Resources/)) {
+                if (bundle.getPath().match(/app\/Resources/)) {
                     return 'app';
                 }
                 return bundle.getPath()
-                    .replace(/^app\//, '')
+                    .replace(/(.*)app\//, '')
                     .replace(new RegExp('\/Resources\/' + options.dir + '(.*)$'), '')
                     .replace(/\//g, '') + 'App';
             },
@@ -29,7 +29,7 @@ module.exports = function(assets, options)
         .addBundlePattern(
             function(bundle) {
                 return bundle.getPath()
-                    .replace(/^src\//, '')
+                    .replace(/(.*)src\//, '')
                     .replace(new RegExp('\/Resources\/' + options.dir + '(.*)$'), '')
                     .replace(/Bundle/g, '')
                     .replace(/\//g, '') + 'Bundle';

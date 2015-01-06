@@ -4,6 +4,16 @@
 var
     assert = require('chai').assert;
 
+/*******************/
+/* FileSystem Mock */
+/*******************/
+
+var
+    fileSystemMock = {
+        getPath: function(path) {
+            return path;
+        }
+    };
 
 /**********/
 /* Bundle */
@@ -15,8 +25,8 @@ var
 describe('Bundle', function()
 {
     var
-        bundle = new Bundle(null, 'foo', 'bar', 'foobar'),
-        bundleUndescribed = new Bundle(null, 'foo', 'bar');
+        bundle = new Bundle(fileSystemMock, 'foo', 'bar', 'foobar'),
+        bundleUndescribed = new Bundle(fileSystemMock, 'foo', 'bar');
 
     describe('#getId()', function() {
         it('should return id', function() {
@@ -56,8 +66,8 @@ var
 describe('Library', function()
 {
     var
-        library = new Library('foo', 'bar'),
-        libraryUndescribed = new Library('foo');
+        library = new Library(fileSystemMock, 'foo', 'bar'),
+        libraryUndescribed = new Library(fileSystemMock, 'foo');
 
     describe('#getPath()', function() {
         it('should return path', function() {
