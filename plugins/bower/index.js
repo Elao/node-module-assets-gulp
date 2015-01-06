@@ -3,7 +3,7 @@
 
 module.exports = function(assets)
 {
-    // Library patterns
+    // Library Patterns
     assets
         .addLibraryPattern({
             path:        'bower_components',

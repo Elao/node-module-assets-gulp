@@ -11,7 +11,7 @@ module.exports = function(assets, gulp)
     var
         poolHandler = new PoolHandler('images', 'Handles images assets');
 
-    // Pools patterns solvers
+    // Pools Patterns Solvers
     poolHandler
         .addPoolPatternSolver(new BundlePoolPatternSolver(assets.fileSystem, assets.bundles))
         .addPoolPattern({
@@ -20,11 +20,11 @@ module.exports = function(assets, gulp)
             glob: '**'
         });
 
-    // Add pool handler
+    // Pool Handler
     assets
         .addPoolHandler(poolHandler);
 
-    // Gulp task
+    // Gulp Task
     gulp.task('images', function()
     {
         var
