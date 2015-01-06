@@ -7,10 +7,10 @@ module.exports = function(assets, gulp)
     gulp.task('clean', function(callback)
     {
         var
-            gutil = require('gulp-util'),
+            gulpUtil = require('gulp-util'),
             path = assets.fileSystem.getDestPath();
 
-        gutil.log('Delete', gutil.colors.magenta(path));
+        gulpUtil.log('Delete', gulpUtil.colors.magenta(path));
 
         assets.fileSystem.rimrafPath(path, callback);
     });
