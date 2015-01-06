@@ -11,9 +11,7 @@ module.exports = function(assets, gulp)
             //path = require('path'),
             //fs = require('fs'),
             //rimraf = require('rimraf'),
-            path = assets.fileSystem.normalizePath(
-                assets.options.get('dest')
-            );
+            path = assets.fileSystem.getDestPath();
 
         gutil.log('Delete', gutil.colors.magenta(path));
 
