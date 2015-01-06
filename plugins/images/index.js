@@ -31,18 +31,19 @@ module.exports = function(assets, gulp)
                 gulpImagemin = require('gulp-imagemin'),
                 gulpChanged = require('gulp-changed'),
                 gulpSize = require('gulp-size'),
-                gulpIf = require('gulp-if');
+                gulpIf = require('gulp-if'),
+                gulpUtil = require('gulp-util');
 
             return gulp
                 .src(pool.getSrc())
                     .pipe(gulpIf(
-                        true,
+                        gulpUtil.env.dev || false,
                         gulpChanged(
                             pool.getDest()
                         )
                     ))
                     .pipe(gulpIf(
-                        true,
+                        !gulpUtil.env.dev || false,
                         gulpImagemin({
                             optimizationLevel: 7
                         })
