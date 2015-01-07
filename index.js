@@ -32,18 +32,19 @@ module.exports = function(gulp, options)
         .addLibraryPatternSolver(new BundleLibraryPatternSolver(assets.bundles));
 
 
-    // Task : List
+    // Gulp Task - List
     gulp.task('list', ['list:bundles', 'list:libraries', 'list:pools']);
 
-    // List - Bundles
+    // Gulp Task - List Bundles
     gulp.task('list:bundles', function(callback)
     {
         var
-            gulpUtil = require('gulp-util');
+            gulpUtil = require('gulp-util'),
+            bundles  = assets.bundles.find();
 
-        gulpUtil.log(gulpUtil.colors.cyan(assets.bundles.count()), 'bundles have been solved');
+        gulpUtil.log('Found', gulpUtil.colors.cyan(bundles.length), 'bundles');
 
-        assets.bundles.forEach(function(bundle) {
+        bundles.forEach(function(bundle) {
             gulpUtil.log('-', bundle.getId(), gulpUtil.colors.magenta(bundle.getPath()));
             if (bundle.hasDescription()) {
                 gulpUtil.log(' ', gulpUtil.colors.cyan(bundle.getDescription()));
@@ -53,15 +54,16 @@ module.exports = function(gulp, options)
         callback();
     });
 
-    // Task : List - Libraries
+    // Gulp Task - List Libraries
     gulp.task('list:libraries', function(callback)
     {
         var
-            gulpUtil = require('gulp-util');
+            gulpUtil  = require('gulp-util'),
+            libraries = assets.libraries.find();
 
-        gulpUtil.log(gulpUtil.colors.cyan(assets.libraries.count()), 'libraries have been solved');
+        gulpUtil.log('Found', gulpUtil.colors.cyan(libraries.length), 'libraries');
 
-        assets.libraries.forEach(function(library) {
+        libraries.forEach(function(library) {
             gulpUtil.log('-', gulpUtil.colors.magenta(library.getPath()));
             if (library.hasDescription()) {
                 gulpUtil.log(' ', gulpUtil.colors.cyan(library.getDescription()));
@@ -71,20 +73,19 @@ module.exports = function(gulp, options)
         callback();
     });
 
-    // Task : List - Pools
+    // Gulp Task - List Pools
     gulp.task('list:pools', function(callback)
     {
         var
             gulpUtil = require('gulp-util');
 
-        gulpUtil.log(gulpUtil.colors.cyan(assets.poolHandlers.count()), 'pool handlers have been added');
+        gulpUtil.log('Added', gulpUtil.colors.cyan(assets.poolHandlers.length), 'pool handlers');
 
         // Pool Handlers
         assets.poolHandlers.forEach(function(poolHandler)
         {
             var
                 pools;
-
 
             gulpUtil.log('-', poolHandler.getId());
             if (poolHandler.hasDescription()) {
