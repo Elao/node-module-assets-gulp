@@ -170,7 +170,7 @@ describe('Assets', function()
 
     assets
         .addLibraryPatternSolver(new LibraryPatternSolver(assets.fileSystem))
-        .addLibraryPatternSolver(new BundleLibraryPatternSolver(assets.bundles));
+        .addLibraryPatternSolver(new BundleLibraryPatternSolver(assets.fileSystem, assets.bundles));
 
     describe('#libraries', function() {
 
