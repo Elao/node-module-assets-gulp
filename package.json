@@ -38,12 +38,12 @@
     "merge-stream": "0.1.*",
     "gulp-if": "1.2.*",
     "gulp-changed": "1.1.*",
-    "gulp-size": "1.1.*",
+    "gulp-size": "1.2.*",
     "gulp-util": "3.0.*",
-    "gulp-imagemin": "2.0.*"
+    "gulp-imagemin": "2.1.*"
   },
   "devDependencies": {
-    "mocha"       : "2.0.*",
+    "mocha"       : "2.1.*",
     "mocha-jshint": "0.0.*",
     "chai": "1.10.*"
   }
