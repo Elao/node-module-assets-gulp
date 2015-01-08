@@ -97,7 +97,6 @@ module.exports = function(gulp, options)
             gulpUtil.log('     Found', gulpUtil.colors.cyan(pools.length), 'pools');
             pools.forEach(function(pool) {
                 gulpUtil.log('     -', pool.getName());
-                gulpUtil.log('      ', gulpUtil.colors.cyan('path:'), gulpUtil.colors.magenta(pool.getPath()));
                 gulpUtil.log('      ', gulpUtil.colors.cyan('src: '), gulpUtil.colors.magenta(pool.getSrc()));
                 gulpUtil.log('      ', gulpUtil.colors.cyan('dest:'), gulpUtil.colors.magenta(pool.getDest()));
             });
