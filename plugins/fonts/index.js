@@ -3,7 +3,8 @@
 
 var
     PoolHandler = require('../../lib/Pool/Handler/Handler'),
-    BundlePoolPatternSolver = require('../../lib/Pool/BundlePoolPatternSolver');
+    BundlePoolPatternSolver = require('../../lib/Pool/BundlePoolPatternSolver'),
+    LibraryPoolPatternSolver = require('../../lib/Pool/LibraryPoolPatternSolver');
 
 
 module.exports = function(assets, gulp)
@@ -14,6 +15,7 @@ module.exports = function(assets, gulp)
     // Pools Patterns Solvers
     poolHandler
         .addPoolPatternSolver(new BundlePoolPatternSolver(assets.fileSystem, assets.bundles))
+        .addPoolPatternSolver(new LibraryPoolPatternSolver(assets.fileSystem, assets.libraries))
         .addPoolPattern({
             srcDir:  'fonts',
             destDir: 'fonts',
