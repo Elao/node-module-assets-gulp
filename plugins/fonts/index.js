@@ -28,7 +28,7 @@ module.exports = function(assets, gulp)
 
     // Pipeline
     var
-        pipeline = function(pool, dev) {
+        pipeline = function(pool, debug) {
             var
                 gulpChanged = require('gulp-changed'),
                 gulpSize    = require('gulp-size'),
@@ -36,7 +36,7 @@ module.exports = function(assets, gulp)
 
             return gulp
                 .src(pool.getSrc())
-                    .pipe(gulpIf(dev,
+                    .pipe(gulpIf(debug,
                         gulpChanged(pool.getDest())
                     ))
                     .pipe(
@@ -54,10 +54,9 @@ module.exports = function(assets, gulp)
     gulp.task('fonts', function()
     {
         var
-            gulpUtil = require('gulp-util'),
-            stream   = require('merge-stream')(),
-            pools    = assets.getPoolHandler('fonts').pools
-                .find(typeof(gulpUtil.env.pools) === 'string' ? gulpUtil.env.pools.split(',') : null);
+            stream = require('merge-stream')(),
+            pools  = assets.getPoolHandler('fonts').pools
+                .find(assets.options.get('pools'));
 
         if (!pools.length) {
             return null;
@@ -65,7 +64,7 @@ module.exports = function(assets, gulp)
 
         pools.forEach(function(pool) {
             stream.add(
-                pipeline(pool, gulpUtil.env.dev || false)
+                pipeline(pool, assets.options.is('debug'))
             );
         });
 

@@ -20,6 +20,6 @@
 	"unused": true,
 	"maxparams": 5,
 	"maxdepth": 3,
-	"maxcomplexity": 6,
+	"maxcomplexity": 8,
 	"maxlen": 120
 }

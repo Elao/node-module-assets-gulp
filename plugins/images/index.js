@@ -28,7 +28,7 @@ module.exports = function(assets, gulp)
 
     // Pipeline
     var
-        pipeline = function(pool, dev) {
+        pipeline = function(pool, debug) {
             var
                 gulpImagemin = require('gulp-imagemin'),
                 gulpChanged  = require('gulp-changed'),
@@ -37,10 +37,10 @@ module.exports = function(assets, gulp)
 
             return gulp
                 .src(pool.getSrc())
-                    .pipe(gulpIf(dev,
+                    .pipe(gulpIf(debug,
                         gulpChanged(pool.getDest())
                     ))
-                    .pipe(gulpIf(!dev,
+                    .pipe(gulpIf(!debug,
                         gulpImagemin({
                             optimizationLevel: 7
                         })
@@ -60,10 +60,9 @@ module.exports = function(assets, gulp)
     gulp.task('images', function()
     {
         var
-            gulpUtil = require('gulp-util'),
-            stream   = require('merge-stream')(),
-            pools    = assets.getPoolHandler('images').pools
-                .find(typeof(gulpUtil.env.pools) === 'string' ? gulpUtil.env.pools.split(',') : null);
+            stream = require('merge-stream')(),
+            pools  = assets.getPoolHandler('images').pools
+                .find(assets.options.get('pools'));
 
         if (!pools.length) {
             return null;
@@ -71,7 +70,7 @@ module.exports = function(assets, gulp)
 
         pools.forEach(function(pool) {
             stream.add(
-                pipeline(pool, gulpUtil.env.dev || false)
+                pipeline(pool, assets.options.is('debug'))
             );
         });
 
