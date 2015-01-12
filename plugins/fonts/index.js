@@ -10,16 +10,20 @@ var
 module.exports = function(assets, gulp)
 {
     var
-        poolHandler = new PoolHandler('fonts', 'Handles fonts assets');
+        poolHandler = new PoolHandler(
+            assets.fileSystem,
+            'fonts',
+            'fonts',
+            'Handles fonts assets'
+        );
 
     // Pools Patterns Solvers
     poolHandler
-        .addPoolPatternSolver(new BundlePoolPatternSolver(assets.fileSystem, assets.bundles))
-        .addPoolPatternSolver(new LibraryPoolPatternSolver(assets.fileSystem, assets.libraries))
+        .addPoolPatternSolver(new BundlePoolPatternSolver(poolHandler, assets.bundles))
+        .addPoolPatternSolver(new LibraryPoolPatternSolver(poolHandler, assets.libraries))
         .addPoolPattern({
-            srcDir:  'fonts',
-            destDir: 'fonts',
-            glob: '**'
+            srcDir: 'fonts',
+            glob:   '**'
         });
 
     // Pool Handler

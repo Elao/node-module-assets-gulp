@@ -10,16 +10,20 @@ var
 module.exports = function(assets, gulp)
 {
     var
-        poolHandler = new PoolHandler('images', 'Handles images assets');
+        poolHandler = new PoolHandler(
+            assets.fileSystem,
+            'images',
+            'images',
+            'Handles images assets'
+        );
 
     // Pools Patterns Solvers
     poolHandler
-        .addPoolPatternSolver(new BundlePoolPatternSolver(assets.fileSystem, assets.bundles))
-        .addPoolPatternSolver(new LibraryPoolPatternSolver(assets.fileSystem, assets.libraries))
+        .addPoolPatternSolver(new BundlePoolPatternSolver(poolHandler, assets.bundles))
+        .addPoolPatternSolver(new LibraryPoolPatternSolver(poolHandler, assets.libraries))
         .addPoolPattern({
-            srcDir:  'images',
-            destDir: 'images',
-            glob: '**'
+            srcDir: 'images',
+            glob:   '**'
         });
 
     // Pool Handler
