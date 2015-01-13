@@ -29,7 +29,7 @@ module.exports = function(gulp, options)
 
     assets
         .addLibraryPatternSolver(new LibraryPatternSolver(assets.fileSystem))
-        .addLibraryPatternSolver(new BundleLibraryPatternSolver(assets.fileSystem, assets.bundles));
+        .addLibraryPatternSolver(new BundleLibraryPatternSolver(assets.bundles));
 
 
     // Gulp Task - List
