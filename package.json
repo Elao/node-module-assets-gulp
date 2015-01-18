@@ -45,6 +45,7 @@
   "devDependencies": {
     "mocha"       : "2.1.*",
     "mocha-jshint": "0.0.*",
-    "chai": "1.10.*"
+    "chai": "1.10.*",
+    "gulp": "3.8.*"
   }
 }
