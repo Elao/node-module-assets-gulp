@@ -2,9 +2,9 @@
 
 
 var
-    PoolHandler = require('../../lib/Pool/Handler/Handler'),
-    BundlePoolPatternSolver = require('../../lib/Pool/BundlePoolPatternSolver'),
-    LibraryPoolPatternSolver = require('../../lib/Pool/LibraryPoolPatternSolver');
+    PoolHandler = require('../lib/Pool/Handler/Handler'),
+    BundlePoolPatternSolver = require('../lib/Pool/BundlePoolPatternSolver'),
+    LibraryPoolPatternSolver = require('../lib/Pool/LibraryPoolPatternSolver');
 
 
 module.exports = function(assets, gulp)
@@ -54,25 +54,25 @@ module.exports = function(assets, gulp)
                     );
         };
 
-    // Gulp Task
-    gulp.task('fonts', function()
-    {
-        var
-            stream = require('merge-stream')(),
-            pools  = assets.getPoolHandler('fonts').pools
-                .find(assets.options.get('pools'));
+    return {
+        // Task
+        task: function() {
+            var
+                stream = require('merge-stream')(),
+                pools  = assets.getPoolHandler('fonts').pools
+                    .find(assets.options.get('pools'));
 
-        if (!pools.length) {
-            return null;
+            if (!pools.length) {
+                return null;
+            }
+
+            pools.forEach(function(pool) {
+                stream.add(
+                    pipeline(pool, assets.options.is('debug'))
+                );
+            });
+
+            return stream;
         }
-
-        pools.forEach(function(pool) {
-            stream.add(
-                pipeline(pool, assets.options.is('debug'))
-            );
-        });
-
-        return stream;
-    });
-
+    };
 };
