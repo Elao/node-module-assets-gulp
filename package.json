@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "glob":          "4.3.*",
-    "rimraf":        "2.2.*",
     "merge-stream":  "0.1.*",
     "gulp-if":       "1.2.*",
     "gulp-changed":  "1.1.*",
