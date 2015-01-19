@@ -14,31 +14,32 @@ describe('Plugins', function() {
     // Clean
     describe('clean', function() {
 
-        before(function() {
-            // Create assets dir
-            if (!fs.existsSync('test/fixtures/web/assets')) {
-                fs.mkdirSync('test/fixtures/web/assets');
-            }
+        var
+            cwd = 'test/fixtures',
+            dir = cwd + '/web/assets';
 
-            // Create test files & dir
-            if (!fs.existsSync('test/fixtures/web/assets/test')) {
-                fs.mkdirSync('test/fixtures/web/assets/test');
-            }
-            fs.writeFileSync('test/fixtures/web/assets/_test', 'test');
-            fs.writeFileSync('test/fixtures/web/assets/test/_test', 'test');
-        });
-
-        it('should run without errors', function(done) {
+        before(function(done) {
             var
-                assets = require('..')({cwd: 'test/fixtures'});
+                assets = require('..')({
+                    cwd: cwd
+                });
 
+            // Create assets test dest structure
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            if (!fs.existsSync(dir + '/test')) {
+                fs.mkdirSync(dir + '/test');
+            }
+            fs.writeFileSync(dir + '/_test', 'test');
+            fs.writeFileSync(dir + '/test/_test', 'test');
+
+            // Run clean task
             require('../plugins/clean')(assets).task(done);
         });
 
-        it('should have cleaned dest path', function(done) {
-            assert.deepEqual(['_test', 'test'], fs.readdirSync('test/fixtures/web/assets'));
-            assert.deepEqual(['_test'], fs.readdirSync('test/fixtures/web/assets/test'));
-            done();
+        it('should have cleaned dest path', function() {
+            assert.deepEqual([], fs.readdirSync(dir));
         });
     });
 });
