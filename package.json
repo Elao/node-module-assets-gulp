@@ -23,7 +23,7 @@
   },
   "tags": [
     "tool",
-    "asset",
+    "assets",
     "gulp",
     "symfony"
   ],
@@ -33,19 +33,19 @@
     "test": "mocha"
   },
   "dependencies": {
-    "glob": "4.3.*",
-    "rimraf": "2.2.*",
-    "merge-stream": "0.1.*",
-    "gulp-if": "1.2.*",
-    "gulp-changed": "1.1.*",
-    "gulp-size": "1.2.*",
-    "gulp-util": "3.0.*",
+    "glob":          "4.3.*",
+    "rimraf":        "2.2.*",
+    "merge-stream":  "0.1.*",
+    "gulp-if":       "1.2.*",
+    "gulp-changed":  "1.1.*",
+    "gulp-size":     "1.2.*",
+    "gulp-util":     "3.0.*",
     "gulp-imagemin": "2.1.*"
   },
   "devDependencies": {
     "mocha"       : "2.1.*",
     "mocha-jshint": "0.0.*",
-    "chai": "1.10.*",
-    "gulp": "3.8.*"
+    "chai":         "1.10.*",
+    "gulp":         "3.8.*"
   }
 }
