@@ -3,7 +3,8 @@
 
 var
     assert = require('chai').assert,
-    fs = require('fs');
+    fs = require('fs'),
+    cwd = 'test/fixtures';
 
 /***********/
 /* Plugins */
@@ -13,9 +14,7 @@ describe('Plugins', function() {
 
     // Clean
     describe('clean', function() {
-
         var
-            cwd = 'test/fixtures',
             dir = cwd + '/web/assets';
 
         before(function(done) {
@@ -40,7 +39,11 @@ describe('Plugins', function() {
         });
 
         it('should have cleaned dest path', function() {
-            assert.deepEqual([], fs.readdirSync(dir));
+            assert.deepEqual(
+                fs.readdirSync(dir),
+                []
+            );
         });
     });
+
 });
