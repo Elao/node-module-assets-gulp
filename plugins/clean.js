@@ -10,7 +10,9 @@ module.exports = function(assets)
                 gulpUtil = require('gulp-util'),
                 path = assets.fileSystem.getDestPath();
 
-            gulpUtil.log('Delete', gulpUtil.colors.magenta(path));
+            if (!assets.options.get('silent')) {
+                gulpUtil.log('Delete', gulpUtil.colors.magenta(path));
+            }
 
             assets.fileSystem.rimrafPath(path, callback);
         }
