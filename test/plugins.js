@@ -28,10 +28,10 @@ describe('Plugins', function() {
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
+            fs.writeFileSync(dir + '/_test', 'test');
             if (!fs.existsSync(dir + '/test')) {
                 fs.mkdirSync(dir + '/test');
             }
-            fs.writeFileSync(dir + '/_test', 'test');
             fs.writeFileSync(dir + '/test/_test', 'test');
 
             // Run clean task
