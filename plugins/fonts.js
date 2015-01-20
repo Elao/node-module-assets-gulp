@@ -32,7 +32,7 @@ module.exports = function(assets, gulp)
 
     // Pipeline
     var
-        pipeline = function(pool, debug) {
+        pipeline = function(pool, debug, silent) {
             var
                 gulpChanged = require('gulp-changed'),
                 gulpSize    = require('gulp-size'),
@@ -43,12 +43,12 @@ module.exports = function(assets, gulp)
                     .pipe(gulpIf(debug,
                         gulpChanged(pool.getDest())
                     ))
-                    .pipe(
+                    .pipe(gulpIf(!silent,
                         gulpSize({
                             showFiles: true,
                             title: pool.getName()
                         })
-                    )
+                    ))
                     .pipe(
                         gulp.dest(pool.getDest())
                     );
@@ -68,7 +68,11 @@ module.exports = function(assets, gulp)
 
             pools.forEach(function(pool) {
                 stream.add(
-                    pipeline(pool, assets.options.is('debug'))
+                    pipeline(
+                        pool,
+                        assets.options.is('debug'),
+                        assets.options.is('silent')
+                    )
                 );
             });
 
