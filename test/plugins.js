@@ -21,7 +21,8 @@ describe('Plugins', function() {
         before(function(done) {
             var
                 assets = require('..')({
-                    cwd: cwd
+                    cwd: cwd,
+                    silent: true
                 });
 
             // Create assets test dest structure
