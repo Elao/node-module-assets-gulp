@@ -32,7 +32,7 @@ module.exports = function(assets, gulp)
 
     // Pipeline
     var
-        pipeline = function(pool, debug) {
+        pipeline = function(pool, debug, silent) {
             var
                 gulpImagemin = require('gulp-imagemin'),
                 gulpChanged  = require('gulp-changed'),
@@ -49,12 +49,12 @@ module.exports = function(assets, gulp)
                             optimizationLevel: 7
                         })
                     ))
-                    .pipe(
+                    .pipe(gulpIf(!silent,
                         gulpSize({
                             showFiles: true,
                             title: pool.getName()
                         })
-                    )
+                    ))
                     .pipe(
                         gulp.dest(pool.getDest())
                     );
@@ -74,7 +74,11 @@ module.exports = function(assets, gulp)
 
             pools.forEach(function(pool) {
                 stream.add(
-                    pipeline(pool, assets.options.is('debug'))
+                    pipeline(
+                        pool,
+                        assets.options.is('debug'),
+                        assets.options.is('silent')
+                    )
                 );
             });
 
