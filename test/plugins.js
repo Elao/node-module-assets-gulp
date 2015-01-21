@@ -62,7 +62,7 @@ describe('Plugins', function() {
 
         it('should run without errors', function(done) {
             require('../plugins/fonts')(assets, gulp).task()
-                .on('end', done);
+                .on('finish', done);
         });
 
         it('should have handled assets', function() {
@@ -117,7 +117,7 @@ describe('Plugins', function() {
 
         it('should run without errors', function(done) {
             require('../plugins/images')(assets, gulp).task()
-                .on('end', done);
+                .on('finish', done);
         });
 
         it('should have handled assets', function() {
