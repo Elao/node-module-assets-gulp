@@ -60,10 +60,9 @@ describe('Plugins', function() {
         require('../layouts/symfony')(assets);
         require('../layouts/components')(assets);
 
-        require('../plugins/fonts')(assets, gulp).task();
-
-        after(function(done) {
-            require('../plugins/clean')(assets).task(done);
+        it('should run without errors', function(done) {
+            require('../plugins/fonts')(assets, gulp).task()
+                .on('end', done);
         });
 
         it('should have handled assets', function() {
@@ -80,6 +79,10 @@ describe('Plugins', function() {
                     'z.ttf'
                 ]
             );
+        });
+
+        after(function(done) {
+            require('../plugins/clean')(assets).task(done);
         });
 
         describe('no assets', function() {
