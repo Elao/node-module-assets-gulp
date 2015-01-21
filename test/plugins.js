@@ -155,4 +155,65 @@ describe('Plugins', function() {
         });
     });
 
+    // Sass
+    describe('sass', function() {
+        var
+            gulp   = require('gulp'),
+            assets = require('..')({
+                cwd: cwd,
+                silent: true
+            });
+
+        require('../layouts/npm')(assets);
+        require('../layouts/bower')(assets);
+        require('../layouts/assets')(assets);
+        require('../layouts/symfony')(assets);
+        require('../layouts/components')(assets);
+
+        it('should run without errors', function(done) {
+            require('../plugins/sass')(assets, gulp).task()
+                .on('finish', done);
+        });
+
+        /*
+        it('should have handled assets', function() {
+            assert.deepEqual(
+                fs.readdirSync(assets.getPoolHandler('images').getDestPath()), [
+                    'a.gif',
+                    'foo',
+                    'z.gif'
+                ]
+            );
+            assert.deepEqual(
+                fs.readdirSync(assets.getPoolHandler('images').getDestPath('foo')), [
+                    'a.gif',
+                    'z.gif'
+                ]
+            );
+        });
+        */
+
+        /*
+        after(function(done) {
+            require('../plugins/clean')(assets).task(done);
+        });
+        */
+
+        /*
+        describe('no assets', function() {
+            var
+                assets = require('..')({
+                    cwd: cwd,
+                    silent: true
+                });
+
+            it('should return null', function() {
+                assert.isNull(
+                    require('../plugins/images')(assets, gulp).task()
+                );
+            });
+        });
+        */
+    });
+
 });
