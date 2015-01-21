@@ -15,15 +15,13 @@ describe('Plugins', function() {
     // Clean
     describe('clean', function() {
         var
-            dir = cwd + '/web/assets';
+            dir = cwd + '/web/assets',
+            assets = require('..')({
+                cwd: cwd,
+                silent: true
+            });
 
-        before(function(done) {
-            var
-                assets = require('..')({
-                    cwd: cwd,
-                    silent: true
-                });
-
+        before(function() {
             // Create assets test dest structure
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
@@ -33,8 +31,9 @@ describe('Plugins', function() {
                 fs.mkdirSync(dir + '/test');
             }
             fs.writeFileSync(dir + '/test/_test', 'test');
+        });
 
-            // Run clean task
+        it('should run without errors', function(done) {
             require('../plugins/clean')(assets).task(done);
         });
 
