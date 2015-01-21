@@ -65,7 +65,7 @@ module.exports = function(assets, gulp)
         task: function() {
             var
                 stream = require('merge-stream')(),
-                pools  = assets.getPoolHandler('images').pools
+                pools  = poolHandler.pools
                     .find(assets.options.get('pools'));
 
             if (!pools.length) {
