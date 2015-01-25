@@ -30,7 +30,8 @@ module.exports = function(assets, gulp, options)
 
     // Options
     options = require('defaults')(options || {}, {
-        precision: 10
+        precision: 10,
+        browsers:  ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
     });
 
 
@@ -38,12 +39,15 @@ module.exports = function(assets, gulp, options)
     var
         pipeline = function(pool, debug, silent) {
             var
-                gulpSass = require('gulp-sass'),
-                gulpSize = require('gulp-size'),
-                gulpIf   = require('gulp-if');
+                gulpSass         = require('gulp-sass'),
+                gulpSourcemaps   = require('gulp-sourcemaps'),
+                gulpAutoprefixer = require('gulp-autoprefixer'),
+                gulpSize         = require('gulp-size'),
+                gulpIf           = require('gulp-if');
 
             return gulp
                 .src(pool.getSrc())
+                    .pipe(gulpSourcemaps.init())
                     .pipe(gulpSass({
                         errLogToConsole: true,
                         outputStyle:     'nested',
@@ -51,6 +55,12 @@ module.exports = function(assets, gulp, options)
                         includePaths:    assets.libraries.getPaths()
                             .concat(handler.pools.getPaths())
                     }))
+                    .pipe(
+                        gulpAutoprefixer({
+                            browsers: options.browsers,
+                        })
+                    )
+                    .pipe(gulpSourcemaps.write())
                     .pipe(gulpIf(!silent,
                         gulpSize({
                             showFiles: true,

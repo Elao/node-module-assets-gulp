@@ -2,6 +2,7 @@
 
 .app {
     color: $app-color;
+    display: flex;
 }
 
 @import 'barApp';

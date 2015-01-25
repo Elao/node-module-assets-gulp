@@ -31,3 +31,7 @@ Handle your project's assets with style ! (and gulp)
 ## Test
 
     $ npm test
+
+## Todo
+
+    * Use gulp header plugin when support sourcemaps (see: [https://github.com/tracker1/gulp-header/issues/7])
