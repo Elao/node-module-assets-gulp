@@ -48,9 +48,9 @@ module.exports = function(assets, gulp, options)
 
             return gulp
                 .src(pool.getSrc())
-                    .pipe(
+                    .pipe(gulpIf(debug,
                         gulpSourcemaps.init()
-                    )
+                    ))
                     .pipe(
                         gulpSass({
                             errLogToConsole: true,
@@ -70,9 +70,9 @@ module.exports = function(assets, gulp, options)
                             keepSpecialComments: 1
                         })
                     ))
-                    .pipe(
+                    .pipe(gulpIf(debug,
                         gulpSourcemaps.write()
-                    )
+                    ))
                     .pipe(gulpIf(!silent,
                         gulpSize({
                             showFiles: true,
