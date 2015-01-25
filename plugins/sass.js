@@ -42,25 +42,37 @@ module.exports = function(assets, gulp, options)
                 gulpSass         = require('gulp-sass'),
                 gulpSourcemaps   = require('gulp-sourcemaps'),
                 gulpAutoprefixer = require('gulp-autoprefixer'),
+                gulpMinifyCss    = require('gulp-minify-css'),
                 gulpSize         = require('gulp-size'),
                 gulpIf           = require('gulp-if');
 
             return gulp
                 .src(pool.getSrc())
-                    .pipe(gulpSourcemaps.init())
-                    .pipe(gulpSass({
-                        errLogToConsole: true,
-                        outputStyle:     'nested',
-                        precision:       options.precision,
-                        includePaths:    assets.libraries.getPaths()
-                            .concat(handler.pools.getPaths())
-                    }))
+                    .pipe(
+                        gulpSourcemaps.init()
+                    )
+                    .pipe(
+                        gulpSass({
+                            errLogToConsole: true,
+                            outputStyle:     'nested',
+                            precision:       options.precision,
+                            includePaths:    assets.libraries.getPaths()
+                                .concat(handler.pools.getPaths())
+                        })
+                    )
                     .pipe(
                         gulpAutoprefixer({
                             browsers: options.browsers,
                         })
                     )
-                    .pipe(gulpSourcemaps.write())
+                    .pipe(gulpIf(!debug,
+                        gulpMinifyCss({
+                            keepSpecialComments: 1
+                        })
+                    ))
+                    .pipe(
+                        gulpSourcemaps.write()
+                    )
                     .pipe(gulpIf(!silent,
                         gulpSize({
                             showFiles: true,
