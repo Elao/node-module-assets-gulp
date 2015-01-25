@@ -10,7 +10,7 @@ var
 module.exports = function(assets, gulp)
 {
     var
-        poolHandler = new PoolHandler(
+        handler = new PoolHandler(
             assets.fileSystem,
             'fonts',
             'fonts',
@@ -18,9 +18,9 @@ module.exports = function(assets, gulp)
         );
 
     // Pools Patterns Solvers
-    poolHandler
-        .addPoolPatternSolver(new BundlePoolPatternSolver(poolHandler, assets.bundles))
-        .addPoolPatternSolver(new LibraryPoolPatternSolver(poolHandler, assets.libraries))
+    handler
+        .addPoolPatternSolver(new BundlePoolPatternSolver(handler, assets.bundles))
+        .addPoolPatternSolver(new LibraryPoolPatternSolver(handler, assets.libraries))
         .addPoolPattern({
             srcDir: 'fonts',
             glob:   '**'
@@ -28,7 +28,7 @@ module.exports = function(assets, gulp)
 
     // Pool Handler
     assets
-        .addPoolHandler(poolHandler);
+        .addPoolHandler(handler);
 
     // Pipeline
     var
@@ -59,7 +59,7 @@ module.exports = function(assets, gulp)
         task: function() {
             var
                 stream = require('merge-stream')(),
-                pools  = poolHandler.pools
+                pools  = handler.pools
                     .find(assets.options.get('pools'));
 
             if (!pools.length) {
