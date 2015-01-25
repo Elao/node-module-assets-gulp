@@ -33,6 +33,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "defaults":      "1.0.*",
     "glob":          "4.3.*",
     "merge-stream":  "0.1.*",
     "gulp-if":       "1.2.*",

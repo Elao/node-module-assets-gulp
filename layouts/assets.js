@@ -4,10 +4,9 @@
 module.exports = function(assets, options)
 {
     // Options
-    options = typeof(options) !== 'undefined' ? options : {};
-    options = {
-        path: typeof(options.path) !== 'undefined' ? options.path : 'assets'
-    };
+    options = require('defaults')(options || {}, {
+        path: 'assets'
+    });
 
     // Bundle Patterns
     assets
