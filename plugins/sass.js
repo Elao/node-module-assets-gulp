@@ -6,7 +6,7 @@ var
     BundlePoolPatternSolver = require('../lib/Pool/BundlePoolPatternSolver');
 
 
-module.exports = function(assets, gulp)
+module.exports = function(assets, gulp, options)
 {
     var
         poolHandler = new PoolHandler(
@@ -28,6 +28,20 @@ module.exports = function(assets, gulp)
     assets
         .addPoolHandler(poolHandler);
 
+    // Options
+    options = require('defaults')(options || {}, {
+        precision: 10
+    });
+
+    // Include paths
+    console.log(
+        assets.libraries.getPaths()
+    );
+    console.log(
+        //assets.libraries.getPaths()
+    );
+
+
     // Pipeline
     var
         pipeline = function(pool, debug, silent) {
@@ -39,12 +53,13 @@ module.exports = function(assets, gulp)
             return gulp
                 .src(pool.getSrc())
                     .pipe(gulpSass({
-						errLogToConsole: true,
-						//includePaths: assets.getComponents(),
-						//outputStyle: (plugins.util.env.dev || false) ? 'nested' : 'compressed',
-						precision: 10,
-						//sourceComments: (plugins.util.env.dev || false) ? 'map' : 'none'
-					}))
+                        errLogToConsole: true,
+                        //includePaths: assets.getComponents(),
+                        //outputStyle: (plugins.util.env.dev || false) ? 'nested' : 'compressed',
+                        outputStyle: 'nested',
+                        precision: options.precision
+                        //sourceComments: (plugins.util.env.dev || false) ? 'map' : 'none'
+                    }))
                     .pipe(gulpIf(!silent,
                         gulpSize({
                             showFiles: true,
