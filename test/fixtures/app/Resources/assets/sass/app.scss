@@ -1,3 +1,13 @@
-body {
-    color: red;
+@import 'variables';
+
+.app {
+    color: $app-color;
 }
+
+@import 'barApp';
+@import 'fooApp';
+
+@import 'bower/main';
+@import 'npm/main';
+@import 'tao/main';
+@import 'zia/main';
