@@ -9,7 +9,7 @@ var
 module.exports = function(assets, gulp, options)
 {
     var
-        poolHandler = new PoolHandler(
+        handler = new PoolHandler(
             assets.fileSystem,
             'sass',
             'css',
@@ -17,8 +17,8 @@ module.exports = function(assets, gulp, options)
         );
 
     // Pools Patterns Solvers
-    poolHandler
-        .addPoolPatternSolver(new BundlePoolPatternSolver(poolHandler, assets.bundles))
+    handler
+        .addPoolPatternSolver(new BundlePoolPatternSolver(handler, assets.bundles))
         .addPoolPattern({
             srcDir: 'sass',
             glob:   '**/[!_]*.scss'
@@ -26,20 +26,12 @@ module.exports = function(assets, gulp, options)
 
     // Pool Handler
     assets
-        .addPoolHandler(poolHandler);
+        .addPoolHandler(handler);
 
     // Options
     options = require('defaults')(options || {}, {
         precision: 10
     });
-
-    // Include paths
-    console.log(
-        assets.libraries.getPaths()
-    );
-    console.log(
-        //assets.libraries.getPaths()
-    );
 
 
     // Pipeline
@@ -54,11 +46,10 @@ module.exports = function(assets, gulp, options)
                 .src(pool.getSrc())
                     .pipe(gulpSass({
                         errLogToConsole: true,
-                        //includePaths: assets.getComponents(),
-                        //outputStyle: (plugins.util.env.dev || false) ? 'nested' : 'compressed',
-                        outputStyle: 'nested',
-                        precision: options.precision
-                        //sourceComments: (plugins.util.env.dev || false) ? 'map' : 'none'
+                        outputStyle:     'nested',
+                        precision:       options.precision,
+                        includePaths:    assets.libraries.getPaths()
+                            .concat(handler.pools.getPaths())
                     }))
                     .pipe(gulpIf(!silent,
                         gulpSize({
@@ -76,7 +67,7 @@ module.exports = function(assets, gulp, options)
         task: function() {
             var
                 stream = require('merge-stream')(),
-                pools  = poolHandler.pools
+                pools  = handler.pools
                     .find(assets.options.get('pools'));
 
             if (!pools.length) {
