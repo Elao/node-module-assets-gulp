@@ -24,13 +24,21 @@ Handle your project's assets with style ! (and gulp)
     // Plugins
     gulp.task('list',   require('elao-assets-gulp/plugins/list')(assets).task);
     gulp.task('clean',  require('elao-assets-gulp/plugins/clean')(assets).task);
-    gulp.task('images', require('elao-assets-gulp/plugins/images')(assets, gulp).task);
     gulp.task('fonts',  require('elao-assets-gulp/plugins/fonts')(assets, gulp).task);
+    gulp.task('images', require('elao-assets-gulp/plugins/images')(assets, gulp).task);
+    gulp.task('sass',   require('elao-assets-gulp/plugins/sass')(assets, gulp).task);
+
+
+    assets
+        .addPoolPattern('foo', {
+            'fonts': {src: 'foo/**'}
+        });
 
 
 ## Test
 
     $ npm test
+
 
 ## Todo
 
