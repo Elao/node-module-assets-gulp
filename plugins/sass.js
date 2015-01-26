@@ -57,7 +57,6 @@ module.exports = function(assets, gulp, options)
                             outputStyle:     'nested',
                             precision:       options.precision,
                             includePaths:    assets.libraries.getPaths()
-                                .concat(handler.pools.getPaths())
                         })
                     )
                     .pipe(
