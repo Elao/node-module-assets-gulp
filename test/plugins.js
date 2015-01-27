@@ -52,7 +52,8 @@ describe('Plugins', function() {
             assets = require('..')({
                 cwd:    cwd,
                 silent: true
-            });
+            }),
+            task   = require('../plugins/fonts')(assets, gulp).task;
 
         require('../layouts/npm')(assets);
         require('../layouts/bower')(assets);
@@ -73,7 +74,7 @@ describe('Plugins', function() {
         });
 
         it('should run without errors', function(done) {
-            require('../plugins/fonts')(assets, gulp).task()
+            task()
                 .on('finish', done);
         });
 
@@ -81,7 +82,9 @@ describe('Plugins', function() {
             assert.deepEqual(
                 fs.readdirSync(assets.getPoolHandler('fonts').getDestPath()), [
                     'a.ttf',
+                    'bower.ttf',
                     'foo',
+                    'tao',
                     'z.ttf'
                 ]
             );
@@ -91,6 +94,11 @@ describe('Plugins', function() {
                     'z.ttf'
                 ]
             );
+            assert.deepEqual(
+                fs.readdirSync(assets.getPoolHandler('fonts').getDestPath('tao')), [
+                    'tao.ttf'
+                ]
+            );
         });
 
         describe('no assets', function() {
@@ -98,11 +106,12 @@ describe('Plugins', function() {
                 assets = require('..')({
                     cwd:    cwd,
                     silent: true
-                });
+                }),
+                task   = require('../plugins/fonts')(assets, gulp).task;
 
             it('should return null', function() {
                 assert.isNull(
-                    require('../plugins/fonts')(assets, gulp).task()
+                    task()
                 );
             });
         });
@@ -115,7 +124,8 @@ describe('Plugins', function() {
             assets = require('..')({
                 cwd:    cwd,
                 silent: true
-            });
+            }),
+            task   = require('../plugins/images')(assets, gulp).task;
 
         require('../layouts/npm')(assets);
         require('../layouts/bower')(assets);
@@ -123,12 +133,20 @@ describe('Plugins', function() {
         require('../layouts/symfony')(assets);
         require('../layouts/components')(assets);
 
+        assets
+            .addPoolPattern('bower', {
+                'images': {src: 'bower/images/**'}
+            })
+            .addPoolPattern('zia', {
+                'images': {src: 'zia/images/**', dest: 'zia'}
+            });
+
         after(function(done) {
             require('../plugins/clean')(assets).task(done);
         });
 
         it('should run without errors', function(done) {
-            require('../plugins/images')(assets, gulp).task()
+            task()
                 .on('finish', done);
         });
 
@@ -136,14 +154,21 @@ describe('Plugins', function() {
             assert.deepEqual(
                 fs.readdirSync(assets.getPoolHandler('images').getDestPath()), [
                     'a.gif',
+                    'bower.gif',
                     'foo',
-                    'z.gif'
+                    'z.gif',
+                    'zia'
                 ]
             );
             assert.deepEqual(
                 fs.readdirSync(assets.getPoolHandler('images').getDestPath('foo')), [
                     'a.gif',
-                    'z.gif'
+                    'z.gif',
+                ]
+            );
+            assert.deepEqual(
+                fs.readdirSync(assets.getPoolHandler('images').getDestPath('zia')), [
+                    'zia.gif',
                 ]
             );
         });
@@ -153,11 +178,12 @@ describe('Plugins', function() {
                 assets = require('..')({
                     cwd:    cwd,
                     silent: true
-                });
+                }),
+                task   = require('../plugins/images')(assets, gulp).task;
 
             it('should return null', function() {
                 assert.isNull(
-                    require('../plugins/images')(assets, gulp).task()
+                    task()
                 );
             });
         });
@@ -170,7 +196,8 @@ describe('Plugins', function() {
             assets = require('..')({
                 cwd:    cwd,
                 silent: true
-            });
+            }),
+            task   = require('../plugins/sass')(assets, gulp).task;
 
         require('../layouts/npm')(assets);
         require('../layouts/bower')(assets);
@@ -183,7 +210,7 @@ describe('Plugins', function() {
         });
 
         it('should run without errors', function(done) {
-            require('../plugins/sass')(assets, gulp).task()
+            task()
                 .on('finish', done);
         });
 
@@ -210,7 +237,8 @@ describe('Plugins', function() {
                     cwd:    cwd,
                     silent: true,
                     debug:  true
-                });
+                }),
+                task   = require('../plugins/sass')(assets, gulp).task;
 
             require('../layouts/npm')(assets);
             require('../layouts/bower')(assets);
@@ -219,7 +247,7 @@ describe('Plugins', function() {
             require('../layouts/components')(assets);
 
             it('should run without errors', function(done) {
-                require('../plugins/sass')(assets, gulp).task()
+                task()
                     .on('finish', done);
             });
 
@@ -263,11 +291,12 @@ describe('Plugins', function() {
                 assets = require('..')({
                     cwd:    cwd,
                     silent: true
-                });
+                }),
+                task   = require('../plugins/sass')(assets, gulp).task;
 
             it('should return null', function() {
                 assert.isNull(
-                    require('../plugins/sass')(assets, gulp).task()
+                    task()
                 );
             });
         });
