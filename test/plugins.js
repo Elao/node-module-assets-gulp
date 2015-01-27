@@ -60,6 +60,14 @@ describe('Plugins', function() {
         require('../layouts/symfony')(assets);
         require('../layouts/components')(assets);
 
+        assets
+            .addPoolPattern('bower', {
+                'fonts': {src: 'bower/fonts/**'}
+            })
+            .addPoolPattern('tao', {
+                'fonts': {src: 'tao/fonts/**', dest: 'tao'}
+            });
+
         after(function(done) {
             require('../plugins/clean')(assets).task(done);
         });
