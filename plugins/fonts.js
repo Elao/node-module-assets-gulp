@@ -19,8 +19,8 @@ module.exports = function(assets, gulp)
 
     // Pools Patterns Solvers
     handler
-        .addPoolPatternSolver(new BundlePoolPatternSolver(handler, assets.bundles))
-        .addPoolPatternSolver(new LibraryPoolPatternSolver(handler, assets.libraries))
+        .addPoolPatternSolver(new BundlePoolPatternSolver(assets.bundles))
+        .addPoolPatternSolver(new LibraryPoolPatternSolver(assets.libraries))
         .addPoolPattern({
             srcDir: 'fonts',
             glob:   '**'
@@ -50,7 +50,11 @@ module.exports = function(assets, gulp)
                         })
                     ))
                     .pipe(
-                        gulp.dest(pool.getDest())
+                        gulp.dest(
+                            handler.getDestPath(
+                                pool.getDest()
+                            )
+                        )
                     );
         };
 
@@ -58,13 +62,17 @@ module.exports = function(assets, gulp)
         // Task
         task: function() {
             var
-                stream = require('merge-stream')(),
-                pools  = handler.pools
-                    .find(assets.options.get('pools'));
+                mergeStream = require('merge-stream'),
+                pools, stream;
+
+            pools = handler.pools
+                .find(assets.options.get('pools'));
 
             if (!pools.length) {
                 return null;
             }
+
+            stream = mergeStream();
 
             pools.forEach(function(pool) {
                 stream.add(
