@@ -120,10 +120,8 @@ module.exports = function(assets, gulp, options)
             var
                 PoolFlattenizer = require('../lib/Pool/Flattenizer/Flattenizer'),
                 sassGraph = require('sass-graph'),
-                mergeStream = require('merge-stream'),
                 poolFlattenizer,
                 pools,
-                stream,
                 map = {};
 
             pools = handler.pools
@@ -156,14 +154,11 @@ module.exports = function(assets, gulp, options)
 
             return gulp.watch(Object.keys(map), function(event) {
                 if (event.type === 'changed' || event.type === 'deleted') {
-                    stream = mergeStream();
                     map[event.path].forEach(function(pool) {
-                        stream.add(
-                            pipeline(
-                                pool,
-                                assets.options.is('debug'),
-                                assets.options.is('silent')
-                            )
+                        pipeline(
+                            pool,
+                            assets.options.is('debug'),
+                            assets.options.is('silent')
                         );
                     });
                 }
