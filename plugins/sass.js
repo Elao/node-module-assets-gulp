@@ -18,7 +18,7 @@ module.exports = function(assets, gulp, options)
 
     // Pools Patterns Solvers
     handler
-        .addPoolPatternSolver(new BundlePoolPatternSolver(handler, assets.bundles))
+        .addPoolPatternSolver(new BundlePoolPatternSolver(assets.bundles))
         .addPoolPattern({
             srcDir: 'sass',
             glob:   '**/[!_]*.scss'
@@ -79,7 +79,11 @@ module.exports = function(assets, gulp, options)
                         })
                     ))
                     .pipe(
-                        gulp.dest(pool.getDest())
+                        gulp.dest(
+                            handler.getDestPath(
+                                pool.getDest()
+                            )
+                        )
                     );
         };
 
@@ -87,13 +91,17 @@ module.exports = function(assets, gulp, options)
         // Task
         task: function() {
             var
-                stream = require('merge-stream')(),
-                pools  = handler.pools
-                    .find(assets.options.get('pools'));
+                mergeStream = require('merge-stream'),
+                pools, stream;
+
+            pools = handler.pools
+                .find(assets.options.get('pools'));
 
             if (!pools.length) {
                 return null;
             }
+
+            stream = mergeStream();
 
             pools.forEach(function(pool) {
                 stream.add(
@@ -106,6 +114,60 @@ module.exports = function(assets, gulp, options)
             });
 
             return stream;
+        },
+        // Watch
+        watch: function() {
+            var
+                PoolFlattenizer = require('../lib/Pool/Flattenizer/Flattenizer'),
+                sassGraph = require('sass-graph'),
+                mergeStream = require('merge-stream'),
+                poolFlattenizer,
+                pools,
+                stream,
+                map = {};
+
+            pools = handler.pools
+                .find(assets.options.get('pools'));
+
+            if (!pools.length) {
+                return null;
+            }
+
+            poolFlattenizer = new PoolFlattenizer(assets.fileSystem);
+
+            pools.forEach(function(pool) {
+                poolFlattenizer.flatten(pool).forEach(function(flattenPool) {
+                    Object.keys(
+                        sassGraph.parseFile(
+                            flattenPool.getSrc(),
+                            {
+                                loadPaths: assets.libraries.getPaths()
+                            }
+                        ).index
+                    ).forEach(function(file) {
+                        if (!map[file]) {
+                            map[file] = [flattenPool];
+                        } else {
+                            map[file].push(flattenPool);
+                        }
+                    });
+                });
+            });
+
+            return gulp.watch(Object.keys(map), function(event) {
+                if (event.type === 'changed' || event.type === 'deleted') {
+                    stream = mergeStream();
+                    map[event.path].forEach(function(pool) {
+                        stream.add(
+                            pipeline(
+                                pool,
+                                assets.options.is('debug'),
+                                assets.options.is('silent')
+                            )
+                        );
+                    });
+                }
+            });
         }
     };
 };
