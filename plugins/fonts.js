@@ -36,12 +36,15 @@ module.exports = function(assets, gulp)
             var
                 gulpChanged = require('gulp-changed'),
                 gulpSize    = require('gulp-size'),
-                gulpIf      = require('gulp-if');
+                gulpIf      = require('gulp-if'),
+                dest        = handler.getDestPath(
+                    pool.getDest()
+                );
 
             return gulp
                 .src(pool.getSrc())
                     .pipe(gulpIf(debug,
-                        gulpChanged(pool.getDest())
+                        gulpChanged(dest)
                     ))
                     .pipe(gulpIf(!silent,
                         gulpSize({
@@ -50,11 +53,7 @@ module.exports = function(assets, gulp)
                         })
                     ))
                     .pipe(
-                        gulp.dest(
-                            handler.getDestPath(
-                                pool.getDest()
-                            )
-                        )
+                        gulp.dest(dest)
                     );
         };
 

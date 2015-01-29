@@ -44,7 +44,10 @@ module.exports = function(assets, gulp, options)
                 gulpAutoprefixer = require('gulp-autoprefixer'),
                 gulpMinifyCss    = require('gulp-minify-css'),
                 gulpSize         = require('gulp-size'),
-                gulpIf           = require('gulp-if');
+                gulpIf           = require('gulp-if'),
+                dest        = handler.getDestPath(
+                    pool.getDest()
+                );
 
             return gulp
                 .src(pool.getSrc())
@@ -79,11 +82,7 @@ module.exports = function(assets, gulp, options)
                         })
                     ))
                     .pipe(
-                        gulp.dest(
-                            handler.getDestPath(
-                                pool.getDest()
-                            )
-                        )
+                        gulp.dest(dest)
                     );
         };
 
