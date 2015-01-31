@@ -50,23 +50,23 @@ module.exports = function(assets)
                 gulpUtil.log('Added', gulpUtil.colors.cyan(assets.poolHandlers.length), 'pool handlers');
 
                 // Pool Handlers
-                assets.poolHandlers.forEach(function(poolHandler)
+                assets.poolHandlers.forEach(function(handler)
                 {
                     var
                         pools;
 
-                    gulpUtil.log('-', poolHandler.getId());
-                    if (poolHandler.hasDescription()) {
-                        gulpUtil.log(' ', gulpUtil.colors.cyan(poolHandler.getDescription()));
+                    gulpUtil.log('-', handler.getId());
+                    if (handler.hasDescription()) {
+                        gulpUtil.log(' ', gulpUtil.colors.cyan(handler.getDescription()));
                     }
 
                     // Pools
-                    pools = poolHandler.pools.find();
+                    pools = handler.pools.find();
                     gulpUtil.log('     Found', gulpUtil.colors.cyan(pools.length), 'pools');
                     pools.forEach(function(pool) {
                         gulpUtil.log('     -', pool.getName());
                         gulpUtil.log('      ', gulpUtil.colors.cyan('src: '), gulpUtil.colors.magenta(pool.getSrc()));
-                        gulpUtil.log('      ', gulpUtil.colors.cyan('dest:'), gulpUtil.colors.magenta(pool.getDest()));
+                        gulpUtil.log('      ', gulpUtil.colors.cyan('dest:'), gulpUtil.colors.magenta(handler.getDestPath(pool.getDest())));
                     });
                 });
             }
