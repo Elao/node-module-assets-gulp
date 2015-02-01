@@ -33,7 +33,7 @@ module.exports = function(assets, gulp)
     var
         pipeline = function(pool, debug, silent) {
             var
-                //source         = require('vinyl-source-stream'),
+                source         = require('vinyl-source-stream'),
                 buffer         = require('vinyl-buffer'),
                 gulpSourcemaps = require('gulp-sourcemaps'),
                 gulpUglify     = require('gulp-uglify'),
@@ -51,7 +51,7 @@ module.exports = function(assets, gulp)
 
             return bundler
                 .bundle()
-                //.pipe(source(getBundleName() + '.js'))
+                .pipe(source(pool.getSrc()))
                 .pipe(buffer())
                 .pipe(gulpIf(debug,
                     gulpSourcemaps.init()
