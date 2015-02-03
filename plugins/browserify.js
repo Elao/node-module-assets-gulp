@@ -39,19 +39,21 @@ module.exports = function(assets, gulp)
                 gulpUglify     = require('gulp-uglify'),
                 gulpSize       = require('gulp-size'),
                 gulpIf         = require('gulp-if'),
+                path           = require('path'),
                 dest           = handler.getDestPath(
                     pool.getDest()
                 ),
                 bundler        = require('browserify')(
-                    pool.getSrc(),
+                    './' +  pool.getSrc(),
                     {
-                        //debug: true
+                        paths:   assets.libraries.getPaths(),
+                        noParse: ['jquery']
                     }
                 );
 
             return bundler
                 .bundle()
-                .pipe(source(pool.getSrc()))
+                .pipe(source(path.basename(pool.getSrc())))
                 .pipe(buffer())
                 .pipe(gulpIf(debug,
                     gulpSourcemaps.init()
