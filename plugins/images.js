@@ -31,37 +31,36 @@ module.exports = function(assets, gulp)
         .addPoolHandler(handler);
 
     // Pipeline
-    var
-        pipeline = function(pool, debug, silent) {
-            var
-                gulpImagemin = require('gulp-imagemin'),
-                gulpChanged  = require('gulp-changed'),
-                gulpSize     = require('gulp-size'),
-                gulpIf       = require('gulp-if'),
-                src          = pool.getSrc(),
-                dest         = handler.getDestPath(pool.getDest()),
-                args         = {
-                    optimizationLevel: 7
-                };
+    function pipeline(pool, debug, silent) {
+        var
+            gulpImagemin = require('gulp-imagemin'),
+            gulpChanged  = require('gulp-changed'),
+            gulpSize     = require('gulp-size'),
+            gulpIf       = require('gulp-if'),
+            src          = pool.getSrc(),
+            dest         = handler.getDestPath(pool.getDest()),
+            args         = {
+                optimizationLevel: 7
+            };
 
-            return gulp
-                .src(src)
-                    .pipe(gulpIf(debug,
-                        gulpChanged(dest)
-                    ))
-                    .pipe(gulpIf(!debug,
-                        gulpImagemin(args)
-                    ))
-                    .pipe(gulpIf(!silent,
-                        gulpSize({
-                            showFiles: true,
-                            title: pool.getName()
-                        })
-                    ))
-                    .pipe(
-                        gulp.dest(dest)
-                    );
-        };
+        return gulp
+            .src(src)
+                .pipe(gulpIf(debug,
+                    gulpChanged(dest)
+                ))
+                .pipe(gulpIf(!debug,
+                    gulpImagemin(args)
+                ))
+                .pipe(gulpIf(!silent,
+                    gulpSize({
+                        showFiles: true,
+                        title: pool.getName()
+                    })
+                ))
+                .pipe(
+                    gulp.dest(dest)
+                );
+    };
 
     return {
         // Task

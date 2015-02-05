@@ -31,30 +31,29 @@ module.exports = function(assets, gulp)
         .addPoolHandler(handler);
 
     // Pipeline
-    var
-        pipeline = function(pool, debug, silent) {
-            var
-                gulpChanged = require('gulp-changed'),
-                gulpSize    = require('gulp-size'),
-                gulpIf      = require('gulp-if'),
-                src         = pool.getSrc(),
-                dest        = handler.getDestPath(pool.getDest());
+    function pipeline(pool, debug, silent) {
+        var
+            gulpChanged = require('gulp-changed'),
+            gulpSize    = require('gulp-size'),
+            gulpIf      = require('gulp-if'),
+            src         = pool.getSrc(),
+            dest        = handler.getDestPath(pool.getDest());
 
-            return gulp
-                .src(src)
-                    .pipe(gulpIf(debug,
-                        gulpChanged(dest)
-                    ))
-                    .pipe(gulpIf(!silent,
-                        gulpSize({
-                            showFiles: true,
-                            title: pool.getName()
-                        })
-                    ))
-                    .pipe(
-                        gulp.dest(dest)
-                    );
-        };
+        return gulp
+            .src(src)
+                .pipe(gulpIf(debug,
+                    gulpChanged(dest)
+                ))
+                .pipe(gulpIf(!silent,
+                    gulpSize({
+                        showFiles: true,
+                        title: pool.getName()
+                    })
+                ))
+                .pipe(
+                    gulp.dest(dest)
+                );
+    };
 
     return {
         // Task

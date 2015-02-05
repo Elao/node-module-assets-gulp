@@ -34,57 +34,55 @@ module.exports = function(assets, gulp, options)
         browsers:  ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
     });
 
-
     // Pipeline
-    var
-        pipeline = function(pool, debug, silent) {
-            var
-                gulpSass         = require('gulp-sass'),
-                gulpSourcemaps   = require('gulp-sourcemaps'),
-                gulpAutoprefixer = require('gulp-autoprefixer'),
-                gulpMinifyCss    = require('gulp-minify-css'),
-                gulpSize         = require('gulp-size'),
-                gulpIf           = require('gulp-if'),
-                src              = pool.getSrc(),
-                dest             = handler.getDestPath(pool.getDest()),
-                args             = {
-                    errLogToConsole: true,
-                    outputStyle:     'nested',
-                    precision:       options.precision,
-                    includePaths:    assets.libraries.getPaths()
-                };
+    function pipeline(pool, debug, silent) {
+        var
+            gulpSass         = require('gulp-sass'),
+            gulpSourcemaps   = require('gulp-sourcemaps'),
+            gulpAutoprefixer = require('gulp-autoprefixer'),
+            gulpMinifyCss    = require('gulp-minify-css'),
+            gulpSize         = require('gulp-size'),
+            gulpIf           = require('gulp-if'),
+            src              = pool.getSrc(),
+            dest             = handler.getDestPath(pool.getDest()),
+            args             = {
+                errLogToConsole: true,
+                outputStyle:     'nested',
+                precision:       options.precision,
+                includePaths:    assets.libraries.getPaths()
+            };
 
-            return gulp
-                .src(src)
-                    .pipe(gulpIf(debug,
-                        gulpSourcemaps.init()
-                    ))
-                    .pipe(
-                        gulpSass(args)
-                    )
-                    .pipe(
-                        gulpAutoprefixer({
-                            browsers: options.browsers,
-                        })
-                    )
-                    .pipe(gulpIf(!debug,
-                        gulpMinifyCss({
-                            keepSpecialComments: 1
-                        })
-                    ))
-                    .pipe(gulpIf(debug,
-                        gulpSourcemaps.write()
-                    ))
-                    .pipe(gulpIf(!silent,
-                        gulpSize({
-                            showFiles: true,
-                            title: pool.getName()
-                        })
-                    ))
-                    .pipe(
-                        gulp.dest(dest)
-                    );
-        };
+        return gulp
+            .src(src)
+                .pipe(gulpIf(debug,
+                    gulpSourcemaps.init()
+                ))
+                .pipe(
+                    gulpSass(args)
+                )
+                .pipe(
+                    gulpAutoprefixer({
+                        browsers: options.browsers,
+                    })
+                )
+                .pipe(gulpIf(!debug,
+                    gulpMinifyCss({
+                        keepSpecialComments: 1
+                    })
+                ))
+                .pipe(gulpIf(debug,
+                    gulpSourcemaps.write()
+                ))
+                .pipe(gulpIf(!silent,
+                    gulpSize({
+                        showFiles: true,
+                        title: pool.getName()
+                    })
+                ))
+                .pipe(
+                    gulp.dest(dest)
+                );
+    };
 
     return {
         // Task
