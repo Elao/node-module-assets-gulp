@@ -53,7 +53,7 @@ module.exports = function(assets, gulp)
                 .pipe(
                     gulp.dest(dest)
                 );
-    };
+    }
 
     return {
         // Task

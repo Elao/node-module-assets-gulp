@@ -82,7 +82,7 @@ module.exports = function(assets, gulp, options)
                 .pipe(
                     gulp.dest(dest)
                 );
-    };
+    }
 
     return {
         // Task

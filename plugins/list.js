@@ -65,8 +65,12 @@ module.exports = function(assets)
                     gulpUtil.log('     Found', gulpUtil.colors.cyan(pools.length), 'pools');
                     pools.forEach(function(pool) {
                         gulpUtil.log('     -', pool.getName());
-                        gulpUtil.log('      ', gulpUtil.colors.cyan('src: '), gulpUtil.colors.magenta(pool.getSrc()));
-                        gulpUtil.log('      ', gulpUtil.colors.cyan('dest:'), gulpUtil.colors.magenta(handler.getDestPath(pool.getDest())));
+                        gulpUtil.log('      ', gulpUtil.colors.cyan('src: '), gulpUtil.colors.magenta(
+                            pool.getSrc()
+                        ));
+                        gulpUtil.log('      ', gulpUtil.colors.cyan('dest:'), gulpUtil.colors.magenta(
+                            handler.getDestPath(pool.getDest())
+                        ));
                     });
                 });
             }

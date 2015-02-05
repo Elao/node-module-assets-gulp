@@ -47,27 +47,6 @@ module.exports = function(assets, gulp)
             },
             bundler;
 
-        if (watch || false) {
-            var
-                watchify = require('watchify'),
-                defaults = require('defaults');
-
-            bundler  = watchify(
-                browserify(src, defaults(
-                    args,
-                    watchify.args
-                ))
-            );
-
-            bundler.on('update', bundle);
-
-            return bundler.bundle();
-        } else {
-            bundler = browserify(src, args);
-
-            return bundle();
-        }
-
         function bundle() {
             return bundler.bundle()
                 .pipe(source(path.basename(src)))
@@ -91,7 +70,28 @@ module.exports = function(assets, gulp)
                     gulp.dest(dest)
                 );
         }
-    };
+
+        if (watch || false) {
+            var
+                watchify = require('watchify'),
+                defaults = require('defaults');
+
+            bundler  = watchify(
+                browserify(src, defaults(
+                    args,
+                    watchify.args
+                ))
+            );
+
+            bundler.on('update', bundle);
+
+            return bundler.bundle();
+        } else {
+            bundler = browserify(src, args);
+
+            return bundle();
+        }
+    }
 
     function task(watch) {
         var
@@ -124,7 +124,7 @@ module.exports = function(assets, gulp)
         });
 
         return stream;
-    };
+    }
 
     return {
         // Task
