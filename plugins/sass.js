@@ -45,22 +45,22 @@ module.exports = function(assets, gulp, options)
                 gulpMinifyCss    = require('gulp-minify-css'),
                 gulpSize         = require('gulp-size'),
                 gulpIf           = require('gulp-if'),
-                dest        = handler.getDestPath(
-                    pool.getDest()
-                );
+                src              = pool.getSrc(),
+                dest             = handler.getDestPath(pool.getDest()),
+                args             = {
+                    errLogToConsole: true,
+                    outputStyle:     'nested',
+                    precision:       options.precision,
+                    includePaths:    assets.libraries.getPaths()
+                };
 
             return gulp
-                .src(pool.getSrc())
+                .src(src)
                     .pipe(gulpIf(debug,
                         gulpSourcemaps.init()
                     ))
                     .pipe(
-                        gulpSass({
-                            errLogToConsole: true,
-                            outputStyle:     'nested',
-                            precision:       options.precision,
-                            includePaths:    assets.libraries.getPaths()
-                        })
+                        gulpSass(args)
                     )
                     .pipe(
                         gulpAutoprefixer({
