@@ -11,8 +11,14 @@ Handle your project's assets with style ! (and gulp)
 ## Configuration
 
     var
-        gulp   = require('gulp'),
-        assets = require('elao-assets-gulp')();
+        gulp             = require('gulp'),
+        assets           = require('elao-assets-gulp')(),
+        assetsList       = require('elao-assets-gulp/plugins/list')(assets),
+        assetsClean      = require('elao-assets-gulp/plugins/clean')(assets),
+        assetsFonts      = require('elao-assets-gulp/plugins/fonts')(assets, gulp),
+        assetsImages     = require('elao-assets-gulp/plugins/images')(assets, gulp),
+        assetsSass       = require('elao-assets-gulp/plugins/sass')(assets, gulp),
+        assetsBrowserify = require('elao-assets-gulp/plugins/browserify')(assets, gulp);
 
     // Layouts
     require('elao-assets-gulp/layouts/bower')(assets);
@@ -22,16 +28,24 @@ Handle your project's assets with style ! (and gulp)
     require('elao-assets-gulp/layouts/symfony')(assets);
 
     // Plugins
-    gulp.task('list',   require('elao-assets-gulp/plugins/list')(assets).task);
-    gulp.task('clean',  require('elao-assets-gulp/plugins/clean')(assets).task);
-    gulp.task('fonts',  require('elao-assets-gulp/plugins/fonts')(assets, gulp).task);
-    gulp.task('images', require('elao-assets-gulp/plugins/images')(assets, gulp).task);
-    gulp.task('sass',   require('elao-assets-gulp/plugins/sass')(assets, gulp).task);
+    gulp.task('list',   assetsList.task);
+    gulp.task('clean',  assetsClean.task);
 
+    gulp.task('install', ['fonts', 'images', 'sass', 'js']);
+    gulp.task('fonts',  assetsFonts.task);
+    gulp.task('images', assetsImages.task);
+    gulp.task('sass',   assetsSass.task);
+    gulp.task('js',     assetsBrowserify.task);
+
+    gulp.task('watch', ['watch:sass', 'watch:js']);
+    gulp.task('watch:sass', assetsSass.watch);
+    gulp.task('watch:js',   assetsBrowserify.watch);
+
+    gulp.task('default', ['install', 'watch'])
 
     assets
-        .addPoolPattern('foo', {
-            'fonts': {src: 'foo/**'}
+        .addPoolPattern('toto', {
+            'fonts': {src: 'toto/**'}
         });
 
 
