@@ -11,6 +11,6 @@ module.exports = function(assets, options)
     // Library Patterns
     assets
         .addLibraryPattern({
-            dir: options.dir
+            bundleDir: options.dir
         });
 };
