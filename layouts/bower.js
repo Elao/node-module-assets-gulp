@@ -8,24 +8,22 @@ var
 module.exports = function(assets)
 {
     var
-        path = 'bower_components';
+        path = 'bower_components',
+        bowerConfig;
 
-    // Try to find bower components dir in .bowerrc
-    fs.readFile(assets.fileSystem.getPath('.bowerrc'), 'utf8', function(error, data) {
-        if (!error) {
-            try {
-                data = JSON.parse(data);
-                if (data.directory) {
-                    path = data.directory;
-                }
-            } catch(exception) {}
+    // Find bower components dir in .bowerrc
+    try {
+        bowerConfig = fs.readFileSync(assets.fileSystem.getPath('.bowerrc'), 'utf8');
+        bowerConfig = JSON.parse(bowerConfig);
+        if (bowerConfig.directory) {
+            path = bowerConfig.directory;
         }
+    } catch(exception) {}
 
-        // Library Patterns
-        assets
-            .addLibraryPattern({
-                path:        path,
-                description: 'Bower components'
-            });
-    });
+    // Library Patterns
+    assets
+        .addLibraryPattern({
+            path:        path,
+            description: 'Bower components'
+        });
 };
