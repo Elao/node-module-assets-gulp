@@ -19,7 +19,8 @@ describe('Layouts', function() {
                 silent: true
             });
 
-        require('../layouts/bower')(assets);
+        assets
+            .addLayout('bower');
 
         it('should find paths', function() {
             assert.deepEqual(
@@ -38,7 +39,8 @@ describe('Layouts', function() {
                 silent: true
             });
 
-        require('../layouts/npm')(assets);
+        assets
+            .addLayout('npm');
 
         it('should find paths', function() {
             assert.deepEqual(
@@ -57,7 +59,8 @@ describe('Layouts', function() {
                 silent: true
             });
 
-        require('../layouts/assets')(assets);
+        assets
+            .addLayout('assets');
 
         it('should find paths', function() {
             assert.deepEqual(
@@ -74,13 +77,16 @@ describe('Layouts', function() {
                     silent: true
                 });
 
-            require('../layouts/assets')(assets, {
-                path: 'assets_alt'
-            });
+            assets
+                .addLayout('assets')
+                .addLayout('assets', {
+                    path: 'assets_alt'
+                });
 
             it('should find paths', function() {
                 assert.deepEqual(
                     assets.bundles.getPaths(), [
+                        'test/fixtures/assets',
                         'test/fixtures/assets_alt'
                     ]
                 );
@@ -96,7 +102,8 @@ describe('Layouts', function() {
                 silent: true
             });
 
-        require('../layouts/symfony')(assets);
+        assets
+            .addLayout('symfony');
 
         it('should find paths', function() {
             assert.deepEqual(
@@ -117,9 +124,10 @@ describe('Layouts', function() {
                     silent: true
                 });
 
-            require('../layouts/symfony')(assets, {
-                dir: 'assets_alt'
-            });
+            assets
+                .addLayout('symfony', {
+                    dir: 'assets_alt'
+                });
 
             it('should find paths', function() {
                 assert.deepEqual(
@@ -143,9 +151,10 @@ describe('Layouts', function() {
                 silent: true
             });
 
-        require('../layouts/assets')(assets);
-        require('../layouts/symfony')(assets);
-        require('../layouts/components')(assets);
+        assets
+            .addLayout('assets')
+            .addLayout('symfony')
+            .addLayout('components');
 
         it('should find paths', function() {
             assert.deepEqual(
@@ -165,11 +174,12 @@ describe('Layouts', function() {
                     silent: true
                 });
 
-            require('../layouts/assets')(assets);
-            require('../layouts/symfony')(assets);
-            require('../layouts/components')(assets, {
-                dir: 'components_alt'
-            });
+            assets
+                .addLayout('assets')
+                .addLayout('symfony')
+                .addLayout('components', {
+                    dir: 'components_alt'
+                });
 
             it('should find paths', function() {
                 assert.deepEqual(

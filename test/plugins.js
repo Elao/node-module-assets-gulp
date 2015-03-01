@@ -55,11 +55,12 @@ describe('Plugins', function() {
             }),
             task   = require('../plugins/fonts')(assets, gulp).task;
 
-        require('../layouts/npm')(assets);
-        require('../layouts/bower')(assets);
-        require('../layouts/assets')(assets);
-        require('../layouts/symfony')(assets);
-        require('../layouts/components')(assets);
+        assets
+            .addLayout('npm')
+            .addLayout('bower')
+            .addLayout('assets')
+            .addLayout('symfony')
+            .addLayout('components');
 
         assets
             .addPoolPattern('bower', {
@@ -127,11 +128,12 @@ describe('Plugins', function() {
             }),
             task   = require('../plugins/images')(assets, gulp).task;
 
-        require('../layouts/npm')(assets);
-        require('../layouts/bower')(assets);
-        require('../layouts/assets')(assets);
-        require('../layouts/symfony')(assets);
-        require('../layouts/components')(assets);
+        assets
+            .addLayout('npm')
+            .addLayout('bower')
+            .addLayout('assets')
+            .addLayout('symfony')
+            .addLayout('components');
 
         assets
             .addPoolPattern('bower', {
@@ -199,11 +201,12 @@ describe('Plugins', function() {
             }),
             task   = require('../plugins/sass')(assets, gulp).task;
 
-        require('../layouts/npm')(assets);
-        require('../layouts/bower')(assets);
-        require('../layouts/assets')(assets);
-        require('../layouts/symfony')(assets);
-        require('../layouts/components')(assets);
+        assets
+            .addLayout('npm')
+            .addLayout('bower')
+            .addLayout('assets')
+            .addLayout('symfony')
+            .addLayout('components');
 
         after(function(done) {
             require('../plugins/clean')(assets).task(done);
@@ -240,11 +243,12 @@ describe('Plugins', function() {
                 }),
                 task   = require('../plugins/sass')(assets, gulp).task;
 
-            require('../layouts/npm')(assets);
-            require('../layouts/bower')(assets);
-            require('../layouts/assets')(assets);
-            require('../layouts/symfony')(assets);
-            require('../layouts/components')(assets);
+            assets
+                .addLayout('npm')
+                .addLayout('bower')
+                .addLayout('assets')
+                .addLayout('symfony')
+                .addLayout('components');
 
             it('should run without errors', function(done) {
                 task()

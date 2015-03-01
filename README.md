@@ -21,11 +21,12 @@ Handle your project's assets with style ! (and gulp)
         assetsBrowserify = require('elao-assets-gulp/plugins/browserify')(assets, gulp);
 
     // Layouts
-    require('elao-assets-gulp/layouts/bower')(assets);
-    require('elao-assets-gulp/layouts/npm')(assets);
-    require('elao-assets-gulp/layouts/components')(assets);
-    require('elao-assets-gulp/layouts/assets')(assets);
-    require('elao-assets-gulp/layouts/symfony')(assets);
+    assets
+        .addLayout('bower')
+        .addLayout('npm')
+        .addLayout('components')
+        .addLayout('assets')
+        .addLayout('symfony');
 
     // Plugins
     gulp.task('list',   assetsList.task);
