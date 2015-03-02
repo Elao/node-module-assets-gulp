@@ -6,9 +6,10 @@ var
     BundlePoolPatternSolver = require('../lib/Pool/BundlePoolPatternSolver');
 
 
-module.exports = function(assets, gulp)
+module.exports = function(assets)
 {
     var
+        gulp = require('gulp'),
         handler = new PoolHandler(
             assets.fileSystem,
             'browserify',
@@ -28,8 +29,8 @@ module.exports = function(assets, gulp)
     assets
         .addPoolHandler(handler);
 
-    // Pipeline
-    function pipeline(pool, debug, silent, watch) {
+    // Gulp pipeline
+    function gulpPipeline(pool, debug, silent, watch) {
         var
             browserify     = require('browserify'),
             source         = require('vinyl-source-stream'),
@@ -93,7 +94,7 @@ module.exports = function(assets, gulp)
         }
     }
 
-    function task(watch) {
+    function gulpTask(watch) {
         var
             PoolFlattenizer = require('../lib/Pool/Flattenizer/Flattenizer'),
             mergeStream = require('merge-stream'),
@@ -113,7 +114,7 @@ module.exports = function(assets, gulp)
         pools.forEach(function(pool) {
             poolFlattenizer.flatten(pool).forEach(function(flattenPool) {
                 stream.add(
-                    pipeline(
+                    gulpPipeline(
                         flattenPool,
                         assets.options.is('debug'),
                         assets.options.is('silent'),
@@ -127,13 +128,13 @@ module.exports = function(assets, gulp)
     }
 
     return {
-        // Task
-        task: function() {
-            return task();
+        // Gulp task
+        gulpTask: function() {
+            return gulpTask();
         },
-        // Watch
-        watch: function() {
-            return task(true);
+        // Gulp watch
+        gulpWatch: function() {
+            return gulpTask(true);
         }
     };
 };

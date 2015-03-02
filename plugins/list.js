@@ -4,8 +4,8 @@
 module.exports = function(assets)
 {
     return {
-        // Task
-        task: function(callback) {
+        // Gulp task
+        gulpTask: function(callback) {
             var
                 gulpUtil = require('gulp-util'),
                 bundles, libraries;

@@ -33,8 +33,11 @@ describe('Plugins', function() {
             fs.writeFileSync(dir + '/test/_test', 'test');
         });
 
+        assets
+            .addPlugin('clean');
+
         it('should run without errors', function(done) {
-            require('../plugins/clean')(assets).task(done);
+            assets.plugins.clean.gulpTask(done);
         });
 
         it('should have cleaned dest path', function() {
@@ -52,8 +55,7 @@ describe('Plugins', function() {
             assets = require('..')({
                 cwd:    cwd,
                 silent: true
-            }),
-            task   = require('../plugins/fonts')(assets, gulp).task;
+            });
 
         assets
             .addLayout('npm')
@@ -61,6 +63,10 @@ describe('Plugins', function() {
             .addLayout('assets')
             .addLayout('symfony')
             .addLayout('components');
+
+        assets
+            .addPlugin('clean')
+            .addPlugin('fonts');
 
         assets
             .addPoolPattern('bower', {
@@ -71,11 +77,11 @@ describe('Plugins', function() {
             });
 
         after(function(done) {
-            require('../plugins/clean')(assets).task(done);
+            assets.plugins.clean.gulpTask(done);
         });
 
         it('should run without errors', function(done) {
-            task()
+            assets.plugins.fonts.gulpTask()
                 .on('finish', done);
         });
 
@@ -107,12 +113,14 @@ describe('Plugins', function() {
                 assets = require('..')({
                     cwd:    cwd,
                     silent: true
-                }),
-                task   = require('../plugins/fonts')(assets, gulp).task;
+                });
+
+            assets
+                .addPlugin('fonts');
 
             it('should return null', function() {
                 assert.isNull(
-                    task()
+                    assets.plugins.fonts.gulpTask()
                 );
             });
         });
@@ -125,8 +133,7 @@ describe('Plugins', function() {
             assets = require('..')({
                 cwd:    cwd,
                 silent: true
-            }),
-            task   = require('../plugins/images')(assets, gulp).task;
+            });
 
         assets
             .addLayout('npm')
@@ -134,6 +141,10 @@ describe('Plugins', function() {
             .addLayout('assets')
             .addLayout('symfony')
             .addLayout('components');
+
+        assets
+            .addPlugin('clean')
+            .addPlugin('images');
 
         assets
             .addPoolPattern('bower', {
@@ -144,11 +155,11 @@ describe('Plugins', function() {
             });
 
         after(function(done) {
-            require('../plugins/clean')(assets).task(done);
+            assets.plugins.clean.gulpTask(done);
         });
 
         it('should run without errors', function(done) {
-            task()
+            assets.plugins.images.gulpTask()
                 .on('finish', done);
         });
 
@@ -180,12 +191,14 @@ describe('Plugins', function() {
                 assets = require('..')({
                     cwd:    cwd,
                     silent: true
-                }),
-                task   = require('../plugins/images')(assets, gulp).task;
+                });
+
+            assets
+                .addPlugin('images');
 
             it('should return null', function() {
                 assert.isNull(
-                    task()
+                    assets.plugins.images.gulpTask()
                 );
             });
         });
@@ -198,8 +211,7 @@ describe('Plugins', function() {
             assets = require('..')({
                 cwd:    cwd,
                 silent: true
-            }),
-            task   = require('../plugins/sass')(assets, gulp).task;
+            });
 
         assets
             .addLayout('npm')
@@ -208,12 +220,16 @@ describe('Plugins', function() {
             .addLayout('symfony')
             .addLayout('components');
 
+        assets
+            .addPlugin('clean')
+            .addPlugin('sass');
+
         after(function(done) {
-            require('../plugins/clean')(assets).task(done);
+            assets.plugins.clean.gulpTask(done);
         });
 
         it('should run without errors', function(done) {
-            task()
+            assets.plugins.sass.gulpTask()
                 .on('finish', done);
         });
 
@@ -240,8 +256,7 @@ describe('Plugins', function() {
                     cwd:    cwd,
                     silent: true,
                     debug:  true
-                }),
-                task   = require('../plugins/sass')(assets, gulp).task;
+                });
 
             assets
                 .addLayout('npm')
@@ -250,8 +265,11 @@ describe('Plugins', function() {
                 .addLayout('symfony')
                 .addLayout('components');
 
+            assets
+                .addPlugin('sass');
+
             it('should run without errors', function(done) {
-                task()
+                assets.plugins.sass.gulpTask()
                     .on('finish', done);
             });
 
@@ -295,12 +313,14 @@ describe('Plugins', function() {
                 assets = require('..')({
                     cwd:    cwd,
                     silent: true
-                }),
-                task   = require('../plugins/sass')(assets, gulp).task;
+                });
+
+            assets
+                .addPlugin('sass');
 
             it('should return null', function() {
                 assert.isNull(
-                    task()
+                    assets.plugins.sass.gulpTask()
                 );
             });
         });

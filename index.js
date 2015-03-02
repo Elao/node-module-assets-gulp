@@ -32,5 +32,13 @@ module.exports = function(options)
             return this;
         };
 
+    // Plugins
+    assets.plugins = {};
+    assets
+        .addPlugin = function(type, options) {
+            this.plugins[type] = require('./plugins/' + type)(this, options);
+            return this;
+        };
+
     return assets;
 };

@@ -11,16 +11,10 @@ Handle your project's assets with style ! (and gulp)
 ## Configuration
 
     var
-        gulp             = require('gulp'),
-        assets           = require('elao-assets-gulp')(),
-        assetsList       = require('elao-assets-gulp/plugins/list')(assets),
-        assetsClean      = require('elao-assets-gulp/plugins/clean')(assets),
-        assetsFonts      = require('elao-assets-gulp/plugins/fonts')(assets, gulp),
-        assetsImages     = require('elao-assets-gulp/plugins/images')(assets, gulp),
-        assetsSass       = require('elao-assets-gulp/plugins/sass')(assets, gulp),
-        assetsBrowserify = require('elao-assets-gulp/plugins/browserify')(assets, gulp);
+        gulp   = require('gulp'),
+        assets = require('elao-assets-gulp')();
 
-    // Layouts
+    // Assets - Layouts
     assets
         .addLayout('bower')
         .addLayout('npm')
@@ -28,26 +22,36 @@ Handle your project's assets with style ! (and gulp)
         .addLayout('assets')
         .addLayout('symfony');
 
-    // Plugins
-    gulp.task('list',   assetsList.task);
-    gulp.task('clean',  assetsClean.task);
+    // Assets - Plugins
+    assets
+        .addPlugin('list')
+        .addPlugin('clean')
+        .addPlugin('fonts')
+        .addPlugin('images')
+        .addPlugin('sass')
+        .addPlugin('browserify');
 
-    gulp.task('install', ['fonts', 'images', 'sass', 'js']);
-    gulp.task('fonts',  assetsFonts.task);
-    gulp.task('images', assetsImages.task);
-    gulp.task('sass',   assetsSass.task);
-    gulp.task('js',     assetsBrowserify.task);
-
-    gulp.task('watch', ['watch:sass', 'watch:js']);
-    gulp.task('watch:sass', assetsSass.watch);
-    gulp.task('watch:js',   assetsBrowserify.watch);
-
-    gulp.task('default', ['install', 'watch'])
-
+    // Assets - Pools
     assets
         .addPoolPattern('toto', {
             'fonts': {src: 'toto/**'}
         });
+
+    // Gulp - Tasks
+    gulp.task('list',   assets.plugins.list.gulpTask);
+    gulp.task('clean',  assets.plugins.clean.gulpTask);
+
+    gulp.task('install', ['fonts', 'images', 'sass', 'js']);
+    gulp.task('fonts',  assets.plugins.fonts.gulpTask);
+    gulp.task('images', assets.plugins.images.gulpTask);
+    gulp.task('sass',   assets.plugins.sass.gulpTask);
+    gulp.task('js',     assets.plugins.browserify.gulpTask);
+
+    gulp.task('watch', ['watch:sass', 'watch:js']);
+    gulp.task('watch:sass', assets.plugins.sass.gulpWatch);
+    gulp.task('watch:js',   assets.plugins.browserify.gulpWatch);
+
+    gulp.task('default', ['install', 'watch']);
 
 
 ## Test

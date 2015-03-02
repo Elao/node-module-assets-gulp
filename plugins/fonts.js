@@ -7,9 +7,10 @@ var
     LibraryPoolPatternSolver = require('../lib/Pool/LibraryPoolPatternSolver');
 
 
-module.exports = function(assets, gulp)
+module.exports = function(assets)
 {
     var
+        gulp = require('gulp'),
         handler = new PoolHandler(
             assets.fileSystem,
             'fonts',
@@ -30,8 +31,8 @@ module.exports = function(assets, gulp)
     assets
         .addPoolHandler(handler);
 
-    // Pipeline
-    function pipeline(pool, debug, silent) {
+    // Gulp pipeline
+    function gulpPipeline(pool, debug, silent) {
         var
             gulpChanged = require('gulp-changed'),
             gulpSize    = require('gulp-size'),
@@ -56,8 +57,8 @@ module.exports = function(assets, gulp)
     }
 
     return {
-        // Task
-        task: function() {
+        // Gulp task
+        gulpTask: function() {
             var
                 mergeStream = require('merge-stream'),
                 pools, stream;
@@ -73,7 +74,7 @@ module.exports = function(assets, gulp)
 
             pools.forEach(function(pool) {
                 stream.add(
-                    pipeline(
+                    gulpPipeline(
                         pool,
                         assets.options.is('debug'),
                         assets.options.is('silent')
