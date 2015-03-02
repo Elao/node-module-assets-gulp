@@ -25,5 +25,12 @@ module.exports = function(options)
         .addLibraryPatternSolver(new LibraryPatternSolver(assets.fileSystem))
         .addLibraryPatternSolver(new BundleLibraryPatternSolver(assets.bundles));
 
+    // Layouts
+    assets
+        .addLayout = function(type, options) {
+            require('./layouts/' + type)(this, options);
+            return this;
+        };
+
     return assets;
 };
