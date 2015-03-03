@@ -35,8 +35,35 @@ module.exports = function(options)
     // Plugins
     assets.plugins = {};
     assets
-        .addPlugin = function(type, options) {
-            this.plugins[type] = require('./plugins/' + type)(this, options);
+        .addPlugin = function() {
+            var
+                id,
+                type,
+                options = {};
+
+            // Handle arguments
+            if (arguments.length === 1) {
+                id = type = arguments[0];
+            } else if (arguments.length === 2) {
+                if (typeof arguments[1] === 'object') {
+                    id = type = arguments[0];
+                    options = arguments[1];
+                } else {
+                    id = arguments[0];
+                    type = arguments[1];
+                }
+            } else {
+                id = arguments[0];
+                type = arguments[1];
+                options = arguments[2];
+            }
+
+            // Fix id
+            options.id = id;
+
+            // Add plugin
+            this.plugins[id] = require('./plugins/' + type)(this, options);
+
             return this;
         };
 

@@ -6,28 +6,39 @@ var
     BundlePoolPatternSolver = require('../lib/Pool/BundlePoolPatternSolver');
 
 
-module.exports = function(assets)
+module.exports = function(assets, options)
 {
     var
         gulp = require('gulp'),
-        handler = new PoolHandler(
-            assets.fileSystem,
-            'browserify',
-            'js',
-            'Handles js assets with browserify'
-        );
+        handler;
+
+    // Options
+    options = require('defaults')(options || {}, {
+        id:          'browserify',
+        srcDir:      options.dir ? options.dir : 'js',
+        destDir:     options.dir ? options.dir : 'js',
+        glob:        '**/[!_]*.js',
+        description: 'Handles js assets with browserify'
+    });
+
+    // Handler
+    handler = new PoolHandler(
+        assets.fileSystem,
+        options.id,
+        options.destDir,
+        options.description
+    );
+
+    assets
+        .addPoolHandler(handler);
 
     // Pools Patterns Solvers
     handler
         .addPoolPatternSolver(new BundlePoolPatternSolver(assets.bundles))
         .addPoolPattern({
-            srcDir: 'js',
-            glob:   '**/[!_]*.js'
+            srcDir: options.srcDir,
+            glob:   options.glob
         });
-
-    // Pool Handler
-    assets
-        .addPoolHandler(handler);
 
     // Gulp pipeline
     function gulpPipeline(pool, debug, silent, watch) {

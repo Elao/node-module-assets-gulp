@@ -26,7 +26,7 @@ Handle your project's assets with style ! (and gulp)
     assets
         .addPlugin('list')
         .addPlugin('clean')
-        .addPlugin('fonts')
+        .addPlugin('fonts', 'files', {dir: 'fonts'})
         .addPlugin('images')
         .addPlugin('sass')
         .addPlugin('browserify');

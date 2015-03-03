@@ -7,29 +7,40 @@ var
     LibraryPoolPatternSolver = require('../lib/Pool/LibraryPoolPatternSolver');
 
 
-module.exports = function(assets)
+module.exports = function(assets, options)
 {
     var
         gulp = require('gulp'),
-        handler = new PoolHandler(
-            assets.fileSystem,
-            'fonts',
-            'fonts',
-            'Handles fonts assets'
-        );
+        handler;
+
+    // Options
+    options = require('defaults')(options || {}, {
+        id:          'files',
+        srcDir:      options.dir ? options.dir : 'files',
+        destDir:     options.dir ? options.dir : 'files',
+        glob:        '**',
+        description: 'Handles files assets'
+    });
+
+    // Handler
+    handler = new PoolHandler(
+        assets.fileSystem,
+        options.id,
+        options.destDir,
+        options.description
+    );
+
+    assets
+        .addPoolHandler(handler);
 
     // Pools Patterns Solvers
     handler
         .addPoolPatternSolver(new BundlePoolPatternSolver(assets.bundles))
         .addPoolPatternSolver(new LibraryPoolPatternSolver(assets.libraries))
         .addPoolPattern({
-            srcDir: 'fonts',
-            glob:   '**'
+            srcDir: options.srcDir,
+            glob:   options.glob
         });
-
-    // Pool Handler
-    assets
-        .addPoolHandler(handler);
 
     // Gulp pipeline
     function gulpPipeline(pool, debug, silent) {

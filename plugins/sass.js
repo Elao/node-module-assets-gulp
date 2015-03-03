@@ -10,30 +10,39 @@ module.exports = function(assets, options)
 {
     var
         gulp = require('gulp'),
-        handler = new PoolHandler(
-            assets.fileSystem,
-            'sass',
-            'css',
-            'Handles sass assets'
-        );
+        handler;
+
+    // Options
+    options = require('defaults')(options || {}, {
+        id:          'sass',
+        srcDir:      options.dir ? options.dir : 'sass',
+        destDir:     options.dir ? options.dir : 'css',
+        glob:        '**/[!_]*.scss',
+        description: 'Handles sass assets',
+        // Sass
+        precision: 10,
+        // Autoprefixer
+        browsers:  ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
+    });
+
+    // Handler
+    handler = new PoolHandler(
+        assets.fileSystem,
+        options.id,
+        options.destDir,
+        options.description
+    );
+
+    assets
+        .addPoolHandler(handler);
 
     // Pools Patterns Solvers
     handler
         .addPoolPatternSolver(new BundlePoolPatternSolver(assets.bundles))
         .addPoolPattern({
-            srcDir: 'sass',
-            glob:   '**/[!_]*.scss'
+            srcDir: options.srcDir,
+            glob:   options.glob
         });
-
-    // Pool Handler
-    assets
-        .addPoolHandler(handler);
-
-    // Options
-    options = require('defaults')(options || {}, {
-        precision: 10,
-        browsers:  ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
-    });
 
     // Gulp pipeline
     function gulpPipeline(pool, debug, silent) {
