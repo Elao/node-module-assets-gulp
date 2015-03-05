@@ -18,7 +18,9 @@ module.exports = function(assets, options)
         srcDir:      options.dir ? options.dir : 'js',
         destDir:     options.dir ? options.dir : 'js',
         glob:        '**/[!_]*.js',
-        description: 'Handles js assets with browserify'
+        description: 'Handles js assets with browserify',
+        // Browserify
+        noParse:     ['jquery']
     });
 
     // Handler
@@ -55,32 +57,65 @@ module.exports = function(assets, options)
             dest           = handler.getDestPath(pool.getDest()),
             args           = {
                 paths:   assets.libraries.getPaths(),
-                noParse: ['jquery']
+                noParse: options.noParse
             },
             bundler;
 
         function bundle() {
-            return bundler.bundle()
-                .pipe(source(path.basename(src)))
-                .pipe(buffer())
-                .pipe(gulpIf(debug,
-                    gulpSourcemaps.init()
-                ))
-                .pipe(gulpIf(!debug,
-                    gulpUglify()
-                ))
-                .pipe(gulpIf(debug,
-                    gulpSourcemaps.write()
-                ))
-                .pipe(gulpIf(!silent,
-                    gulpSize({
-                        showFiles: true,
-                        title: pool.getName()
-                    })
-                ))
-                .pipe(
-                    gulp.dest(dest)
-                );
+            var
+                srcComments = require('comment-parser')(
+                    require('fs').readFileSync(src, 'utf8')
+                ),
+                bundleRequire  = [],
+                bundleExternal = [];
+
+            // Parse bundle options from comments
+            srcComments.forEach(function(srcComment) {
+                srcComment.tags.forEach(function(tag) {
+                    if (tag.name) {
+                        switch(tag.tag) {
+                            case 'require':
+                                if (tag.description) {
+                                    bundleRequire.push({
+                                        file: tag.name,
+                                        expose: tag.description
+                                    });
+                                } else {
+                                    bundleRequire.push(tag.name);
+                                }
+                                break;
+                            case 'external':
+                                bundleExternal.push(tag.name);
+                                break;
+                        }
+                    }
+                });
+            });
+
+            return bundler
+                .require(bundleRequire)
+                .external(bundleExternal)
+                .bundle()
+                    .pipe(source(path.basename(src)))
+                    .pipe(buffer())
+                    .pipe(gulpIf(debug,
+                        gulpSourcemaps.init()
+                    ))
+                    .pipe(gulpIf(!debug,
+                        gulpUglify()
+                    ))
+                    .pipe(gulpIf(debug,
+                        gulpSourcemaps.write()
+                    ))
+                    .pipe(gulpIf(!silent,
+                        gulpSize({
+                            showFiles: true,
+                            title: pool.getName()
+                        })
+                    ))
+                    .pipe(
+                        gulp.dest(dest)
+                    );
         }
 
         if (watch || false) {
