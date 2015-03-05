@@ -15,12 +15,16 @@ module.exports = function(assets, options)
 
     // Options
     options = require('defaults')(options || {}, {
-        id:          'files',
-        srcDir:      options.dir ? options.dir : 'files',
-        destDir:     options.dir ? options.dir : 'files',
+        id:          'copy',
+        srcDir:      options.dir ? options.dir : null,
+        destDir:     options.dir ? options.dir : null,
         glob:        '**',
-        description: 'Handles files assets'
+        description: 'Copy assets'
     });
+
+    if (!options.srcDir || !options.destDir) {
+        throw new Error('Either a dir, srcDir or destDir must be set on copy plugin');
+    }
 
     // Handler
     handler = new PoolHandler(

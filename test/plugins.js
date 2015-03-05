@@ -48,8 +48,8 @@ describe('Plugins', function() {
         });
     });
 
-    // Files
-    describe('fonts', function() {
+    // Copy
+    describe('copy', function() {
         var
             gulp   = require('gulp'),
             assets = require('..')({
@@ -66,7 +66,7 @@ describe('Plugins', function() {
 
         assets
             .addPlugin('clean')
-            .addPlugin('fonts', 'files', {dir: 'fonts'});
+            .addPlugin('fonts', 'copy', {dir: 'fonts'});
 
         assets
             .addPoolPattern('bower', {
@@ -116,7 +116,7 @@ describe('Plugins', function() {
                 });
 
             assets
-                .addPlugin('fonts', 'files', {dir: 'fonts'});
+                .addPlugin('fonts', 'copy', {dir: 'fonts'});
 
             it('should return null', function() {
                 assert.isNull(
