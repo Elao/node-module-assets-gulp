@@ -41,7 +41,7 @@ var
                 }
             ],
             dest: 'web/assets',
-            components: [
+            vendors: [
                 'bower_components',
                 'node_modules'
             ],
@@ -92,8 +92,8 @@ var
                 files: {
                     groups:    {}
                 },
-                components: {
-                    src:       'components'
+                vendors: {
+                    src:       'vendors'
                 }
             }
         };
@@ -195,8 +195,8 @@ Assets.prototype = {
                     var
                         assetGroupSrc = [this.options.assets[assetType].groups[assetGroup].src];
 
-                    this.getComponents().forEach(function(component) {
-                        assetGroupSrc.push(component + '/' + assetGroupSrc[0]);
+                    this.getVendors().forEach(function(vendor) {
+                        assetGroupSrc.push(vendor + '/' + assetGroupSrc[0]);
                     });
 
                     assetGroupSrc.forEach(function(src) {
@@ -344,9 +344,9 @@ Assets.prototype = {
         return this.get(assetType)[assetGroup].concat ? this.get(assetType)[assetGroup].concat : false;
     },
 
-    // Get components
-    getComponents: function() {
-        return this.options.components.concat(this.getSrc('components'));
+    // Get vendors
+    getVendors: function() {
+        return this.options.vendors.concat(this.getSrc('vendors'));
     },
 
     // Get header
