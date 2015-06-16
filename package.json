@@ -35,7 +35,6 @@
     "gulp-if": "1.2.*",
     "gulp-changed": "1.2.*",
     "gulp-size": "1.2.*",
-    "gulp-notify": "2.2.*",
     "gulp-header": "1.2.*",
     "gulp-concat": "2.5.*",
     "require-dir": "0.3.*",
