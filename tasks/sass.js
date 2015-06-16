@@ -22,7 +22,7 @@ gulp.task('sass', function() {
                     includePaths: assets.getVendors(),
                     outputStyle: (plugins.util.env.dev || false) ? 'nested' : 'compressed',
                     precision: 10,
-                    sourceComments: (plugins.util.env.dev || false) ? 'map' : 'none'
+                    sourceComments: plugins.util.env.dev || false
                 }))
                 .pipe(plugins.autoprefixer(
                     assets.getAutoprefixer()
