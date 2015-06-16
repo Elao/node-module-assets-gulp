@@ -13,14 +13,13 @@ function bundle(asset, base, dest, config, watch) {
                 // Watchify
                 cache: {},
                 packageCache: {},
-                fullPaths: watch,
                 // Standalone
                 standalone: config.standalone ? config.standalone : null,
                 // No parsing
-                noparse: ['jquery']
+                noParse: ['jquery']
             }
         ),
-        transform  = function() {
+        transform = function() {
             var
                 path   = require('path'),
                 source = require('vinyl-source-stream');
@@ -55,7 +54,7 @@ function bundle(asset, base, dest, config, watch) {
 
     // Watch
     if (watch) {
-        bundler = require('watchify')(bundler);
+        bundler = require('watchify')(bundler, {poll: true});
         // Rebundle with watchify on changes.
         bundler.on('update', function(path) {
             // Log
@@ -66,7 +65,7 @@ function bundle(asset, base, dest, config, watch) {
             transform();
         });
 
-        return;
+        return bundler.bundle();
     }
 
     return transform();
@@ -133,14 +132,12 @@ gulp.task('watch:js', function() {
                 config = assetGroupBundles[asset.replace(base, '')];
             }
 
-            tasks.push(
-                bundle(
-                    asset,
-                    base,
-                    assetGroupDest,
-                    config,
-                    true
-                )
+            bundle(
+                asset,
+                base,
+                assetGroupDest,
+                config,
+                true
             );
         });
     });
