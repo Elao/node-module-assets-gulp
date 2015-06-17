@@ -22,18 +22,26 @@ function bundle(asset, base, dest, config, watch) {
         transform = function() {
             var
                 path   = require('path'),
+                buffer = require('vinyl-buffer')
                 source = require('vinyl-source-stream');
 
             return bundler
                 .bundle()
                     .pipe(plugins.plumber())
                     .pipe(source(path.relative(base, asset)))
+                    .pipe(buffer())
                     .pipe(plugins.if(
                         !plugins.util.env.dev || false,
-                        plugins.streamify(plugins.uglify())
+                        plugins.uglify()
                     ))
-                    .pipe(plugins.header(assets.getHeader(), assets.getHeaderMeta()))
-                    .pipe(plugins.streamify(plugins.size({showFiles: true})))
+                    .pipe(plugins.if(
+                        !plugins.util.env.dev || false,
+                        plugins.header(
+                            assets.getHeader(),
+                            assets.getHeaderMeta()
+                        )
+                    ))
+                    .pipe(plugins.size({showFiles: true}))
                     .pipe(gulp.dest(dest));
         };
 

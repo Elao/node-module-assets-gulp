@@ -17,19 +17,29 @@ gulp.task('sass', function() {
         tasks.push(
             gulp.src(assetGroupSrc)
                 .pipe(plugins.plumber())
+                .pipe(plugins.if(
+                    plugins.util.env.dev || false,
+                    plugins.sourcemaps.init()
+                ))
                 .pipe(plugins.sass({
                     errLogToConsole: true,
                     includePaths: assets.getVendors(),
                     outputStyle: (plugins.util.env.dev || false) ? 'nested' : 'compressed',
-                    precision: 10,
-                    sourceComments: plugins.util.env.dev || false
+                    precision: 10
                 }))
                 .pipe(plugins.autoprefixer(
                     assets.getAutoprefixer()
                 ))
-                .pipe(plugins.header(
-                    assets.getHeader(),
-                    assets.getHeaderMeta()
+                .pipe(plugins.if(
+                    plugins.util.env.dev || false,
+                    plugins.sourcemaps.write()
+                ))
+                .pipe(plugins.if(
+                    !plugins.util.env.dev || false,
+                    plugins.header(
+                        assets.getHeader(),
+                        assets.getHeaderMeta()
+                    )
                 ))
                 .pipe(plugins.size({showFiles: true}))
                 .pipe(gulp.dest(assetGroupDest))
