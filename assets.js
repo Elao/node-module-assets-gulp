@@ -49,8 +49,8 @@ var
             autoprefixer: {},
             assets: {
                 js: {
-                    glob:      '**/[!_]*.js',
-                    globWatch: '**/[!_]*.js',
+                    glob:      '**/[!_]*.{js,jsx}',
+                    globWatch: '**/[!_]*.{js,jsx}',
                     src:       'js',
                     dest:      'js',
                     groups:    {},
