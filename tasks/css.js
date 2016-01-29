@@ -27,7 +27,7 @@ gulp.task('css', function() {
                 ))
                 .pipe(plugins.if(
                     !plugins.util.env.dev || false,
-                    plugins.minifyCss()
+                    plugins.cssnano()
                 ))
                 .pipe(plugins.header(
                     assets.getHeader(),
