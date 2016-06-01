@@ -73,7 +73,7 @@ function bundle(asset, base, dest, config, watch) {
             transform();
         });
 
-        return bundler.bundle();
+        return bundler.bundle().on('data', function() {});
     }
 
     return transform();
