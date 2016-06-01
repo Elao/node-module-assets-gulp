@@ -1,3 +1,6 @@
+// Polyfills
+require('es6-promise').polyfill();
+
 // Assets
 var
 	assets = require('./assets');
