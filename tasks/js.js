@@ -13,28 +13,35 @@ function bundle(asset, base, dest, config, watch) {
                 // Watchify
                 cache: {},
                 packageCache: {},
-                fullPaths: watch,
                 // Standalone
                 standalone: config.standalone ? config.standalone : null,
                 // No parsing
-                noparse: ['jquery']
+                noParse: ['jquery']
             }
         ),
-        transform  = function() {
+        transform = function() {
             var
                 path   = require('path'),
+                buffer = require('vinyl-buffer')
                 source = require('vinyl-source-stream');
 
             return bundler
                 .bundle()
                     .pipe(plugins.plumber())
                     .pipe(source(path.relative(base, asset)))
+                    .pipe(buffer())
                     .pipe(plugins.if(
                         !plugins.util.env.dev || false,
-                        plugins.streamify(plugins.uglify())
+                        plugins.uglify()
                     ))
-                    .pipe(plugins.header(assets.getHeader(), assets.getHeaderMeta()))
-                    .pipe(plugins.streamify(plugins.size({showFiles: true})))
+                    .pipe(plugins.if(
+                        !plugins.util.env.dev || false,
+                        plugins.header(
+                            assets.getHeader(),
+                            assets.getHeaderMeta()
+                        )
+                    ))
+                    .pipe(plugins.size({showFiles: true}))
                     .pipe(gulp.dest(dest));
         };
 
@@ -55,7 +62,7 @@ function bundle(asset, base, dest, config, watch) {
 
     // Watch
     if (watch) {
-        bundler = require('watchify')(bundler);
+        bundler = require('watchify')(bundler, {poll: true});
         // Rebundle with watchify on changes.
         bundler.on('update', function(path) {
             // Log
@@ -66,7 +73,7 @@ function bundle(asset, base, dest, config, watch) {
             transform();
         });
 
-        return;
+        return bundler.bundle().on('data', function() {});
     }
 
     return transform();
@@ -133,14 +140,12 @@ gulp.task('watch:js', function() {
                 config = assetGroupBundles[asset.replace(base, '')];
             }
 
-            tasks.push(
-                bundle(
-                    asset,
-                    base,
-                    assetGroupDest,
-                    config,
-                    true
-                )
+            bundle(
+                asset,
+                base,
+                assetGroupDest,
+                config,
+                true
             );
         });
     });
